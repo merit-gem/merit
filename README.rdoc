@@ -1,0 +1,26 @@
+= Talent
+
+== Installation
+
+# Add 'talent' to your Gemfile.
+# Run 'rails g badges:install'
+# Add 'grant_badges' to controllers where you want this behavior triggered.
+# Run 'rake db:migrate'
+
+
+== Test application
+
+To run the test application inside this gem follow:
+
+# cd test/dummy
+# rails g talent:install
+# rake db:drop ; rake db:create ; rake db:migrate ; rake db:seed
+# rails s
+
+
+== To-do list
+
+* Persistir last_action_checked (se resetea!).
+* Add has_and_belongs_to_many :badges to related models.
+* Add talent_action model?
+* Migration should accept any model (not just 'user').
