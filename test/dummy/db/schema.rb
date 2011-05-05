@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110505040355) do
+ActiveRecord::Schema.define(:version => 20110505175313) do
 
   create_table "badges", :force => true do |t|
     t.string   "name"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20110505040355) do
   create_table "badges_users", :id => false, :force => true do |t|
     t.integer "badge_id"
     t.integer "user_id"
+    t.boolean "notified_user", :default => false
   end
 
   create_table "comments", :force => true do |t|

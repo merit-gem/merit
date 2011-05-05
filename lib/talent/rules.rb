@@ -13,13 +13,15 @@ module Talent
     end
 
     def check_last_actions
-      last_id = TalentAction.last.id
-      # FIXME: where(:id => [last_action_checked..last_id])
-      # "Arel error: Can't visit range". Why isn't it working with range?
-      TalentAction.where("#{last_action_checked} < id AND id <= #{last_id}").each do |action|
-        check_rules(action)
+      last_id = TalentAction.last.try(:id)
+      unless last_id.nil?
+        # FIXME: where(:id => [last_action_checked..last_id])
+        # "Arel error: Can't visit range". Why isn't it working with range?
+        TalentAction.where("#{last_action_checked} < id AND id <= #{last_id}").each do |action|
+          check_rules(action)
+        end
+        last_action_checked = last_id
       end
-      last_action_checked = last_id
     end
 
     def check_rules(action)
