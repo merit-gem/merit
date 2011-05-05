@@ -20,12 +20,8 @@ To run the test application inside this gem follow:
 
 == To-do list
 
-* DEPRECATION WARNING: Having additional attributes on the join table of a
-  has_and_belongs_to_many association is deprecated and will be removed in
-  Rails 3.1. Please use a has_many :through association instead.
 * Persistir last_action_checked (se resetea!).
-* Add has_and_belongs_to_many :badges to related models.
-* Add talent_action model?
+* Add has_many :badges, :through => :join_model to related models?
 * Migration should accept any model (not just 'user').
 * Poder avisar cuando hay nuevas medallas (como un flag de notificado).
 * Poder meter la lógica de si aplica una medalla en un método del controlador
