@@ -12,15 +12,10 @@ module Talent
       Rails.logger.warn "TALENT: Added rule for #{action}."
     end
 
-    def check_last_actions
-      last_id = TalentAction.last.try(:id)
-      unless last_id.nil?
-        # FIXME: where(:id => [last_action_checked..last_id])
-        # "Arel error: Can't visit range". Why isn't it working with range?
-        TalentAction.where("#{last_action_checked} < id AND id <= #{last_id}").each do |action|
-          check_rules(action)
-        end
-        last_action_checked = last_id
+    def check_new_actions
+      TalentAction.where(:processed => false).each do |action|
+        check_rules(action)
+        action.processed!
       end
     end
 
@@ -40,14 +35,6 @@ module Talent
 
     def talent_rules
       @talent_rules ||= {}
-    end
-
-    def last_action_checked
-      @last_action_checked ||= 0
-    end
-
-    def last_action_checked=(last_id)
-      @last_action_checked = last_id
     end
   end
 end

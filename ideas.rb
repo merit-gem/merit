@@ -76,7 +76,7 @@ u = User.first
 u.badges
 TalentRules.new(u) # Not loading all rules (?)
 include Talent::Rules
-check_last_actions
+check_new_actions
 u.badges
 
 

@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20110505175313) do
     t.integer  "action_value"
     t.string   "target_model"
     t.integer  "target_id"
+    t.boolean  "processed",     :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

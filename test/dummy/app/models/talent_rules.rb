@@ -12,6 +12,6 @@ class TalentRules
       user.comments.count == 10
     end
 
-    check_last_actions # FIXME: Should be called every 5 mins or every action, but not from here.
+    check_new_actions # FIXME: Should be called somewhere else?
   end
 end

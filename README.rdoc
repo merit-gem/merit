@@ -20,7 +20,6 @@ To run the test application inside this gem follow:
 
 == To-do list
 
-* Persistir last_action_checked (se resetea!).
 * Add has_many :badges, :through => :join_model to related models?
 * Migration should accept any model (not just 'user').
 * Poder avisar cuando hay nuevas medallas (como un flag de notificado).
