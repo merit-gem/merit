@@ -14,25 +14,25 @@
 # 
 # La gema también crearía una tabla Badges, más o menos como sigue:
 # ___________________
-# id | name | level | image
-# 1 | creador | inspirado | creador-inspirado.png
-# 2 | creador | blogger   | creador-blogger.png
-# 2 | creador | best-seller | creador-bestseller.png
+# id | name    | level       | image
+# 1  | creador | inspirado   | creador-inspirado.png
+# 2  | creador | blogger     | creador-blogger.png
+# 2  | creador | best-seller | creador-bestseller.png
 # ___________________
 #
 #
 # 2- La interfaz para especificar desde la aplicación cuándo aplicar cada badge
 # sería un archivo tipo el ability.rb de cancan, que estaría en
-# app/models/talent.rb, con una sintaxis tipo:
+# app/models/talent_rules.rb, con la siguiente sintaxis:
 # 
 # grant_on 'users#create', :badge => 'just', :level => 'registered' do
 #   # Code block
 # end
 # 
-# Donde el procedimiento es un método que chequea la lógica necesaria para dar
-# ese badge, y evalúa a boolean. Obviamente tiene que saber de qué objetos
-# estamos hablando (qué user y qué lista, por ejemplo), cabo que por ahora no
-# queda atado.
+# Donde el bloque chequea la lógica necesaria para dar ese badge, y evalúa a
+# boolean. Surge la pregunta de si las variables que ahí se usan
+# (current_user por ejemplo) persisten a la sesión del usuario (por si se
+# ejecuta en un proceso en background).
 #
 #
 # 3- Luego, podemos ir chequeando esas condiciones sincronizadamente, o
@@ -42,13 +42,14 @@
 
 # ========== Posible sintaxis ==========
 
-# app/models/talent.rb (onda cancan)
-class Talent
+# app/models/talent_rules.rb
+class TalentRules
   include Talent::Badges
 
   def initialize(user)
     user ||= User.new
 
+    # "create" tiene que estar en el "grant_badges" del controlador "users"
     grant_on 'users#create', :badge => 'just', :level => 'registered' do
       true
     end
@@ -61,33 +62,15 @@ end
 
 # app/controllers/users_controller.rb
 class UsersController < ApplicationController
-  grant_badges :only => %w(index create edit)
+  grant_badges :only => %w(create edit)
 end
 
 
-# ========== Tests ==========
-u = User.first
-u.badges
-c = Comment.new{ :user_id = u.id }
-c.save
-u.badges
-
-u = User.first
-u.badges
-TalentRules.new(u) # Not loading all rules (?)
-include Talent::Rules
-check_new_actions
-u.badges
-
-
 # ========== URLs ==========
-# http://www.cowboycoded.com/2011/01/31/developing-is_able-or-acts_as-plugins-for-rails/
-# http://www.stubbleblog.com/index.php/2011/04/writing-rails-engines-getting-started/
 # https://gist.github.com/af7e572c2dc973add221
-# http://www.themodestrubyist.com/2010/03/01/rails-3-plugins---part-1---the-big-picture/
-# http://www.themodestrubyist.com/2010/03/05/rails-3-plugins---part-2---writing-an-engine/
 # http://www.themodestrubyist.com/2010/03/16/rails-3-plugins---part-3---rake-tasks-generators-initializers-oh-my/
 # https://github.com/krschacht/rails_3_engine_demo
 
-https://github.com/dcadenas/state_pattern
-https://github.com/rubyist/aasm
+# https://github.com/dcadenas/state_pattern
+# https://github.com/rubyist/aasm
+# https://github.com/qoobaa/transitions
