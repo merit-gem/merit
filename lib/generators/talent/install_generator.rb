@@ -16,10 +16,10 @@ module Talent
         @prev_migration_nr.to_s
       end
 
-      def copy_migrations
+      def copy_migrations_and_model
         migration_template 'create_talent_actions.rb', 'db/migrate/create_talent_actions.rb'
         migration_template 'create_badges.rb', 'db/migrate/create_badges.rb'
-        migration_template 'create_badges_users.rb', 'db/migrate/create_badges_users.rb'
+        template 'badge.rb', 'app/models/badge.rb'
       end
     end
   end

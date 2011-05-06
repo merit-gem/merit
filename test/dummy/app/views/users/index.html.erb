@@ -3,17 +3,18 @@
 <table>
   <tr>
     <th>Name</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>#Comments</th>
+    <th>Badges</th>
   </tr>
 
 <% @users.each do |user| %>
   <tr>
     <td><%= user.name %></td>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= user.comments.count %></td>
+    <td><%= user.badges.collect{|b| "#{b.name.capitalize} (#{b.level})" }.join(', ') %></td>
+    <td><%= link_to 'Show', user %>
+    - <%= link_to 'Edit', edit_user_path(user) %>
+    - <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
