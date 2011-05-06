@@ -22,6 +22,7 @@ To run the test application inside this gem follow:
 
 == To-do list
 
+* Agregar talent_rules.rb a generators. Puede haber más de un modelo "talentable"?
 * Unificar generators en 'rails g talent MODEL_NAME'.
 * Poder avisar cuando hay nuevas medallas (como un flag de notificado).
 * Poder meter la lógica de si aplica una medalla en un método del controlador
