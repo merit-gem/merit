@@ -7,6 +7,10 @@ Badge.create([
     :name        => 'commenter',
     :description => 'You\'ve participated great in our boards!',
     :level       => 20
+  }, {
+    :name        => 'relevant-commenter',
+    :description => 'You\'ve received 2 votes on a comment.',
+    :level       => 2
   }
 ])
 

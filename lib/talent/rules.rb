@@ -23,8 +23,14 @@ module Talent
       action_name = "#{action.target_model}\##{action.action_method}"
       talent_rules[action_name].each do |rule|
         Rails.logger.warn "TALENT: Checking #{talent_rules[action_name].count} rules for #{action_name}..."
+
+        # FIXME: Who is subject to badge? action.target_model action.target_id
         user  = User.find(action.user_id)
-        badge = Badge.where(:name => rule[:badge], :level => rule[:level]).first
+
+        badge = Badge.where(:name => rule[:badge])
+        badge = badge.where(:level => rule[:level]) unless rule[:level].nil?
+        badge = badge.first
+
         # Grant if no block given, or it evaluates to true
         if (rule[:block].nil? || rule[:block].call) && !user.badges.include?(badge)
           user.badges << badge

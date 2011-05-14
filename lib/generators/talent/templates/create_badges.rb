@@ -8,9 +8,9 @@ class CreateBadges < ActiveRecord::Migration
       t.timestamps
     end
 
-    # First badge
-    Badge.create( :name => 'just', :level => 'registered' ) # just-did-something
-    Badge.create( :name => 'creator', :level => 'inspired', :image => 'http://upload.wikimedia.org/wikipedia/commons/9/94/Luca_prodan.jpg' )
+    # First badges:
+    # Badge.create( :name => 'just-registered' )
+    # Badge.create( :name => 'creator', :level => 'inspired', :image => 'http://upload.wikimedia.org/wikipedia/commons/9/94/Luca_prodan.jpg' )
   end
 
   def self.down

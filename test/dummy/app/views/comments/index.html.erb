@@ -5,6 +5,8 @@
     <th>Name</th>
     <th>Comment</th>
     <th>User</th>
+    <th>Votes</th>
+    <th></th>
     <th></th>
     <th></th>
     <th></th>
@@ -15,6 +17,8 @@
     <td><%= comment.name %></td>
     <td><%= comment.comment %></td>
     <td><%= comment.user_id %></td>
+    <td><%= comment.votes %></td>
+    <td><%= link_to 'Vote up!', "/comments/#{comment.id}/vote" %></td>
     <td><%= link_to 'Show', comment %></td>
     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
     <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>

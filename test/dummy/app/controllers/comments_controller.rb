@@ -39,6 +39,13 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
   end
 
+  def vote
+    @comment = Comment.find(params[:id])
+    @comment.votes += 1
+    @comment.save
+    redirect_to(comments_url, :notice => 'Vote added!')
+  end
+
   # POST /comments
   # POST /comments.xml
   def create
