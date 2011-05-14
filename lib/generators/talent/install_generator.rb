@@ -20,6 +20,7 @@ module Talent
         migration_template 'create_talent_actions.rb', 'db/migrate/create_talent_actions.rb'
         migration_template 'create_badges.rb', 'db/migrate/create_badges.rb'
         template 'badge.rb', 'app/models/badge.rb'
+        template 'talent_rules.rb', 'app/models/talent_rules.rb'
       end
     end
   end

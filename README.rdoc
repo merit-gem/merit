@@ -6,6 +6,7 @@
 # Run 'rails g talent:install'
 # Run 'rails g talent MODEL_NAME'
 # Add 'grant_badges' to controllers where you want this behavior triggered.
+# Configure rules to grant badges in 'app/models/talent_rules.rb'
 # Run 'rake db:migrate'
 
 
@@ -22,8 +23,12 @@ To run the test application inside this gem follow:
 
 == To-do list
 
-* Agregar talent_rules.rb a generators. Puede haber más de un modelo "talentable"?
-* Unificar generators en 'rails g talent MODEL_NAME'.
+* Agregar método comments#vote, y entregar medallas al dueño del comentario.
+* grant_on 'users#create' quien ejecuta esta acción lleva la medalla. Es un
+  ejemplo para chequear en el método del controlador (para obtener el id
+  generado).
+* On vote, el dueño del comentario votado se lleva la medalla (no quien vota).
+* Puede haber más de un modelo "talentable" (talent_rules.rb)?
 * Poder avisar cuando hay nuevas medallas (como un flag de notificado).
 * Poder meter la lógica de si aplica una medalla en un método del controlador
   (más bajo nivel).

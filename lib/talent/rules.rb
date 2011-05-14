@@ -25,7 +25,8 @@ module Talent
         Rails.logger.warn "TALENT: Checking #{talent_rules[action_name].count} rules for #{action_name}..."
         user  = User.find(action.user_id)
         badge = Badge.where(:name => rule[:badge], :level => rule[:level]).first
-        if rule[:block].call && !user.badges.include?(badge)
+        # Grant if no block given, or it evaluates to true
+        if (rule[:block].nil? || rule[:block].call) && !user.badges.include?(badge)
           user.badges << badge
           user.save
           Rails.logger.warn "TALENT: Granted badge #{badge.name}-#{badge.level} to #{user.name}!"

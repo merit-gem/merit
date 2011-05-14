@@ -2,11 +2,11 @@
 .bundle/
 log/*.log
 pkg/
-test/dummy/app/models/badge.rb
-test/dummy/app/models/badges_user.rb
-test/dummy/db/*.sqlite3
-test/dummy/db/migrate/*_create_talent_actions.rb
-test/dummy/db/migrate/*_create_badges.rb
-test/dummy/db/migrate/*_talent_create_badges_users.rb
+# test/dummy/app/models/badge.rb
+# test/dummy/app/models/badges_user.rb
+# test/dummy/db/*.sqlite3
+# test/dummy/db/migrate/*_create_talent_actions.rb
+# test/dummy/db/migrate/*_create_badges.rb
+# test/dummy/db/migrate/*_talent_create_badges_users.rb
 test/dummy/log/*.log
 test/dummy/tmp/
