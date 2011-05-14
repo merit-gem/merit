@@ -17,18 +17,26 @@ To run the test application inside this gem follow:
 # cd test/dummy
 # rails g talent:install
 # rails g talent user
-# rake db:drop ; rake db:create ; rake db:migrate ; rake db:seed
+# rake db:migrate ; rake db:seed
 # rails s
 
 
 == To-do list
 
-* Agregar método comments#vote, y entregar medallas al dueño del comentario.
 * grant_on 'users#create' quien ejecuta esta acción lleva la medalla. Es un
   ejemplo para chequear en el método del controlador (para obtener el id
   generado).
-* On vote, el dueño del comentario votado se lleva la medalla (no quien vota).
 * Puede haber más de un modelo "talentable" (talent_rules.rb)?
 * Poder avisar cuando hay nuevas medallas (como un flag de notificado).
 * Poder meter la lógica de si aplica una medalla en un método del controlador
   (más bajo nivel).
+
+
+== Implementation details (describe in talent_rules.rb):
+* grant_on accepts nothing (always grants), a block which evaluates to
+  boolean, or with a hash composed of methods to run on the target object with
+  expected values ('{ :votes => 5 }' for instance).
+* grant_on can have a ':to' option, which can be either 'related_user' or
+  'action_user' (default). The former applies the badge to the target object's
+  related user ('post.user' for instance), while the latter to the user who
+  triggered the action (current_user, or "source").

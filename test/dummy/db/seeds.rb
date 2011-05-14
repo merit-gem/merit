@@ -9,8 +9,10 @@ Badge.create([
     :level       => 20
   }, {
     :name        => 'relevant-commenter',
-    :description => 'You\'ve received 2 votes on a comment.',
-    :level       => 2
+    :description => 'You\'ve received 5 votes on a comment.',
+    :level       => 5
+  }, {
+    :name => 'just-registered'
   }
 ])
 
@@ -22,11 +24,9 @@ bored  = User.create(:name => 'bored-or-speechless')
   Comment.create(
     :name    => "Title #{i}",
     :comment => "Comment #{i}",
-    :user_id => social.id
+    :user_id => social.id,
+    :votes   => 3
   )
-end
-
-(1..19).each do |i|
   Comment.create(
     :name    => "Title #{i}",
     :comment => "Comment #{i}",
