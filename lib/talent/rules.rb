@@ -47,6 +47,7 @@ module Talent
     def rule_applies?(rule, user, target_obj, badge)
       is_true = true # no block given?
       unless rule[:block].nil?
+        # FIXME: Are they different objects? http://stackoverflow.com/questions/6002839/initialize-two-variables-on-same-line
         is_true = called = rule[:block].call # evaluates to true?
         if called.kind_of?(Hash)
           called.each do |method, value|

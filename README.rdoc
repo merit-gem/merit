@@ -23,13 +23,11 @@ To run the test application inside this gem follow:
 
 == To-do list
 
-* grant_on 'users#create' quien ejecuta esta acción lleva la medalla. Es un
-  ejemplo para chequear en el método del controlador (para obtener el id
-  generado).
-* Puede haber más de un modelo "talentable" (talent_rules.rb)?
-* Poder avisar cuando hay nuevas medallas (como un flag de notificado).
 * Poder meter la lógica de si aplica una medalla en un método del controlador
   (más bajo nivel).
+* grant_on 'users#create' quien ejecuta esta acción lleva la medalla. Es un
+  ejemplo para chequear en el método del controlador (obtener id generado).
+* Puede haber más de un modelo "talentable" (talent_rules.rb)?
 
 
 == Implementation details (describe in talent_rules.rb):
