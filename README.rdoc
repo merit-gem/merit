@@ -23,10 +23,14 @@ To run the test application inside this gem follow:
 
 == To-do list
 
-* Poder meter la lógica de si aplica una medalla en un método del controlador
-  (más bajo nivel).
-* grant_on 'users#create' quien ejecuta esta acción lleva la medalla. Es un
-  ejemplo para chequear en el método del controlador (obtener id generado).
+* grep -r "FIXME\|TODO" .
+* grant_on 'users#create' quien lo ejecuta (nuevo usuario) obtiene medalla.
+  Chequear en el método del controlador (obtener id generado).
+* Configure check_new_actions, so it can be run on background.
+* TalentRules#initialize: se ejecuta sólo en boot-time. Debería pasar objetos
+  por parámetro para que no queden "cacheados"?
+* A grant_on se le puede preguntar si el bloque recibe un parámetro, y
+  en ese caso se le pasa el target_object, no sería necesario el Hash.
 * Puede haber más de un modelo "talentable" (talent_rules.rb)?
 
 

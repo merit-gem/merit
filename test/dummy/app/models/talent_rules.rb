@@ -17,6 +17,7 @@ class TalentRules
       { :votes => 5 }
     end
 
-    check_new_actions # FIXME: Should be called somewhere else?
+    # FIXME: Doesn't work in production, because it's run only at boot time. Doesn't belong here.
+    check_new_actions
   end
 end

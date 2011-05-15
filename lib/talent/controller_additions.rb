@@ -9,14 +9,14 @@ module Talent
     #
     def grant_badges(*args)
       # Initialize rules
-      ::TalentRules.new(current_user) # FIXME: debería ser Singleton?
+      ::TalentRules.new(current_user) # FIXME: Needs user? When?
 
       options = args.extract_options!
       self.before_filter(options) do |controller|
         TalentAction.create(
           :user_id       => ApplicationController.current_user.try(:id),
           :action_method => action_name,
-          :action_value  => nil, # FIXME: Aún no implementado
+          :action_value  => nil, # TODO
           :target_model  => controller.controller_name,
           :target_id     => controller.params[:id]
         )

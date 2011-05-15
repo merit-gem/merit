@@ -16,7 +16,5 @@ class TalentRules
     # grant_on 'comments#vote', :badge => 'relevant-commenter', :to => 'related_user' do
     #   comment.votes == 5
     # end
-
-    check_new_actions # FIXME: Should be called somewhere else?
   end
 end
