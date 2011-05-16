@@ -20,6 +20,9 @@ To run the test application inside this gem follow:
 # rake db:migrate ; rake db:seed
 # rails s
 
+To rerun badges granting (on sqlite):
+# DELETE FROM badges_users;
+# UPDATE talent_actions SET processed='f';
 
 == To-do list
 
