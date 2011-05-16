@@ -1,22 +1,29 @@
 module Talent
   module Rules
     class Rule
-      attr_accessor :badge, :level, :to, :block
+      attr_accessor :badge_name, :level, :to, :block
 
-      def applies?(user, target_obj, badge)
-        is_true = true # no block given?
+      def applies?(target_obj)
+        # no block given: always true
+        no_block_or_true = true
         unless self.block.nil?
+          # block evaluates to true?
           # FIXME: Are they different objects? http://stackoverflow.com/questions/6002839/initialize-two-variables-on-same-line
-          is_true = called = self.block.call # evaluates to true?
+          no_block_or_true = called = self.block.call
           if called.kind_of?(Hash)
+            # hash methods over target_obj respond what's expected?
             called.each do |method, value|
-              is_true = is_true && target_obj.send(method) == value # target_obj responds what's expected?
+              no_block_or_true = no_block_or_true && target_obj.send(method) == value
             end
           end
         end
-        # No block, or it's true, or target_obj responds what Hash expects,
-        # badge exists, and target user doesn't have it
-        is_true && !badge.nil? && !user.badges.include?(badge)
+        no_block_or_true
+      end
+
+      def badge
+        badges = Badge.where(:name => self.badge_name)
+        badges = badges.where(:level => self.level) unless self.level.nil?
+        badges.first
       end
     end
 
@@ -27,7 +34,7 @@ module Talent
 
       # FIXME: Better way to initialize object, like hash style?
       rule = Rule.new
-      rule.badge = options[:badge]
+      rule.badge_name = options[:badge]
       rule.level = options[:level]
       rule.to    = options[:to] || 'action_user'
       rule.block = block

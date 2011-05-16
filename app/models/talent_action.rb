@@ -11,15 +11,10 @@ class TalentAction < ActiveRecord::Base
       related_user  = rule.to == 'related_user' && !target_object.user.nil?
       user = related_user ? target_object.user : User.find(self.user_id)
 
-      # Find badge to (possibly) apply
-      badges = Badge.where(:name => rule.badge)
-      badges = badges.where(:level => rule.level) unless rule.level.nil?
-      badge = badges.first
-
-      if rule.applies?(user, target_object, badge)
-        user.badges << badge
+      if rule.applies?(target_object) && !user.badges.include?(rule.badge)
+        user.badges << rule.badge
         user.save
-        Rails.logger.warn "TALENT: Granted badge #{badge.name}-#{badge.level} to #{user.name}!"
+        Rails.logger.warn "TALENT: Granted badge #{rule.badge.name}-#{rule.badge.level} to #{user.name}!"
       end
     end unless talent_rules[action_name].nil?
     self.processed!
