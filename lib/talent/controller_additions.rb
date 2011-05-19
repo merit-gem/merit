@@ -1,7 +1,7 @@
 module Talent
   # This module is automatically included into all controllers.
   module ControllerMethods
-    # Sets up a before filter to update talent_actions table
+    # Sets up a before filter to update talent_actions table like:
     #
     #   class UsersController < ApplicationController
     #     grant_badges :only => %w(create follow)

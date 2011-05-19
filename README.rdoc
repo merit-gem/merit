@@ -2,31 +2,30 @@
 
 == Installation
 
-# Add 'talent' to your Gemfile.
-# Run 'rails g talent:install'
-# Run 'rails g talent MODEL_NAME'
-# Add 'grant_badges' to controllers where you want this behavior triggered.
-# Configure rules to grant badges in 'app/models/talent_rules.rb'
-# Run 'rake db:migrate'
+1. Add 'talent' to your Gemfile.
+2. Run 'rails g talent:install'
+3. Run 'rails g talent MODEL_NAME'
+4. Add 'grant_badges' to controllers where you want this behavior triggered.
+5. Configure rules to grant badges in 'app/models/talent_rules.rb'
+6. Run 'rake db:migrate'
 
 
 == Test application
 
 To run the test application inside this gem follow:
-
-# cd test/dummy
-# rails g talent:install
-# rails g talent user
-# rake db:migrate ; rake db:seed
-# rails s
+1. cd test/dummy
+2. rails g talent:install
+3. rails g talent user
+4. rake db:migrate ; rake db:seed
+5. rails s
 
 To rerun badges granting (on sqlite):
-# DELETE FROM badges_users;
-# UPDATE talent_actions SET processed='f';
+  DELETE FROM badges_users;
+  UPDATE talent_actions SET processed='f';
 
 == To-do list
 
-* grep -r "FIXME\|TODO" .
+* grep -r 'FIXME\|TODO' .
 * grant_on 'users#create' quien lo ejecuta (nuevo usuario) obtiene medalla.
   Chequear en el método del controlador (obtener id generado).
 * Configure check_new_actions, so it can be run on background.
@@ -35,13 +34,3 @@ To rerun badges granting (on sqlite):
 * A grant_on se le puede preguntar si el bloque recibe un parámetro, y
   en ese caso se le pasa el target_object, no sería necesario el Hash.
 * Puede haber más de un modelo "talentable" (talent_rules.rb)?
-
-
-== Implementation details (describe in talent_rules.rb):
-* grant_on accepts nothing (always grants), a block which evaluates to
-  boolean, or with a hash composed of methods to run on the target object with
-  expected values ('{ :votes => 5 }' for instance).
-* grant_on can have a ':to' option, which can be either 'related_user' or
-  'action_user' (default). The former applies the badge to the target object's
-  related user ('post.user' for instance), while the latter to the user who
-  triggered the action (current_user, or "source").
