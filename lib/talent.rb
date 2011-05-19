@@ -34,6 +34,7 @@
 # background, por ejemplo cada 5 minutos (Talent::Rules#check_new_actions).
 
 require 'talent/controller_additions'
+require 'talent/rule'
 require 'talent/rules'
 
 module Talent
