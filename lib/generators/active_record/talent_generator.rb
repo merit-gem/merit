@@ -33,6 +33,11 @@ CONTENT
         inject_into_class(File.join("app", "models", "badge.rb"), 'Badge', <<CONTENT) if model_exists?
   has_many :badges_#{table_name}
   has_many :#{table_name}, :through => :badges_#{table_name}
+
+  def grant_to(target)
+    target.badges << self
+    target.save
+  end
 CONTENT
       end
     end

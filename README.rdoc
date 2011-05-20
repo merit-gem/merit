@@ -6,7 +6,10 @@
 2. Run 'rails g talent:install'
 3. Run 'rails g talent MODEL_NAME'
 4. Add 'grant_badges' to controllers where you want this behavior triggered.
-5. Configure rules to grant badges in 'app/models/talent_rules.rb'
+5. Configure rules to grant badges in 'app/models/talent_rules.rb', or grant
+   them from controller actions:
+     u = User.last
+     Badge.find(3).grant_to(u)
 6. Run 'rake db:migrate'
 
 
@@ -27,5 +30,4 @@ To rerun badges granting (on sqlite):
 
 * grep -r 'FIXME\|TODO' .
 * grant_on 'users#create' quien lo ejecuta (nuevo usuario) obtiene medalla.
-  Chequear en el método del controlador (obtener id generado).
 * Puede haber más de un modelo "talentable" (talent_rules.rb)?

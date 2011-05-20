@@ -5,8 +5,7 @@ class TalentAction < ActiveRecord::Base
     defined_rules[action_name].each do |rule|
       user = self.user_to_badge(rule)
       if rule.applies?(self.target_object) && !user.badges.include?(rule.badge)
-        user.badges << rule.badge
-        user.save
+        rule.badge.grant_to(user)
         Rails.logger.warn "TALENT: Granted badge #{rule.badge.name}-#{rule.badge.level} to #{user.name}!"
       end
     end unless defined_rules[action_name].nil?
