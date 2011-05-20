@@ -25,7 +25,7 @@ class TalentRules
 
     # If it has 5 votes, grant relevant-commenter badge
     # grant_on 'comments#vote', :badge => 'relevant-commenter', :to => 'related_user' do
-    #   comment.votes == 5
+    #   { :votes => 5 }
     # end
   end
 end

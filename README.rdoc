@@ -28,9 +28,4 @@ To rerun badges granting (on sqlite):
 * grep -r 'FIXME\|TODO' .
 * grant_on 'users#create' quien lo ejecuta (nuevo usuario) obtiene medalla.
   Chequear en el método del controlador (obtener id generado).
-* Configure check_new_actions, so it can be run on background.
-* TalentRules#initialize: se ejecuta sólo en boot-time. Debería pasar objetos
-  por parámetro para que no queden "cacheados"?
-* A grant_on se le puede preguntar si el bloque recibe un parámetro, y
-  en ese caso se le pasa el target_object, no sería necesario el Hash.
 * Puede haber más de un modelo "talentable" (talent_rules.rb)?

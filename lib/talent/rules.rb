@@ -1,6 +1,6 @@
 module Talent
   module Rules
-    # Grant badge to user if applies
+    # Define rule for granting badges
     def grant_on(action, *args, &block)
       options = args.extract_options!
       defined_rules[action] ||= []
@@ -15,12 +15,14 @@ module Talent
       Rails.logger.warn "TALENT: Added rule for #{action}."
     end
 
+    # Check non processed actions and grant badges if applies
     def check_new_actions
       TalentAction.where(:processed => false).each do |talent_action|
         talent_action.check_rules(defined_rules)
       end
     end
 
+    # Currently defined rules
     def defined_rules
       @defined_rules ||= {}
     end

@@ -1,7 +1,7 @@
 module Talent
   # This module is automatically included into all controllers.
   module ControllerMethods
-    # Sets up an after filter to update talent_actions table like:
+    # Sets up an after_filter to update talent_actions table like:
     #
     #   class UsersController < ApplicationController
     #     grant_badges :only => %w(create follow)
@@ -9,7 +9,7 @@ module Talent
     #
     def grant_badges(*args)
       # Initialize rules
-      ::TalentRules.new(current_user) # FIXME: Needs user? When?
+      current_rules ||= ::TalentRules.new(current_user) # FIXME: Needs user? When?
 
       options = args.extract_options!
       self.after_filter(options) do |controller|
@@ -23,6 +23,9 @@ module Talent
           :target_model  => controller.controller_name,
           :target_id     => target_id
         )
+
+        # Check rules in after_filter?
+        current_rules.check_new_actions if Talent.checks_on_each_request
       end
     end
   end

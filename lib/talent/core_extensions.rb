@@ -1,7 +1,7 @@
 class Hash
-  # hash methods over object respond what's expected? Example (evaluates to
-  # true):
-  #   { :first => { :odd? => true }, :count => 2 }.conditions_apply?([1,3])
+  # Methods over object (applied recursively) respond what's expected?
+  # Example (evaluates to true):
+  #   { :first => { :odd? => true }, :count => 2 }.conditions_apply? [1,3]
   def conditions_apply?(obj)
     applies = true
     self.each do |method, value|

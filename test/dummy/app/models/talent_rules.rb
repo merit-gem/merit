@@ -16,8 +16,5 @@ class TalentRules
     grant_on 'comments#vote', :badge => 'relevant-commenter', :to => 'related_user' do
       { :votes => 5 }
     end
-
-    # FIXME: Doesn't work in production, because it's run only at boot time. Doesn't belong here.
-    check_new_actions
   end
 end

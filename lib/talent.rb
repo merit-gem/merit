@@ -34,11 +34,20 @@
 # background, por ejemplo cada 5 minutos (Talent::Rules#check_new_actions).
 
 require 'talent/core_extensions'
-require 'talent/controller_additions'
 require 'talent/rule'
 require 'talent/rules'
+require 'talent/controller_additions'
 
 module Talent
+  # Check rules on each request
+  mattr_accessor :checks_on_each_request
+  @@checks_on_each_request = true
+
+  # Load configuration from initializer
+  def self.setup
+    yield self
+  end
+
   class Engine < Rails::Engine
   end
 end

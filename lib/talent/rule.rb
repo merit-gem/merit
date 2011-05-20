@@ -2,7 +2,7 @@ module Talent
   class Rule
     attr_accessor :badge_name, :level, :to, :block
 
-    # Does this rule pass?
+    # Does this rule apply?
     def applies?(target_obj)
       # no block given: always true
       no_block_or_true = true
@@ -17,7 +17,7 @@ module Talent
       no_block_or_true
     end
 
-    # Get rule's related badge.
+    # Get rule's related Badge.
     def badge
       badges = Badge.where(:name => self.badge_name)
       badges = badges.where(:level => self.level) unless self.level.nil?
