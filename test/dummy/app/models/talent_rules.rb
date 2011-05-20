@@ -9,7 +9,7 @@ class TalentRules
 
     # If it has 10 comments, grant commenter-10 badge
     grant_on 'comments#create', :badge => 'commenter', :level => 10 do
-      user.comments.count == 10
+      { :user => { :comments => { :count => 10 } } }
     end
 
     # If it has 5 votes, grant relevant-commenter badge

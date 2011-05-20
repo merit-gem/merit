@@ -1,0 +1,17 @@
+class Hash
+  # hash methods over object respond what's expected? Example (evaluates to
+  # true):
+  #   { :first => { :odd? => true }, :count => 2 }.conditions_apply?([1,3])
+  def conditions_apply?(obj)
+    applies = true
+    self.each do |method, value|
+      called_obj = obj.send(method)
+      if value.kind_of?(Hash)
+        applies = applies && value.conditions_apply?(called_obj)
+      else
+        applies = applies && called_obj == value
+      end
+    end
+    applies
+  end
+end

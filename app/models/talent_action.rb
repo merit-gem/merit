@@ -3,7 +3,6 @@ class TalentAction < ActiveRecord::Base
   def check_rules(defined_rules)
     action_name = "#{self.target_model}\##{self.action_method}"
     defined_rules[action_name].each do |rule|
-      Rails.logger.warn "TALENT: Checking #{defined_rules[action_name].count} rules for #{action_name} to #{rule.to}..."
       user = self.user_to_badge(rule)
       if rule.applies?(self.target_object) && !user.badges.include?(rule.badge)
         user.badges << rule.badge

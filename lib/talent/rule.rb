@@ -7,14 +7,11 @@ module Talent
       # no block given: always true
       no_block_or_true = true
       unless self.block.nil?
-        # block evaluates to true?
-        # FIXME: Are they different objects? http://stackoverflow.com/questions/6002839/initialize-two-variables-on-same-line
-        no_block_or_true = called = self.block.call
-        if called.kind_of?(Hash)
-          # hash methods over target_obj respond what's expected?
-          called.each do |method, value|
-            no_block_or_true = no_block_or_true && target_obj.send(method) == value
-          end
+        called = self.block.call
+        if called.kind_of?(TrueClass) || called.kind_of?(FalseClass)
+          no_block_or_true = called
+        elsif called.kind_of? Hash
+          no_block_or_true = called.conditions_apply? target_obj
         end
       end
       no_block_or_true

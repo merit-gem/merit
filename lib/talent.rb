@@ -33,6 +33,7 @@
 # 4- Chequea las condiciones sincronizadamente, o mediante un proceso en
 # background, por ejemplo cada 5 minutos (Talent::Rules#check_new_actions).
 
+require 'talent/core_extensions'
 require 'talent/controller_additions'
 require 'talent/rule'
 require 'talent/rules'
