@@ -8,8 +8,7 @@
 4. Add 'grant_badges' to controllers where you want this behavior triggered.
 5. Configure rules to grant badges in 'app/models/talent_rules.rb', or grant
    them from controller actions:
-     u = User.last
-     Badge.find(3).grant_to(u)
+     Badge.find(3).grant_to(current_user)
 6. Run 'rake db:migrate'
 
 
