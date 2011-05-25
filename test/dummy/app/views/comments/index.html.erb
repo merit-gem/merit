@@ -13,7 +13,7 @@
   </tr>
 
 <% @comments.each do |comment| %>
-  <tr>
+  <tr id="c_<%= comment.id %>">
     <td><%= comment.name %></td>
     <td><%= comment.comment %></td>
     <td><%= comment.user_id %></td>
