@@ -12,9 +12,7 @@
 class TalentRules
   include Talent::Rules
 
-  def initialize(user)
-    user ||= User.new
-
+  def initialize
     # If it creates user, grant badge
     # grant_on 'users#create', :badge => 'just-registered'
 
@@ -24,7 +22,7 @@ class TalentRules
     # end
 
     # If it has 5 votes, grant relevant-commenter badge
-    # grant_on 'comments#vote', :badge => 'relevant-commenter', :to => 'related_user' do
+    # grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :related_user do
     #   { :votes => 5 }
     # end
   end

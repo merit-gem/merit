@@ -8,11 +8,10 @@ module Talent
       rule = Rule.new
       rule.badge_name = options[:badge]
       rule.level = options[:level]
-      rule.to    = options[:to] || 'action_user'
+      rule.to    = options[:to] || :action_user
       rule.block = block
 
       defined_rules[action] << rule
-      Rails.logger.warn "TALENT: Added rule for #{action}."
     end
 
     # Check non processed actions and grant badges if applies

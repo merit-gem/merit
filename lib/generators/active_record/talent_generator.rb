@@ -35,8 +35,10 @@ CONTENT
   has_many :#{table_name}, :through => :badges_#{table_name}
 
   def grant_to(target)
-    target.badges << self
-    target.save
+    unless target.badges.include? self
+      target.badges << self
+      target.save
+    end
   end
 CONTENT
       end

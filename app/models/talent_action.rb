@@ -2,19 +2,20 @@ class TalentAction < ActiveRecord::Base
   # Check rules defined for a talent_action
   def check_rules(defined_rules)
     action_name = "#{self.target_model}\##{self.action_method}"
-    defined_rules[action_name].each do |rule|
-      user = self.user_to_badge(rule)
-      if rule.applies?(self.target_object) && !user.badges.include?(rule.badge)
-        rule.badge.grant_to(user)
-        Rails.logger.warn "TALENT: Granted badge #{rule.badge.name}-#{rule.badge.level} to #{user.name}!"
+    unless defined_rules[action_name].nil?
+      defined_rules[action_name].each do |rule|
+        user = self.user_to_badge(rule)
+        if rule.applies? self.target_object
+          rule.badge.grant_to(user)
+        end
       end
-    end unless defined_rules[action_name].nil?
+    end
     self.processed!
   end
 
   # Subject to badge: source_user or target.user?
   def user_to_badge(rule)
-    related_user = rule.to == 'related_user' && !target_object.user.nil?
+    related_user = rule.to == :related_user && !target_object.user.nil?
     related_user ? self.target_object.user : User.find(self.user_id)
   end
 

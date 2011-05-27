@@ -11,7 +11,6 @@
      Badge.find(3).grant_to(current_user)
 6. Run 'rake db:migrate'
 
-
 == Test application
 
 To run the test application inside this gem follow:
@@ -21,12 +20,13 @@ To run the test application inside this gem follow:
 4. rake db:migrate ; rake db:seed
 5. rails s
 
-To rerun badges granting (on sqlite):
-  DELETE FROM badges_users;
-  UPDATE talent_actions SET processed='f';
-
 == To-do list
 
 * grep -r 'FIXME\|TODO' .
 * grant_on 'users#create' quien lo ejecuta (nuevo usuario) obtiene medalla.
-* Puede haber más de un modelo "talentable" (talent_rules.rb)?
+* Testear con delayed_job:
+    class GrantBadgesJob
+      def perform
+        ::TalentRules.new.check_new_actions
+      end
+    end

@@ -8,16 +8,13 @@ module Talent
     #   end
     #
     def grant_badges(*args)
-      # Initialize rules
-      current_rules ||= ::TalentRules.new(current_user) # FIXME: Needs user? When?
-
       options = args.extract_options!
       self.after_filter(options) do |controller|
         target_id = controller.params[:id]
         # TODO: Created object should be configurable (now it's singularized controller name)
         target_id = controller.instance_variable_get(:"@#{controller.controller_name.singularize}").try(:id) if target_id.nil?
         TalentAction.create(
-          :user_id       => ApplicationController.current_user.try(:id),
+          :user_id       => current_user.try(:id),
           :action_method => action_name,
           :action_value  => nil, # TODO
           :target_model  => controller.controller_name,
@@ -27,6 +24,11 @@ module Talent
         # Check rules in after_filter?
         current_rules.check_new_actions if Talent.checks_on_each_request
       end
+    end
+
+    # Initialize and cache rules
+    def current_rules
+      @current_rules ||= ::TalentRules.new
     end
   end
 end
