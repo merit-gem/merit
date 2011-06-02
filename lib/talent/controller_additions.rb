@@ -22,7 +22,8 @@ module Talent
         )
 
         # Check rules in after_filter?
-        current_rules.check_new_actions if Talent.checks_on_each_request
+        # FIXME: why ::TalentRules.new instead of current_rules?
+        ::TalentRules.new.check_new_actions if Talent.checks_on_each_request
       end
     end
 

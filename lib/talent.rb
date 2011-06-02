@@ -25,11 +25,11 @@
 #
 # Y llena una tabla de acciones, del estilo de:
 #   ______________________________________________________________
-#   source (user_id) | action (method, value) | target (model, id)
-#   1 | comment nil | List 8
-#   1 | vote 3      | List 12
-#   3 | follow nil  | User 1
-#   X | create nil  | User #{generated_id}
+#   source (user_id) | action (method, value) | target (model, id) | processed
+#   1 | comment nil | List 8 | true
+#   1 | vote 3      | List 12 | true
+#   3 | follow nil  | User 1 | false
+#   X | create nil  | User #{generated_id} | false
 #   ______________________________________________________________
 #
 # Luego chequea las condiciones sincronizadamente, o mediante un proceso en

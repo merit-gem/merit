@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  grant_badges :only => %w(create edit)
+  grant_badges :only => %w(create update)
 
   # GET /users
   # GET /users.xml

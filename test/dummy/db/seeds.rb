@@ -12,6 +12,9 @@ Badge.create([
     :description => 'You\'ve received 5 votes on a comment.',
     :level       => 5
   }, {
+    :name        => 'autobiographer',
+    :description => 'You\'ve edited your name and it\'s above 4 characters! (?)'
+  }, {
     :name => 'just-registered'
   }
 ])

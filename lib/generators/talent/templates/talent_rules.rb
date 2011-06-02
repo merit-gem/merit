@@ -25,5 +25,10 @@ class TalentRules
     # grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :related_user do
     #   { :votes => 5 }
     # end
+
+    # Changes his name by one wider than 4 chars (arbitrary ruby code case)
+    # grant_on 'users#update', :badge => 'autobiographer' do |user|
+    #   user.name.length > 4
+    # end
   end
 end
