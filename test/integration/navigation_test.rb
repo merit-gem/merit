@@ -22,6 +22,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
         :description => 'You\'ve received 5 votes on a comment.',
         :level       => 5
       }, {
+        :name        => 'autobiographer',
+      }, {
         :name => 'just-registered'
       }
     ])
@@ -57,5 +59,23 @@ class NavigationTest < ActiveSupport::IntegrationCase
     relevant_badge = Badge.where(:name => 'relevant-commenter').first
     user_badges    = User.where(:name => 'test-user').first.badges
     assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
+
+    # Edit user's name by short and long names, test ruby code in grant_on is being executed
+    user = User.where(:name => 'test-user').first
+    user_badges = user.badges
+    visit "/users/#{user.id}/edit"
+    fill_in 'Name', :with => 'abc'
+    click_button('Update User')
+
+    user = User.where(:name => 'abc').first
+    assert_equal user_badges, user.badges
+
+    visit "/users/#{user.id}/edit"
+    fill_in 'Name', :with => 'long_name!'
+    click_button('Update User')
+
+    user_badges = User.where(:name => 'long_name!').first.badges
+    autobiographer_badge = Badge.where(:name => 'autobiographer').first
+    assert user_badges.include?(autobiographer_badge), "User badges: #{user_badges.collect(&:name).inspect} should contain autobiographer badge."
   end
 end

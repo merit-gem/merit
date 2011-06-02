@@ -23,6 +23,7 @@ To run the test application inside this gem follow:
 == To-do list
 
 * grep -r 'FIXME\|TODO' .
+* Error handling: inexistent badges? grant_on(nil_user)?
 * grant_on 'users#create' quien lo ejecuta (nuevo usuario) obtiene medalla.
 * Testear con delayed_job:
     class GrantBadgesJob
