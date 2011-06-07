@@ -21,6 +21,7 @@ module Talent
       no_block_or_true
     end
 
+    # Is this rule's badge temporary?
     def temporary?
       self.temporary
     end

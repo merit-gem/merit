@@ -22,8 +22,8 @@
     (+post+.+user+ for instance)
   * +action_user+ (default) applies badge to the user who triggered the action
     (+current_user+, also called "source")
-* :+temporary+ (boolean): if the condition doesn't hold and the badge is
-  granted, then it's removed. +false+ by default (badges are kept forever).
+* :+temporary+ (boolean): if the condition doesn't hold and the receiver had
+  the badge, it gets removed. +false+ by default (badges are kept forever).
 * &+block+
   * empty (always grants)
   * a block which evaluates to boolean (recieves target object as parameter)
@@ -50,11 +50,11 @@ To run the test application inside this gem follow:
 4. rake db:migrate ; rake db:seed
 5. rails s
 
+
 == To-do list
 
 * grep -r 'FIXME\|TODO' .
 * Error handling: inexistent badges? grant_on(nil_user)?
-* grant_on 'users#create' quien lo ejecuta (nuevo usuario) obtiene medalla.
 * Testear con delayed_job:
     class GrantBadgesJob
       def perform
