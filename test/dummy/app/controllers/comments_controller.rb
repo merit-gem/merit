@@ -41,7 +41,7 @@ class CommentsController < ApplicationController
 
   def vote
     @comment = Comment.find(params[:id])
-    @comment.votes += 1
+    @comment.votes += params[:value].to_i
     @comment.save
     redirect_to(comments_url, :notice => 'Vote added!')
   end

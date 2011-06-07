@@ -6,7 +6,7 @@
     <th>Comment</th>
     <th>User</th>
     <th>Votes</th>
-    <th></th>
+    <th>Vote up!</th>
     <th></th>
     <th></th>
     <th></th>
@@ -18,7 +18,11 @@
     <td><%= comment.comment %></td>
     <td><%= comment.user_id %></td>
     <td><%= comment.votes %></td>
-    <td><%= link_to 'Vote up!', "/comments/#{comment.id}/vote" %></td>
+    <td>
+    <% (1..5).each do |i| %>
+      <%= link_to "#{i}", "/comments/#{comment.id}/vote/#{i}" %>
+    <% end %>
+    </td>
     <td><%= link_to 'Show', comment %></td>
     <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
     <td><%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %></td>

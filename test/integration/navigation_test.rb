@@ -36,7 +36,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
         :name    => "Title #{i}",
         :comment => "Comment #{i}",
         :user_id => user.id,
-        :votes   => 4
+        :votes   => 8
       )
     end
     assert user.badges.empty?, 'Should not have badges.'
@@ -50,10 +50,10 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal user.badges, [Badge.where(:name => 'commenter').where(:level => 10).first]
 
     # Vote (to 5) a user's comment, assert relevant-commenter badge granted
-    relevant_comment = user.comments.where(:votes => 4).first
+    relevant_comment = user.comments.where(:votes => 8).first
     visit '/comments'
     within("tr#c_#{relevant_comment.id}") do
-      click_link 'Vote up!'
+      click_link '2'
     end
 
     relevant_badge = Badge.where(:name => 'relevant-commenter').first

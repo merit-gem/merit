@@ -25,9 +25,9 @@ class TalentRules
       { :user => { :comments => { :count => 10 } } }
     end
 
-    # If it has 5 votes, grant relevant-commenter badge
-    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :related_user do
-      { :votes => 5 }
+    # If it has at least 10 votes, grant relevant-commenter badge
+    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :related_user do |comment|
+      comment.votes >= 10
     end
 
     # Changes his name by one wider than 4 chars (arbitrary ruby code case)
