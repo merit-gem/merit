@@ -11,6 +11,36 @@
      Badge.find(3).grant_to(current_user)
 6. Run 'rake db:migrate'
 
+== Defining talent rules:
+
++grant_on+ accepts:
+* +controller+#+action+ string (similar to Rails routes)
+* :+badge+ for badge name
+* :+level+ for badge level
+* :+to+ can be:
+  * +related_user+ applies badge to the target object's related user
+    (+post+.+user+ for instance)
+  * +action_user+ (default) applies badge to the user who triggered the action
+    (+current_user+, also called "source")
+* :+temporary+ (boolean): if the condition doesn't hold and the badge is
+  granted, then it's removed. +false+ by default (badges are kept forever).
+* &+block+
+  * empty (always grants)
+  * a block which evaluates to boolean (recieves target object as parameter)
+  * a block with a hash composed of methods to run on the target object with
+    expected values
+
+=== Examples:
+
+    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :related_user do
+      { :votes => 5 }
+    end
+
+    grant_on 'users#update', :badge => 'autobiographer', :temporary => true do |user|
+      user.name.present? && user.address.present?
+    end
+
+
 == Test application
 
 To run the test application inside this gem follow:
