@@ -4,13 +4,22 @@ class TalentAction < ActiveRecord::Base
     action_name = "#{self.target_model}\##{self.action_method}"
     unless defined_rules[action_name].nil?
       defined_rules[action_name].each do |rule|
-        user = self.user_to_badge(rule)
-        if rule.applies? self.target_object
-          rule.badge.grant_to(user)
-        end
+        grant_or_delete_badge(rule)
       end
     end
     self.processed!
+  end
+
+  # Grant badge if rule applies. If it doesn't, and the badge is temporary,
+  # then remove it.
+  def grant_or_delete_badge(rule)
+    receiver = user_to_badge(rule)
+    if rule.applies? self.target_object
+      rule.badge.grant_to(receiver)
+    elsif rule.temporary? && receiver.badges.include?(rule.badge)
+      receiver.badges -= [rule.badge]
+      receiver.save
+    end
   end
 
   # Subject to badge: source_user or target.user?

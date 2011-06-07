@@ -10,6 +10,7 @@ module Talent
       rule.level = options[:level]
       rule.to    = options[:to] || :action_user
       rule.block = block
+      rule.temporary = options[:temporary] || false
 
       defined_rules[action] << rule
     end

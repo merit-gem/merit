@@ -60,22 +60,26 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user_badges    = User.where(:name => 'test-user').first.badges
     assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
 
-    # Edit user's name by short and long names, test ruby code in grant_on is being executed
+    # Edit user's name by long name
+    # tests ruby code in grant_on is being executed, and gives badge
     user = User.where(:name => 'test-user').first
     user_badges = user.badges
-    visit "/users/#{user.id}/edit"
-    fill_in 'Name', :with => 'abc'
-    click_button('Update User')
-
-    user = User.where(:name => 'abc').first
-    assert_equal user_badges, user.badges
 
     visit "/users/#{user.id}/edit"
     fill_in 'Name', :with => 'long_name!'
     click_button('Update User')
 
-    user_badges = User.where(:name => 'long_name!').first.badges
+    user = User.where(:name => 'long_name!').first
     autobiographer_badge = Badge.where(:name => 'autobiographer').first
-    assert user_badges.include?(autobiographer_badge), "User badges: #{user_badges.collect(&:name).inspect} should contain autobiographer badge."
+    assert user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain autobiographer badge."
+
+    # Edit user's name by short name
+    # tests ruby code in grant_on is being executed, and removes badge
+    visit "/users/#{user.id}/edit"
+    fill_in 'Name', :with => 'abc'
+    click_button('Update User')
+
+    user = User.where(:name => 'abc').first
+    assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
   end
 end

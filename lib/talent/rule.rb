@@ -1,6 +1,6 @@
 module Talent
   class Rule
-    attr_accessor :badge_name, :level, :to, :block
+    attr_accessor :badge_name, :level, :to, :block, :temporary
 
     # Does this rule apply?
     def applies?(target_obj = nil)
@@ -19,6 +19,10 @@ module Talent
         end
       end
       no_block_or_true
+    end
+
+    def temporary?
+      self.temporary
     end
 
     # Get rule's related Badge.
