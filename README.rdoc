@@ -54,7 +54,18 @@ To run the test application inside this gem follow:
 == To-do list
 
 * grep -r 'FIXME\|TODO' .
-* Error handling: inexistent badges? grant_to(nil_user)?
+* Should allow more than one subject to badge (for example, users and lists are
+  "talentable").
+* :value parameter (for star voting for example) should be configurable (depends
+  on params[:value] on the controller).
+* Is it ok a RecordNotFound exception for non existent badge? Could
+  grant_to(user) fail (user nil)?
+* Define whenever or cron syntax to test badges granting on background, instead
+  of on each action.
+* Can we avoid "grant_badges" call on controllers? Easy to forget, could be a design "smell".
+* Make fixtures for integration testing (now creating objects on test file!).
+* Are controller#action strings always necessary? Feature: could be an API
+  improvement.
 * Testear con delayed_job:
     class GrantBadgesJob
       def perform
