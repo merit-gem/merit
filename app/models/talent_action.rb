@@ -24,8 +24,13 @@ class TalentAction < ActiveRecord::Base
 
   # Subject to badge: source_user or target.user?
   def user_to_badge(rule)
-    related_user = rule.to == :related_user && !target_object.user.nil?
-    related_user ? target_object.user : User.find(user_id)
+    if rule.to == :action_user
+      User.find(user_id)
+    elsif rule.to == :itself
+      target_object
+    else
+      target_object.send(rule.to)
+    end
   end
 
   # Action's target object

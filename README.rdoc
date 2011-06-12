@@ -28,7 +28,7 @@
 
 === Examples:
 
-    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :related_user do
+    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do
       { :votes => 5 }
     end
 
@@ -50,7 +50,6 @@ To run the test application inside this gem follow:
 == To-do list
 
 * talent->merit conceptually is more coherent
-* :to is a method name, not a simple symbol.
 * grep -r 'FIXME\|TODO' .
 * Should allow more than one subject to badge (for example, users and lists are
   "talentable").
