@@ -1,5 +1,7 @@
 = Talent
 
+http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
+
 == Installation
 
 1. Add 'talent' to your Gemfile.
@@ -62,10 +64,20 @@ To run the test application inside this gem follow:
 
 === Possible reorganization:
 Simplify installers and application code, rely more on the gem:
-* Sash model 1<->1 'talentable' app models
+* Sash model 1<->1 'talentable' app models. (If there's no sash for a receiver, create it.)
 * sashes(id, model_name, model_id)
-* Sash m<sashes_badges>n Badges
+* Sash m<badges_sashes>n Badges
 * Rules could be defined on 'talentable' models.
+
+Advantages:
+* No need of separate many to many relationships for different models, fewer
+  migrations and join models.
+* Code on the relation can be upgraded without upgrading application code.
+
+Disadvanteges:
+* Check badges is indirected: user.sash.badges. Method extended with
+  talentable fixes it: def badges; sash.badges; end
+* The other way around: def users; badge.sashes.collect(&:user); end
 
 === Features
 * Stars are given not because of a concrete action (first parameter not needed)
