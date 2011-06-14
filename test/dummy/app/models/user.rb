@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  merit
+  has_merit
+
   has_many :comments
 
   def show_badges

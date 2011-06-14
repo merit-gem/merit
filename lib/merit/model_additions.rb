@@ -4,7 +4,7 @@ module Merit
   end
 
   module ClassMethods
-    def merit(options = {})
+    def has_merit(options = {})
       belongs_to :sash
       send :include, InstanceMethods
     end

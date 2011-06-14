@@ -18,6 +18,10 @@ module ActiveRecord
       def copy_merit_migration
         migration_template "add_sash_id_to_model.rb", "db/migrate/add_sash_id_to_#{table_name}"
       end
+
+      def inject_merit_content
+        inject_into_class(model_path, class_name, "  has_merit\n\n") if model_exists?
+      end
     end
   end
 end
