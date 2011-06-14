@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110614171430) do
+ActiveRecord::Schema.define(:version => 20110614184730) do
 
   create_table "badges", :force => true do |t|
     t.string   "name"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(:version => 20110614171430) do
     t.datetime "updated_at"
   end
 
-  create_table "badges_users", :id => false, :force => true do |t|
+  create_table "badges_sashes", :id => false, :force => true do |t|
     t.integer "badge_id"
-    t.integer "user_id"
+    t.integer "sash_id"
     t.boolean "notified_user", :default => false
   end
 
@@ -47,10 +47,16 @@ ActiveRecord::Schema.define(:version => 20110614171430) do
     t.datetime "updated_at"
   end
 
+  create_table "sashes", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "sash_id"
   end
 
 end

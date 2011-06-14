@@ -39,6 +39,7 @@ require 'merit/core_extensions'
 require 'merit/rule'
 require 'merit/rules'
 require 'merit/controller_additions'
+require 'merit/model_additions'
 
 module Merit
   # Check rules on each request

@@ -13,24 +13,29 @@ class MeritAction < ActiveRecord::Base
   # Grant badge if rule applies. If it doesn't, and the badge is temporary,
   # then remove it.
   def grant_or_delete_badge(rule)
-    receiver = user_to_badge(rule)
+    target_sash = sash_to_badge(rule)
     if rule.applies? target_object
-      rule.badge.grant_to(receiver)
+      rule.badge.grant_to target_sash
     elsif rule.temporary?
-      receiver.badges -= [rule.badge]
-      receiver.save
+      target_sash.badges -= [rule.badge]
+      target_sash.save
     end
   end
 
   # Subject to badge: source_user or target.user?
-  def user_to_badge(rule)
-    if rule.to == :action_user
-      User.find(user_id)
-    elsif rule.to == :itself
-      target_object
-    else
-      target_object.send(rule.to)
-    end
+  def sash_to_badge(rule)
+    target = if rule.to == :action_user
+               User.find(user_id)
+             elsif rule.to == :itself
+               target_object
+             else
+               target_object.send(rule.to)
+             end
+     if target.sash.nil?
+       target.sash = Sash.new
+       target.save
+     end
+    target.sash
   end
 
   # Action's target object

@@ -47,7 +47,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
     fill_in 'User', :with => user.id
     click_button('Create Comment')
 
-    assert_equal user.badges, [Badge.where(:name => 'commenter').where(:level => 10).first]
+    user = User.where(:name => 'test-user').first
+    assert_equal [Badge.where(:name => 'commenter').where(:level => 10).first], user.badges
 
     # Vote (to 5) a user's comment, assert relevant-commenter badge granted
     relevant_comment = user.comments.where(:votes => 8).first

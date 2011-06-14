@@ -61,24 +61,9 @@ To run the test application inside this gem follow:
 * Can we avoid "grant_badges" call on controllers? Easy to forget, could be a design "smell".
 * Make fixtures for integration testing (now creating objects on test file!).
 
-=== Possible reorganization:
-Simplify installers and application code, rely more on the gem:
-* Sash model 1<->1 'meritable' app models. (If there's no sash for a receiver, create it.)
-* sashes(id, model_name, model_id)
-* Sash m<badges_sashes>n Badges
-* Rules could be defined on 'meritable' models.
-
-Advantages:
-* No need of separate many to many relationships for different models, fewer
-  migrations and join models.
-* Code on the relation can be upgraded without upgrading application code.
-
-Disadvanteges:
-* Check badges is indirected: user.sash.badges. Method extended with
-  meritable fixes it: def badges; sash.badges; end
-* The other way around: def users; badge.sashes.collect(&:user); end
 
 === Features
+* Rules could be defined on 'meritable' models.
 * Stars are given not because of a concrete action (first parameter not needed)
     grant_on '?', :badge => 'stars', :value => 1 do |user|
       user.badges.include?(Badge.where(:name => 'autobiographer').first) &&

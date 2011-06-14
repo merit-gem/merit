@@ -19,7 +19,8 @@ module Merit
       def copy_migrations_and_model
         migration_template 'create_merit_actions.rb', 'db/migrate/create_merit_actions.rb'
         migration_template 'create_badges.rb', 'db/migrate/create_badges.rb'
-        template 'badge.rb', 'app/models/badge.rb'
+        migration_template 'create_sashes.rb', 'db/migrate/create_sashes.rb'
+        migration_template 'create_badges_sashes.rb', 'db/migrate/create_badges_sashes.rb'
         template 'merit_rules.rb', 'app/models/merit_rules.rb'
         template 'merit.rb', 'config/initializers/merit.rb'
       end
