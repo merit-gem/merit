@@ -1,4 +1,4 @@
-module Talent
+module Merit
   class Rule
     attr_accessor :badge_name, :level, :to, :temporary, :block
 

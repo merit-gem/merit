@@ -1,4 +1,4 @@
-module Talent
+module Merit
   module Rules
     # Define rule for granting badges
     def grant_on(action, *args, &block)
@@ -17,8 +17,8 @@ module Talent
 
     # Check non processed actions and grant badges if applies
     def check_new_actions
-      TalentAction.where(:processed => false).each do |talent_action|
-        talent_action.check_rules(defined_rules)
+      MeritAction.where(:processed => false).each do |merit_action|
+        merit_action.check_rules(defined_rules)
       end
     end
 

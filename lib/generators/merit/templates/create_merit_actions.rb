@@ -1,6 +1,6 @@
-class CreateTalentActions < ActiveRecord::Migration
+class CreateMeritActions < ActiveRecord::Migration
   def self.up
-    create_table :talent_actions do |t|
+    create_table :merit_actions do |t|
       t.integer :user_id # source
       t.string  :action_method
       t.integer :action_value
@@ -12,6 +12,6 @@ class CreateTalentActions < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :talent_actions
+    drop_table :merit_actions
   end
 end

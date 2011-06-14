@@ -1,7 +1,7 @@
-module Talent
+module Merit
   # This module is automatically included into all controllers.
   module ControllerMethods
-    # Sets up an after_filter to update talent_actions table like:
+    # Sets up an after_filter to update merit_actions table like:
     #
     #   class UsersController < ApplicationController
     #     grant_badges :only => %w(create follow)
@@ -16,7 +16,7 @@ module Talent
 
         # TODO: value relies on params[:value] on the controller, should be configurable
         value = controller.params[:value]
-        TalentAction.create(
+        MeritAction.create(
           :user_id       => current_user.try(:id),
           :action_method => action_name,
           :action_value  => value,
@@ -25,18 +25,18 @@ module Talent
         )
 
         # Check rules in after_filter?
-        # FIXME: why ::TalentRules.new instead of current_rules?
-        ::TalentRules.new.check_new_actions if Talent.checks_on_each_request
+        # FIXME: why ::MeritRules.new instead of current_rules?
+        ::MeritRules.new.check_new_actions if Merit.checks_on_each_request
       end
     end
 
     # Initialize and cache rules
     def current_rules
-      @current_rules ||= ::TalentRules.new
+      @current_rules ||= ::MeritRules.new
     end
   end
 end
 
 if defined? ActionController
-  ActionController::Base.extend Talent::ControllerMethods
+  ActionController::Base.extend Merit::ControllerMethods
 end

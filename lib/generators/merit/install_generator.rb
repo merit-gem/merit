@@ -1,6 +1,6 @@
 require 'rails/generators/migration'
 
-module Talent
+module Merit
   module Generators
     class InstallGenerator < ::Rails::Generators::Base
       include Rails::Generators::Migration
@@ -17,11 +17,11 @@ module Talent
       end
 
       def copy_migrations_and_model
-        migration_template 'create_talent_actions.rb', 'db/migrate/create_talent_actions.rb'
+        migration_template 'create_merit_actions.rb', 'db/migrate/create_merit_actions.rb'
         migration_template 'create_badges.rb', 'db/migrate/create_badges.rb'
         template 'badge.rb', 'app/models/badge.rb'
-        template 'talent_rules.rb', 'app/models/talent_rules.rb'
-        template 'talent.rb', 'config/initializers/talent.rb'
+        template 'merit_rules.rb', 'app/models/merit_rules.rb'
+        template 'merit.rb', 'config/initializers/merit.rb'
       end
     end
   end

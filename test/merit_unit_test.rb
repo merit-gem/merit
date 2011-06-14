@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TalentUnitTest < ActiveSupport::TestCase
+class MeritUnitTest < ActiveSupport::TestCase
   test "Hash#conditions_apply? tests if object responds what's expected" do
     hash = { :first => { :odd? => true }, :count => 2 }
     assert hash.conditions_apply? [1,3]
@@ -9,7 +9,7 @@ class TalentUnitTest < ActiveSupport::TestCase
   end
 
   test "rule applies?" do
-    rule = Talent::Rule.new
+    rule = Merit::Rule.new
     assert rule.applies?, 'empty conditions should make rule apply'
 
     str = "string"

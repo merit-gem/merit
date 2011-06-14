@@ -1,7 +1,7 @@
-require 'talent'
+require 'merit'
 require 'rails'
 
-module Talent
+module Merit
   class Engine < Rails::Engine
   end
 end

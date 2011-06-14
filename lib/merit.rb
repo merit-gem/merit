@@ -4,7 +4,7 @@
 #   end
 #
 # La configuración para especificar cuándo aplicar cada badge va en
-# app/models/talent_rules.rb, con la siguiente sintaxis:
+# app/models/merit_rules.rb, con la siguiente sintaxis:
 #
 #   grant_on 'users#create', :badge => 'just', :level => 'registered' do
 #     # Nothing, or code block which evaluates to true
@@ -15,7 +15,7 @@
 #
 #   Badge.find(3).grant_to(current_user)
 #
-# Talent crea una tabla Badges similar a:
+# Merit crea una tabla Badges similar a:
 #   ___________________________________________________
 #   id | name    | level       | image
 #   1  | creador | inspirado   | creador-inspirado.png
@@ -33,14 +33,14 @@
 #   ______________________________________________________________
 #
 # Luego chequea las condiciones sincronizadamente, o mediante un proceso en
-# background, por ejemplo cada 5 minutos (Talent::Rules#check_new_actions).
+# background, por ejemplo cada 5 minutos (Merit::Rules#check_new_actions).
 
-require 'talent/core_extensions'
-require 'talent/rule'
-require 'talent/rules'
-require 'talent/controller_additions'
+require 'merit/core_extensions'
+require 'merit/rule'
+require 'merit/rules'
+require 'merit/controller_additions'
 
-module Talent
+module Merit
   # Check rules on each request
   mattr_accessor :checks_on_each_request
   @@checks_on_each_request = true

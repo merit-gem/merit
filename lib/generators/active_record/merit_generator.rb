@@ -2,7 +2,7 @@ require 'rails/generators/active_record'
 
 module ActiveRecord
   module Generators
-    class TalentGenerator < ActiveRecord::Generators::Base
+    class MeritGenerator < ActiveRecord::Generators::Base
       argument :attributes, :type => :array, :default => [], :banner => "field:type field:type"
 
       source_root File.expand_path("../templates", __FILE__)
@@ -20,11 +20,11 @@ module ActiveRecord
         invoke "active_record:model", [name], :migration => false unless model_exists? && behavior == :invoke
       end
 
-      def copy_talent_migration
-        migration_template "join_table_migration.rb", "db/migrate/talent_create_badges_#{table_name}"
+      def copy_merit_migration
+        migration_template "join_table_migration.rb", "db/migrate/merit_create_badges_#{table_name}"
       end
 
-      def inject_talent_content
+      def inject_merit_content
         inject_into_class(model_path, class_name, <<CONTENT) if model_exists?
   has_many :badges_#{table_name}
   has_many :badges, :through => :badges_#{table_name}

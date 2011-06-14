@@ -1,5 +1,5 @@
-class TalentAction < ActiveRecord::Base
-  # Check rules defined for a talent_action
+class MeritAction < ActiveRecord::Base
+  # Check rules defined for a merit_action
   def check_rules(defined_rules)
     action_name = "#{target_model}\##{action_method}"
     unless defined_rules[action_name].nil?
@@ -39,7 +39,7 @@ class TalentAction < ActiveRecord::Base
     klass.find(target_id) unless target_id.nil?
   end
 
-  # Mark talent_action as processed
+  # Mark merit_action as processed
   def processed!
     processed = true
     save

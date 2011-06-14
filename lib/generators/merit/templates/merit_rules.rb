@@ -6,7 +6,7 @@
 #
 # +grant_on+ can have a +:to+ method name, which called over the target object
 # should retrieve the object to badge (could be +:user+, +:self+, +:follower+,
-# etc). If it's not defined talent will apply the badge to the user who
+# etc). If it's not defined merit will apply the badge to the user who
 # triggered the action (:action_user by default). If it's :itself, it badges
 # the created object (new user for instance).
 #
@@ -14,8 +14,8 @@
 # badge is granted, then it's removed. It's false by default (badges are kept
 # forever).
 
-class TalentRules
-  include Talent::Rules
+class MeritRules
+  include Merit::Rules
 
   def initialize
     # If it creates user, grant badge

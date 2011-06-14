@@ -1,19 +1,19 @@
-= Talent
+= Merit
 
 http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
 
 == Installation
 
-1. Add 'talent' to your Gemfile.
-2. Run 'rails g talent:install'
-3. Run 'rails g talent MODEL_NAME'
+1. Add 'merit' to your Gemfile.
+2. Run 'rails g merit:install'
+3. Run 'rails g merit MODEL_NAME'
 4. Add 'grant_badges' to controllers where you want this behavior triggered.
-5. Configure rules to grant badges in 'app/models/talent_rules.rb', or grant
+5. Configure rules to grant badges in 'app/models/merit_rules.rb', or grant
    them from controller actions:
      Badge.find(3).grant_to(current_user)
 6. Run 'rake db:migrate'
 
-== Defining talent rules:
+== Defining merit rules:
 
 +grant_on+ accepts:
 * +controller+#+action+ string (similar to Rails routes)
@@ -43,18 +43,17 @@ http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
 
 To run the test application inside this gem follow:
 1. cd test/dummy
-2. rails g talent:install
-3. rails g talent user
+2. rails g merit:install
+3. rails g merit user
 4. rake db:migrate ; rake db:seed
 5. rails s
 
 
 == To-do list
 
-* talent->merit conceptually is more coherent
 * grep -r 'FIXME\|TODO' .
 * Should allow more than one subject to badge (for example, users and lists are
-  "talentable").
+  "meritable").
 * :value parameter (for star voting for example) should be configurable (depends
   on params[:value] on the controller).
 * Is it ok a RecordNotFound exception for non existent badge? Could
@@ -64,10 +63,10 @@ To run the test application inside this gem follow:
 
 === Possible reorganization:
 Simplify installers and application code, rely more on the gem:
-* Sash model 1<->1 'talentable' app models. (If there's no sash for a receiver, create it.)
+* Sash model 1<->1 'meritable' app models. (If there's no sash for a receiver, create it.)
 * sashes(id, model_name, model_id)
 * Sash m<badges_sashes>n Badges
-* Rules could be defined on 'talentable' models.
+* Rules could be defined on 'meritable' models.
 
 Advantages:
 * No need of separate many to many relationships for different models, fewer
@@ -76,7 +75,7 @@ Advantages:
 
 Disadvanteges:
 * Check badges is indirected: user.sash.badges. Method extended with
-  talentable fixes it: def badges; sash.badges; end
+  meritable fixes it: def badges; sash.badges; end
 * The other way around: def users; badge.sashes.collect(&:user); end
 
 === Features
