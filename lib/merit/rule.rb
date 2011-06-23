@@ -1,16 +1,19 @@
 module Merit
+  # Rules has a badge name and level, a target to badge, a conditions block
+  # and a temporary option.
   class Rule
     attr_accessor :badge_name, :level, :to, :temporary, :block
 
-    # Does this rule apply?
+    # Does this rule's condition block apply?
     def applies?(target_obj = nil)
       # no block given: always true
       no_block_or_true = true
       unless block.nil?
-        if block.parameters.count == 1
+        case block.parameters.count
+        when 1
           # block expects parameter: pass target_object
           no_block_or_true = block.call(target_obj)
-        elsif block.parameters.count == 0
+        when 0
           # block evaluates to true, or is a hash of methods and expected value
           called = block.call
           if called.kind_of?(Hash)
@@ -24,6 +27,31 @@ module Merit
     # Is this rule's badge temporary?
     def temporary?
       self.temporary
+    end
+
+    # Grant badge if rule applies. If it doesn't, and the badge is temporary,
+    # then remove it.
+    def grant_or_delete_badge(action)
+      sash = sash_to_badge(action)
+      if applies? action.target_object
+        badge.grant_to sash
+      elsif temporary?
+        badge.delete_from sash
+      end
+    end
+
+    # Subject to badge: source_user or target.user?
+    def sash_to_badge(action)
+      target = case to
+               when :action_user
+                 User.find(action.user_id)
+               when :itself
+                 action.target_object
+               else
+                 action.target_object.send(to)
+               end
+      target.create_sash_if_none
+      target.sash
     end
 
     # Get rule's related Badge.

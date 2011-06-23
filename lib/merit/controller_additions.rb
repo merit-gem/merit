@@ -9,18 +9,18 @@ module Merit
     #
     def grant_badges(*args)
       options = args.extract_options!
-      self.after_filter(options) do |controller|
+      after_filter(options) do |controller|
         # TODO: target_object should be configurable (now it's singularized controller name)
-        target_id = controller.params[:id]
-        target_id = controller.instance_variable_get(:"@#{controller.controller_name.singularize}").try(:id) if target_id.nil?
+        target_id = params[:id]
+        target_id = instance_variable_get(:"@#{controller_name.singularize}").try(:id) if target_id.nil?
 
         # TODO: value relies on params[:value] on the controller, should be configurable
-        value = controller.params[:value]
+        value = params[:value]
         MeritAction.create(
           :user_id       => current_user.try(:id),
           :action_method => action_name,
           :action_value  => value,
-          :target_model  => controller.controller_name,
+          :target_model  => controller_name,
           :target_id     => target_id
         )
 

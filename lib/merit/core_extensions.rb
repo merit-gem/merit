@@ -1,3 +1,5 @@
+# Hash core extensions:
+#   * conditions_apply?(obj)
 class Hash
   # Methods over object (applied recursively) respond what's expected?
   # Example (evaluates to true):
@@ -16,9 +18,11 @@ class Hash
   end
 end
 
+# Array core extensions:
+#   * all_lower_than(value)
 class Array
   # All array values are lower than parameter
   def all_lower_than(value)
-    self.select{|e| e >= value }.empty?
+    self.select{|elem| elem >= value }.empty?
   end
 end
