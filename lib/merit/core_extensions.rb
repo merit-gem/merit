@@ -26,11 +26,3 @@ class Array
     self.select{|elem| elem >= value }.empty?
   end
 end
-
-# Integer core extensions:
-#   * points (returns self, syntactic sugar for Points API)
-class Integer
-  def points
-    self
-  end
-end

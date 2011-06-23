@@ -6,11 +6,11 @@ class MeritPointRules
   include Merit::PointRules
 
   def initialize
-    give 1.points, :on => [
-      'users#index'
+    score 5, :on => [
+      'comments#vote'
     ]
 
-    give 10.points, :on => [
+    score 20, :on => [
       'comments#create',
       'users#update'
     ]

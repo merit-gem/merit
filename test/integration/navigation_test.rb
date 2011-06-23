@@ -22,7 +22,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
         :level       => 20
       }, {
         :name        => 'relevant-commenter',
-        :description => 'You\'ve received 5 votes on a comment.',
+        :description => 'You\'ve received 5 votes on a comment',
         :level       => 5
       }, {
         :name        => 'autobiographer',
@@ -48,7 +48,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
         :votes   => 8
       )
     end
-    assert user.badges.empty?, 'Should not have badges.'
+    assert user.badges.empty?, 'Should not have badges'
 
     # Make tenth comment, assert 10-commenter badge granted
     visit '/comments/new'
@@ -91,6 +91,30 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'abc').first
     assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
+  end
+
+  test 'user workflow should add up points at some times' do
+    user = User.first
+    assert_equal 0, user.points, 'User should start with 0 points'
+
+    visit "/users/#{user.id}/edit"
+    fill_in 'Name', :with => 'a'
+    click_button('Update User')
+
+    user = User.where(:name => 'a').first
+    assert_equal 20, user.points, 'Updating info should grant 20 points'
+
+    visit '/comments/new'
+    fill_in 'Name', :with => 'Hi!'
+    fill_in 'User', :with => user.id
+    click_button('Create Comment')
+
+    user = User.where(:name => 'a').first
+    assert_equal 40, user.points, 'Commenting should grant 20 points'
+
+    visit "/comments/1/vote/4"
+    user = User.first
+    assert_equal 45, user.points, 'Voting comments should grant 5 points'
   end
 
   test 'user workflow should grant stars at some times' do

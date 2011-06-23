@@ -4,7 +4,7 @@ module Merit
   # actions-triggered.
   module PointRules
     # Define rules on certaing actions for giving points
-    def give(points, *args, &block)
+    def score(points, *args, &block)
       options = args.extract_options!
       options[:on].each do |action|
         actions_to_point[action] = points
