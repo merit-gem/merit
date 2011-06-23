@@ -22,6 +22,7 @@ module Merit
         migration_template 'create_sashes.rb', 'db/migrate/create_sashes.rb'
         migration_template 'create_badges_sashes.rb', 'db/migrate/create_badges_sashes.rb'
         template 'merit_badge_rules.rb', 'app/models/merit_badge_rules.rb'
+        template 'merit_point_rules.rb', 'app/models/merit_point_rules.rb'
         template 'merit_rank_rules.rb', 'app/models/merit_rank_rules.rb'
         template 'merit.rb', 'config/initializers/merit.rb'
       end

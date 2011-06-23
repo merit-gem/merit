@@ -13,8 +13,9 @@ http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
 4. Add 'grant_badges' to controllers where you want this behavior triggered.
 5. Run 'rake db:migrate'
 6. Configure reputation rules for your application:
-   * Edit +app/models/merit_badge_rules.rb+ for granting badges
-   * Edit +app/models/merit_rank_rules.rb+ for granting rank
+   * Configure +app/models/merit_badge_rules.rb+ for badges rules
+   * Configure +app/models/merit_point_rules.rb+ for points rules
+   * Configure +app/models/merit_rank_rules.rb+ for rank rules
    * You may also add badges/rank "by hand" from controller actions:
       Badge.find(3).grant_to(current_user)
 
@@ -46,6 +47,24 @@ holds. Badges may have levels, and may be temporary.
     grant_on 'users#update', :badge => 'autobiographer', :temporary => true do |user|
       user.name.present? && user.address.present?
     end
+
+
+= Defining point rules
+
+Points are a simple integer value which are given to "meritable" resources
+according to rules in +app/models/merit_point_rules.rb+. They are given on
+actions-triggered.
+
+== Examples
+
+    give 10.points, :on => [
+      'users#update'
+    ]
+
+    give 20.points, :on => [
+      'comments#create',
+      'photos#create'
+    ]
 
 
 = Defining rank rules

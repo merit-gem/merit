@@ -16,7 +16,7 @@ module ActiveRecord
       end
 
       def copy_merit_migration
-        migration_template "add_sash_id_to_model.rb", "db/migrate/add_sash_id_to_#{table_name}"
+        migration_template "add_fields_to_model.rb", "db/migrate/add_fields_to_#{table_name}"
       end
 
       def inject_merit_content

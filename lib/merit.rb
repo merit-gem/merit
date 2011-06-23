@@ -1,6 +1,7 @@
 require 'merit/core_extensions'
 require 'merit/rule'
 require 'merit/rules_badge'
+require 'merit/rules_points'
 require 'merit/rules_rank'
 require 'merit/controller_additions'
 require 'merit/model_additions'
