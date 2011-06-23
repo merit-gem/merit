@@ -1,6 +1,6 @@
 class MeritAction < ActiveRecord::Base
   # Check rules defined for a merit_action
-  def check_rules(defined_rules)
+  def check_badge_rules(defined_rules)
     action_name = "#{target_model}\##{action_method}"
     unless defined_rules[action_name].nil?
       defined_rules[action_name].each do |rule|
@@ -31,10 +31,7 @@ class MeritAction < ActiveRecord::Base
              else
                target_object.send(rule.to)
              end
-     if target.sash.nil?
-       target.sash = Sash.new
-       target.save
-     end
+    target.create_sash_if_none
     target.sash
   end
 

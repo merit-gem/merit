@@ -8,7 +8,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert not(hash.conditions_apply? [2,3])
   end
 
-  test "rule applies?" do
+  test "Rule applies?" do
     rule = Merit::Rule.new
     assert rule.applies?, 'empty conditions should make rule apply'
 

@@ -15,6 +15,14 @@ module Merit
     def badges
       sash.nil? ? [] : sash.badges
     end
+
+    # Create sash if doesn't have
+    def create_sash_if_none
+      if sash.nil?
+        sash = Sash.new
+        save
+      end
+    end
   end
 end
 

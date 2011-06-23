@@ -14,27 +14,28 @@
 # badge is granted, then it's removed. It's false by default (badges are kept
 # forever).
 
-class MeritRules
-  include Merit::Rules
+class MeritBadgeRules
+  include Merit::BadgeRules
 
   def initialize
     # If it creates user, grant badge
     # Should be "current_user" after registration for badge to be granted.
-    # grant_on 'users#create', :badge => 'just-registered', :to => :itself
+    grant_on 'users#create', :badge => 'just-registered', :to => :itself
 
     # If it has 10 comments, grant commenter-10 badge
-    # grant_on 'comments#create', :badge => 'commenter', :level => 10 do
-    #   { :user => { :comments => { :count => 10 } } }
-    # end
+    grant_on 'comments#create', :badge => 'commenter', :level => 10 do
+      { :user => { :comments => { :count => 10 } } }
+    end
 
-    # If it has 5 votes, grant relevant-commenter badge
-    # grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do
-    #   { :votes => 5 }
-    # end
+    # If it has at least 10 votes, grant relevant-commenter badge
+    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do |comment|
+      comment.votes >= 10
+    end
 
     # Changes his name by one wider than 4 chars (arbitrary ruby code case)
-    # grant_on 'users#update', :badge => 'autobiographer', :temporary => true do |user|
-    #   user.name.length > 4
-    # end
+    # This badge is temporary (user may lose it)
+    grant_on 'users#update', :badge => 'autobiographer', :temporary => true do |user|
+      user.name.length > 4
+    end
   end
 end

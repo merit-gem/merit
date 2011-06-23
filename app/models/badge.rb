@@ -8,4 +8,13 @@ class Badge < ActiveRecord::Base
       sash.save
     end
   end
+
+  def grant_rank_to(sash)
+    # Grant to sash if had lower rank. Do nothing if has same or greater rank.
+    if sash.has_lower_rank_than(self)
+      sash.badges -= Badge.where(:name => name) # Clean up old ranks
+      sash.badges << self
+      sash.save
+    end
+  end
 end

@@ -15,3 +15,10 @@ class Hash
     applies
   end
 end
+
+class Array
+  # All array values are lower than parameter
+  def all_lower_than(value)
+    self.select{|e| e >= value }.empty?
+  end
+end

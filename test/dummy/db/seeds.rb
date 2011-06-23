@@ -1,3 +1,12 @@
+# Rank badges (5 stars)
+(1..5).each do |i|
+  Badge.create(
+    :name  => 'stars',
+    :level => i
+  )
+end
+
+# Normal badges
 Badge.create([
   {
     :name        => 'commenter',

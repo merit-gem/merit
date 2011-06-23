@@ -1,19 +1,28 @@
-= Merit
+= Merit Rails Gem
+
+Define reputation for users and data on your application.
 
 http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
 
-== Installation
+
+= Installation
 
 1. Add 'merit' to your Gemfile.
 2. Run 'rails g merit:install'
 3. Run 'rails g merit MODEL_NAME'
 4. Add 'grant_badges' to controllers where you want this behavior triggered.
-5. Configure rules to grant badges in 'app/models/merit_rules.rb', or grant
-   them from controller actions:
-     Badge.find(3).grant_to(current_user)
-6. Run 'rake db:migrate'
+5. Run 'rake db:migrate'
+6. Configure reputation rules for your application:
+   * Edit +app/models/merit_badge_rules.rb+ for granting badges
+   * Edit +app/models/merit_rank_rules.rb+ for granting rank
+   * You may also add badges/rank "by hand" from controller actions:
+      Badge.find(3).grant_to(current_user)
 
-== Defining merit rules:
+
+= Defining badge rules
+
+You may give badges to any resource on your application if some condition
+holds. Badges may have levels, and may be temporary.
 
 +grant_on+ accepts:
 * +controller+#+action+ string (similar to Rails routes)
@@ -28,7 +37,7 @@ http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
   * a block with a hash composed of methods to run on the target object with
     expected values
 
-=== Examples:
+== Examples
 
     grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do
       { :votes => 5 }
@@ -39,7 +48,34 @@ http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
     end
 
 
-== Test application
+= Defining rank rules
+
+Rankings are very similar to badges. They give "badges" which have a hierarchy
+defined by +level+'s lexicografical order (greater is better). If a rank is
+granted, lower level ranks are taken off. 5 stars is a common ranking use
+case.
+
+They are not given at specified actions like badges, you should define a cron
+job to test if ranks are to be granted.
+
++set_rank+ accepts:
+* +badge_name+ name of this ranking
+* :+level+ ranking level (greater is better)
+* :+to+ model or scope to check if new rankings apply
+
+
+== Examples
+
+    set_rank :stars, :level => 2, :to => Commiter.active do |commiter|
+      commiter.branches > 1 && commiter.followers >= 10
+    end
+
+    set_rank :stars, :level => 3, :to => Commiter.active do |commiter|
+      commiter.branches > 2 && commiter.followers >= 20
+    end
+
+
+= Test application
 
 To run the test application inside this gem follow:
 1. cd test/dummy
@@ -49,7 +85,7 @@ To run the test application inside this gem follow:
 5. rails s
 
 
-== To-do list
+= To-do list
 
 * grep -r 'FIXME\|TODO' .
 * Should allow more than one subject to badge (for example, users and lists are
@@ -60,18 +96,3 @@ To run the test application inside this gem follow:
   grant_to(user) fail (user nil)?
 * Can we avoid "grant_badges" call on controllers? Easy to forget, could be a design "smell".
 * Make fixtures for integration testing (now creating objects on test file!).
-
-
-=== Features
-* Rules could be defined on 'meritable' models.
-* Stars are given not because of a concrete action (first parameter not needed)
-    grant_on '?', :badge => 'stars', :value => 1 do |user|
-      user.badges.include?(Badge.where(:name => 'autobiographer').first) &&
-      user.photos.present?
-    end
-* Define whenever or cron syntax to test badges granting on background, instead
-  of on each action.
-* grant_on 'users#show', :badge => 'enthusiast', :if => { :enthusiast? => true }
-  (last parameter is an :if hash, not a block which evaluates to Hash)
-* Are controller#action strings always necessary? Feature: could be an API
-  improvement.
