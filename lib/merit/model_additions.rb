@@ -13,14 +13,15 @@ module Merit
   module InstanceMethods
     # Return it's sash badges
     def badges
-      sash.nil? ? [] : sash.badges
+      create_sash_if_none
+      sash.badges
     end
 
     # Create sash if doesn't have
     def create_sash_if_none
       if sash.nil?
-        sash = Sash.new
-        save
+        self.sash = Sash.new
+        self.save!
       end
     end
   end

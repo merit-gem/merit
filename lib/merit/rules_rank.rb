@@ -42,7 +42,6 @@ module Merit
     # Badge checks if it's rank is greater than sash's current one.
     def grant_rank(rule, target_object)
       if rule.applies? target_object
-        target_object.create_sash_if_none
         rule.badge.grant_rank_to target_object.sash
       end
     end

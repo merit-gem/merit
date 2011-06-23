@@ -17,8 +17,7 @@ class MeritAction < ActiveRecord::Base
     if rule.applies? target_object
       rule.badge.grant_to target_sash
     elsif rule.temporary?
-      target_sash.badges -= [rule.badge]
-      target_sash.save
+      rule.badge.delete_from target_sash
     end
   end
 

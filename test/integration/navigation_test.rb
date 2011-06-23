@@ -1,13 +1,16 @@
 require 'test_helper'
 
 class NavigationTest < ActiveSupport::IntegrationCase
-  test "truth" do
-    assert_kind_of Dummy::Application, Rails.application
-  end
+  setup do
+    # Rank badges (5 stars)
+    (1..5).each do |i|
+      Badge.create(
+        :name  => 'stars',
+        :level => i
+      )
+    end
 
-  test 'user workflow should grant some badges at some times' do
-    # Create badges and user
-    # FIXME: These should be fixtures.
+    # Normal badges
     Badge.create([
       {
         :name        => 'commenter',
@@ -27,7 +30,13 @@ class NavigationTest < ActiveSupport::IntegrationCase
         :name => 'just-registered'
       }
     ])
-    user = User.create!(:name => 'test-user')
+
+    # Test user
+    User.create(:name => 'test-user')
+  end
+
+  test 'user workflow should grant some badges at some times' do
+    user = User.first
     assert user.badges.empty?
 
     # Commented 9 times, no badges yet
@@ -82,5 +91,37 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'abc').first
     assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
+  end
+
+  test 'user workflow should grant stars at some times' do
+    user = User.first
+    assert user.badges.empty?
+
+    # Edit user's name by 2 chars name
+    visit "/users/#{user.id}/edit"
+    fill_in 'Name', :with => 'ab'
+    click_button('Update User')
+
+    user = User.where(:name => 'ab').first
+    stars2 = Badge.where(:name => :stars, :level => 2).first
+    assert_equal user.badges, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
+
+    # Edit user's name by short name. Doesn't go back to previous rank.
+    visit "/users/#{user.id}/edit"
+    fill_in 'Name', :with => 'a'
+    click_button('Update User')
+
+    user = User.where(:name => 'a').first
+    assert_equal user.badges, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
+
+    # Edit user's name by 5 chars name
+    visit "/users/#{user.id}/edit"
+    fill_in 'Name', :with => 'abcde'
+    click_button('Update User')
+
+    user = User.where(:name => 'abcde').first
+    stars5 = Badge.where(:name => :stars, :level => 5).first
+    assert_equal user.badges.where(:name => :stars).count, 1, "Should not contain more than 2 stars ranking."
+    assert user.badges.include?(stars5), "User badges: #{user.badges.collect(&:name).inspect} should contain 5-stars badge."
   end
 end
