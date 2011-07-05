@@ -14,8 +14,7 @@ class MeritAction < ActiveRecord::Base
     actions_to_point = MeritPointRules.new.actions_to_point
     unless actions_to_point[action_name].nil?
       user = User.find(user_id)
-      user.points += actions_to_point[action_name]
-      user.save!
+      user.update_attribute(:points, user.points + actions_to_point[action_name])
     end
 
     processed!
@@ -29,7 +28,6 @@ class MeritAction < ActiveRecord::Base
 
   # Mark merit_action as processed
   def processed!
-    self.processed = true
-    self.save
+    self.update_attribute(:processed, true)
   end
 end
