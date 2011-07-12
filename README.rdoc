@@ -7,23 +7,19 @@ http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
 
 = Installation
 
-1. Add 'merit' to your Gemfile.
-2. Run 'rails g merit:install'
-3. Run 'rails g merit MODEL_NAME'
-4. Add 'grant_badges' to controllers where you want this behavior triggered.
-5. Run 'rake db:migrate'
-6. Configure reputation rules for your application:
-   * Configure +app/models/merit_badge_rules.rb+ for badges rules
-   * Configure +app/models/merit_point_rules.rb+ for points rules
-   * Configure +app/models/merit_rank_rules.rb+ for rank rules
-   * You may also add badges/rank "by hand" from controller actions:
-      Badge.find(3).grant_to(current_user)
+1. Add 'merit' to your Gemfile
+2. Run +rails+ +g+ +merit+:+install+
+3. Run +rails+ +g+ +merit+ +MODEL_NAME+
+4. Run +rake+ +db+:+migrate+
+5. Configure reputation rules for your application
 
 
 = Defining badge rules
 
 You may give badges to any resource on your application if some condition
 holds. Badges may have levels, and may be temporary.
+
+Define rules on +app/models/merit_badge_rules.rb+:
 
 +grant_on+ accepts:
 * +controller+#+action+ string (similar to Rails routes)
@@ -51,9 +47,10 @@ holds. Badges may have levels, and may be temporary.
 
 = Defining point rules
 
-Points are a simple integer value which are given to "meritable" resources
-according to rules in +app/models/merit_point_rules.rb+. They are given on
-actions-triggered.
+Points are a simple integer value which are given to "meritable" resources.
+They are given on actions-triggered.
+
+Define rules on +app/models/merit_point_rules.rb+:
 
 == Examples
 
@@ -77,6 +74,8 @@ case.
 They are not given at specified actions like badges, you should define a cron
 job to test if ranks are to be granted.
 
+Define rules on +app/models/merit_rank_rules.rb+:
+
 +set_rank+ accepts:
 * +badge_name+ name of this ranking
 * :+level+ ranking level (greater is better)
@@ -94,6 +93,12 @@ job to test if ranks are to be granted.
     end
 
 
+= Grant manually
+
+You may also add badges/rank "by hand" from controller actions:
+   Badge.find(3).grant_to(current_user)
+
+
 = Test application
 
 To run the test application inside this gem follow:
@@ -107,11 +112,6 @@ To run the test application inside this gem follow:
 = To-do list
 
 * grep -r 'FIXME\|TODO' .
-* Should allow more than one subject to badge (for example, users and lists are
-  "meritable").
 * :value parameter (for star voting for example) should be configurable (depends
   on params[:value] on the controller).
-* Is it ok a RecordNotFound exception for non existent badge? Could
-  grant_to(user) fail (user nil)?
-* Can we avoid "grant_badges" call on controllers? Easy to forget, could be a design "smell".
 * Make fixtures for integration testing (now creating objects on test file!).

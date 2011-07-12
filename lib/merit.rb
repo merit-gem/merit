@@ -3,7 +3,7 @@ require 'merit/rule'
 require 'merit/rules_badge'
 require 'merit/rules_points'
 require 'merit/rules_rank'
-require 'merit/controller_additions'
+require 'merit/controller_extensions'
 require 'merit/model_additions'
 
 module Merit
@@ -17,5 +17,10 @@ module Merit
   end
 
   class Engine < Rails::Engine
+    initializer 'merit.controller' do |app|
+      ActiveSupport.on_load(:action_controller) do
+         include Merit::ControllerExtensions
+      end
+    end
   end
 end

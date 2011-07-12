@@ -1,9 +1,4 @@
 module Merit
-  # Se define qué acciones "trackear" en los controladores, por ejemplo:
-  #   class UsersController < ApplicationController
-  #     grant_badges :only => %w(create follow)
-  #   end
-  #
   # La configuración para especificar cuándo aplicar cada badge va en
   # app/models/merit_rules.rb, con la siguiente sintaxis:
   #

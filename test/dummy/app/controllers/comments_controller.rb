@@ -1,6 +1,4 @@
 class CommentsController < ApplicationController
-  grant_badges :only => %w(create vote)
-
   # GET /comments
   # GET /comments.xml
   def index
