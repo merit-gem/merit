@@ -21,7 +21,7 @@ module Merit
     def create_sash_if_none
       if sash.nil?
         self.sash = Sash.new
-        self.save!
+        self.save(:validate => false)
       end
     end
   end
