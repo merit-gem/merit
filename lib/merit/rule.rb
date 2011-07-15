@@ -25,9 +25,7 @@ module Merit
     end
 
     # Is this rule's badge temporary?
-    def temporary?
-      self.temporary
-    end
+    def temporary?; self.temporary; end
 
     # Grant badge if rule applies. If it doesn't, and the badge is temporary,
     # then remove it.
