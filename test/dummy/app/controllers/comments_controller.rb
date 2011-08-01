@@ -54,7 +54,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to(@comment, :notice => 'Comment was successfully created.') }
         format.xml  { render :xml => @comment, :status => :created, :location => @comment }
       else
-        format.html { render :action => "new" }
+        format.html { render "new" }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
     end
@@ -70,7 +70,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to(@comment, :notice => 'Comment was successfully updated.') }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
+        format.html { render "edit" }
         format.xml  { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
     end

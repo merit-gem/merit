@@ -12,7 +12,8 @@ module Merit
         case block.parameters.count
         when 1
           # block expects parameter: pass target_object
-          no_block_or_true = block.call(target_obj)
+          no_block_or_true = target_obj.nil? ? false : block.call(target_obj)
+          # Should warn "no target_obj found"
         when 0
           # block evaluates to true, or is a hash of methods and expected value
           called = block.call
@@ -30,26 +31,30 @@ module Merit
     # Grant badge if rule applies. If it doesn't, and the badge is temporary,
     # then remove it.
     def grant_or_delete_badge(action)
-      sash = sash_to_badge(action)
-      if applies? action.target_object
-        badge.grant_to sash
-      elsif temporary?
-        badge.delete_from sash
+      if sash = sash_to_badge(action)
+        if applies? action.target_object
+          badge.grant_to sash
+        elsif temporary?
+          badge.delete_from sash
+        end
       end
+      # Should warn "no sash found"
     end
 
     # Subject to badge: source_user or target.user?
     def sash_to_badge(action)
       target = case to
                when :action_user
-                 User.find(action.user_id)
+                 User.find_by_id(action.user_id) # _by_id doens't raise ActiveRecord::RecordNotFound
                when :itself
                  action.target_object
                else
                  action.target_object.send(to)
                end
-      target.create_sash_if_none
-      target.sash
+      if target
+        target.create_sash_if_none
+        target.sash
+      end
     end
 
     # Get rule's related Badge.

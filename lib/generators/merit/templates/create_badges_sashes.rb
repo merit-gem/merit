@@ -4,6 +4,8 @@ class CreateBadgesSashes < ActiveRecord::Migration
       t.integer :badge_id, :sash_id
       t.boolean :notified_user, :default => false
     end
+    add_index :badges_sashes, :badge_id
+    add_index :badges_sashes, :sash_id
   end
 
   def self.down

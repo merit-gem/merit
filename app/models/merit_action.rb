@@ -13,8 +13,10 @@ class MeritAction < ActiveRecord::Base
     # Check Point rules
     actions_to_point = MeritPointRules.new.actions_to_point
     unless actions_to_point[action_name].nil?
-      user = User.find(user_id)
-      user.update_attribute(:points, user.points + actions_to_point[action_name])
+      if user = User.find_by_id(user_id)
+        user.update_attribute(:points, user.points + actions_to_point[action_name])
+      end
+      # Should warn "no user found"
     end
 
     processed!
@@ -23,7 +25,7 @@ class MeritAction < ActiveRecord::Base
   # Action's target object
   def target_object
     klass = target_model.singularize.camelize.constantize
-    klass.find(target_id) unless target_id.nil?
+    klass.find_by_id(target_id)
   end
 
   # Mark merit_action as processed

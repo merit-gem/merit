@@ -2,10 +2,10 @@
 # project in your rails apps through git.
 Gem::Specification.new do |s|
   s.name        = "merit"
-  s.summary     = "Badges Rails engine."
-  s.description = "Badges Rails engine."
+  s.summary     = "General reputation Rails engine."
+  s.description = "General reputation Rails engine."
   s.files       = Dir["{app,lib,config}/**/*"] + ["MIT-LICENSE", "Rakefile", "Gemfile", "README.rdoc"]
-  s.version     = "0.0.1"
+  s.version     = "0.1.0"
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
 end
