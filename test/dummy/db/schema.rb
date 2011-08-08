@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110623201916) do
+ActiveRecord::Schema.define(:version => 20110808144044) do
 
   create_table "badges", :force => true do |t|
     t.string   "name"
@@ -22,10 +22,14 @@ ActiveRecord::Schema.define(:version => 20110623201916) do
   end
 
   create_table "badges_sashes", :id => false, :force => true do |t|
-    t.integer "badge_id"
-    t.integer "sash_id"
-    t.boolean "notified_user", :default => false
+    t.integer  "badge_id"
+    t.integer  "sash_id"
+    t.boolean  "notified_user", :default => false
+    t.datetime "created_at"
   end
+
+  add_index "badges_sashes", ["badge_id"], :name => "index_badges_sashes_on_badge_id"
+  add_index "badges_sashes", ["sash_id"], :name => "index_badges_sashes_on_sash_id"
 
   create_table "comments", :force => true do |t|
     t.string   "name"
