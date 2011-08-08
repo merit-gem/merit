@@ -2,11 +2,6 @@ class Badge < ActiveRecord::Base
   has_many :badges_sashes
   has_many :sashes, :through => :badges_sashes
 
-  # Latest badges granted by Merit
-  def self.latest(limit = 10)
-    Badge.joins(:badges_sashes).order('badges_sashes.created_at DESC').limit(limit)
-  end
-
   # Grant badge to sash
   def grant_to(sash)
     unless sash.badges.include? self
