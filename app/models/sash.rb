@@ -4,7 +4,7 @@ class Sash < ActiveRecord::Base
 
   # Latest badges granted by Merit
   def self.latest_badges(limit = 10)
-    joins(:badges_sashes).order('badges_sashes.created_at DESC').limit(limit)
+    select('DISTINCT sashes.id, sashes.*').joins(:badges_sashes).order('badges_sashes.created_at DESC').limit(limit)
   end
 
   # Decides if sash has lower rank than a given badge
