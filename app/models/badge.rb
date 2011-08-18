@@ -27,4 +27,9 @@ class Badge < ActiveRecord::Base
       sash.save
     end
   end
+
+  def self.latest(limit = nil)
+    scope = order('created_at DESC')
+    limit.present? ? scope.limit(limit) : scope
+  end
 end
