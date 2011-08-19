@@ -12,14 +12,20 @@ module Merit
         case block.parameters.count
         when 1
           # block expects parameter: pass target_object
-          no_block_or_true = target_obj.nil? ? false : block.call(target_obj)
-          # Should warn "no target_obj found"
+          if target_obj.nil?
+            no_block_or_true = false
+            Rails.logger.warn "[merit] no target_obj found on Rule#applies?"
+          else
+            no_block_or_true = block.call(target_obj)
+          end
+
         when 0
           # block evaluates to true, or is a hash of methods and expected value
           called = block.call
           if called.kind_of?(Hash)
             no_block_or_true = called.conditions_apply? target_obj
           end
+
         end
       end
       no_block_or_true
@@ -36,9 +42,10 @@ module Merit
           badge.grant_to sash
         elsif temporary?
           badge.delete_from sash
+        else
+          Rails.logger.warn "[merit] no sash found on Rule#grant_or_delete_badge"
         end
       end
-      # Should warn "no sash found"
     end
 
     # Subject to badge: source_user or target.user?
@@ -49,7 +56,12 @@ module Merit
                when :itself
                  action.target_object
                else
-                 action.target_object.send(to)
+                 begin
+                   action.target_object.send(to)
+                 rescue
+                   Rails.logger.warn "[merit] #{action.target_model.singularize}.find(#{action.target_id}) not found, no badges giving today"
+                   return
+                 end
                end
       if target
         target.create_sash_if_none
