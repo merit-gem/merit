@@ -42,9 +42,9 @@ module Merit
           badge.grant_to sash
         elsif temporary?
           badge.delete_from sash
-        else
-          Rails.logger.warn "[merit] no sash found on Rule#grant_or_delete_badge"
         end
+      else
+        Rails.logger.warn "[merit] no sash found on Rule#grant_or_delete_badge"
       end
     end
 

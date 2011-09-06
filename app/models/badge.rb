@@ -4,7 +4,7 @@ class Badge < ActiveRecord::Base
 
   # Grant badge to sash
   def grant_to(object_or_sash)
-    sash = object_or_sash.try(:sash) || object_or_sash
+    sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
     unless sash.badges.include? self
       sash.badges << self
       sash.save
@@ -13,7 +13,7 @@ class Badge < ActiveRecord::Base
 
   # Take out badge from sash
   def delete_from(object_or_sash)
-    sash = object_or_sash.try(:sash) || object_or_sash
+    sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
     if sash.badges.include? self
       sash.badges -= [self]
       sash.save
