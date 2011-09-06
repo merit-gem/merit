@@ -72,7 +72,7 @@ module Merit
     # Get rule's related Badge.
     def badge
       badges = Badge.where(:name => badge_name)
-      badges = badges.where(:level => level) unless level.nil?
+      badges = badges.where(:level => level.to_s) unless level.nil?
       badges.first
     end
   end
