@@ -111,6 +111,7 @@ To run the test application inside this gem follow:
 
 = To-do list
 
+* Ranking should not be badges, so .badges doesn't return them (2-stars shouldn't be badge).
 * grep -r 'FIXME\|TODO' .
 * :value parameter (for star voting for example) should be configurable (depends
   on params[:value] on the controller).
