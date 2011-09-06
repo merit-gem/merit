@@ -40,7 +40,7 @@ Define rules on +app/models/merit_badge_rules.rb+:
       { :votes => 5 }
     end
 
-    grant_on 'users#update', :badge => 'autobiographer', :temporary => true do |user|
+    grant_on ['users#create', 'users#update'], :badge => 'autobiographer', :temporary => true do |user|
       user.name.present? && user.address.present?
     end
 

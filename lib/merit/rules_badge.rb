@@ -42,8 +42,11 @@ module Merit
       rule.temporary  = options[:temporary] || false
       rule.block      = block
 
-      defined_rules[action] ||= []
-      defined_rules[action] << rule
+      actions = action.kind_of?(String) ? [action] : action
+      actions.each do |action|
+        defined_rules[action] ||= []
+        defined_rules[action] << rule
+      end
     end
 
     # Check non processed actions and grant badges if applies
