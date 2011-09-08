@@ -27,8 +27,6 @@ module Merit
           # Check rules in after_filter?
           if Merit.checks_on_each_request
             ::MeritBadgeRules.new.check_new_actions
-            # FIXME: Now checking rules granting on each request!
-            ::MeritRankRules.new.check_rank_rules
           end
         end
       end

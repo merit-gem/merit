@@ -4,7 +4,7 @@ class MeritAction < ActiveRecord::Base
     action_name = "#{target_model}\##{action_method}"
 
     # Check Badge rules
-    unless defined_rules[action_name].nil?
+    if defined_rules[action_name].present?
       defined_rules[action_name].each do |rule|
         rule.grant_or_delete_badge(self)
       end

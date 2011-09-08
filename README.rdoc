@@ -81,6 +81,11 @@ Define rules on +app/models/merit_rank_rules.rb+:
 * :+level+ ranking level (greater is better)
 * :+to+ model or scope to check if new rankings apply
 
+Check for rules on a rake task executed in background like:
+    task :cron => :environment do
+      MeritRankRules.new.check_rank_rules
+    end
+
 
 == Examples
 
