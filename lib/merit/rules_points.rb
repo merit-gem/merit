@@ -6,8 +6,12 @@ module Merit
     # Define rules on certaing actions for giving points
     def score(points, *args, &block)
       options = args.extract_options!
-      options[:on].each do |action|
-        actions_to_point[action] = points
+
+      actions = options[:on].kind_of?(Array) ? options[:on] : [options[:on]]
+      options[:to] ||= [:action_user]
+      targets = options[:to].kind_of?(Array) ? options[:to] : [options[:to]]
+      actions.each do |action|
+        actions_to_point[action] = { to: targets, score: points }
       end
     end
 

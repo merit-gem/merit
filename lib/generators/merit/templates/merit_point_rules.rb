@@ -1,6 +1,7 @@
 # Points are a simple integer value which are given to "meritable" resources
 # according to rules in +app/models/merit_point_rules.rb+. They are given on
-# actions-triggered.
+# actions-triggered, either to the action user or to the method (or array of
+# methods) defined in the +:to+ option.
 
 class MeritPointRules
   include Merit::PointRules
@@ -9,6 +10,8 @@ class MeritPointRules
     # score 10, :on => [
     #   'users#update'
     # ]
+    #
+    # score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
     #
     # score 20, :on => [
     #   'comments#create',

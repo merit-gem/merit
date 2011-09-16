@@ -12,11 +12,19 @@ class MeritAction < ActiveRecord::Base
 
     # Check Point rules
     actions_to_point = MeritPointRules.new.actions_to_point
-    unless actions_to_point[action_name].nil?
-      if user = User.find_by_id(user_id)
-        user.update_attribute(:points, user.points + actions_to_point[action_name])
+    if actions_to_point[action_name].present?
+      point_rule = actions_to_point[action_name]
+      point_rule[:to].each do |to|
+        if to == :action_user
+          if !(target = User.find_by_id(user_id))
+            Rails.logger.warn "[merit] no user found to grant points"
+            return
+          end
+        else
+          target = target_object.send(to)
+        end
+        target.update_attribute(:points, target.points + point_rule[:score])
       end
-      # Should warn "no user found"
     end
 
     processed!
