@@ -21,7 +21,12 @@ class MeritAction < ActiveRecord::Base
             return
           end
         else
-          target = target_object.send(to)
+          begin
+            target = target_object.send(to)
+          rescue
+            Rails.logger.warn "[merit] No target_object found on check_badge_rules."
+            return
+          end
         end
         target.update_attribute(:points, target.points + point_rule[:score])
       end
