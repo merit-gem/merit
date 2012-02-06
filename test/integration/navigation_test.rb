@@ -53,6 +53,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     # Make tenth comment, assert 10-commenter badge granted
     visit '/comments/new'
     fill_in 'Name', :with => 'Hi!'
+    fill_in 'Comment', :with => 'Hi bro!'
     fill_in 'User', :with => user.id
     click_button('Create Comment')
 
@@ -105,7 +106,14 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal 20, user.points, 'Updating info should grant 20 points'
 
     visit '/comments/new'
+    click_button('Create Comment')
+
+    user = User.where(:name => 'a').first
+    assert_equal 20, user.points, 'Empty comment should grant no points'
+
+    visit '/comments/new'
     fill_in 'Name', :with => 'Hi!'
+    fill_in 'Comment', :with => 'Hi bro!'
     fill_in 'User', :with => user.id
     click_button('Create Comment')
 
@@ -128,6 +136,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'ab').first
     stars2 = Badge.where(:name => :stars, :level => 2).first
+    MeritRankRules.new.check_rank_rules
     assert_equal user.badges, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
 
     # Edit user's name by short name. Doesn't go back to previous rank.
@@ -136,6 +145,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'a').first
+    MeritRankRules.new.check_rank_rules
     assert_equal user.badges, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
 
     # Edit user's name by 5 chars name
@@ -146,6 +156,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user = User.where(:name => 'abcde').first
     stars5 = Badge.where(:name => :stars, :level => 5).first
     assert_equal user.badges.where(:name => :stars).count, 1, "Should not contain more than 2 stars ranking."
+    MeritRankRules.new.check_rank_rules
     assert user.badges.include?(stars5), "User badges: #{user.badges.collect(&:name).inspect} should contain 5-stars badge."
   end
 end

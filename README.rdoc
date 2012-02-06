@@ -107,6 +107,11 @@ You may also add badges/rank "by hand" from controller actions:
    Badge.find(3).grant_to(current_user)
 
 
+= Upgrade to 0.2.0
+
+Added +had_errors+ boolean attribute to +merit_actions+ table.
+
+
 = Test application
 
 To run the test application inside this gem follow:

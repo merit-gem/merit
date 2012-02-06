@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110818031943) do
+ActiveRecord::Schema.define(:version => 20120206132223) do
 
   create_table "badges", :force => true do |t|
     t.string   "name"
@@ -45,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20110818031943) do
     t.integer  "user_id"
     t.string   "action_method"
     t.integer  "action_value"
+    t.boolean  "had_errors"
     t.string   "target_model"
     t.integer  "target_id"
     t.boolean  "processed",     :default => false
