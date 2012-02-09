@@ -40,8 +40,8 @@ class MeritAction < ActiveRecord::Base
   # Action's target object
   def target_object(model_name = nil)
     # Grab custom model_name from Rule, or target_model from MeritAction triggered
-    klass = model_name || target_model.singularize
-    klass.camelize.constantize.find_by_id(target_id)
+    klass = model_name || target_model
+    klass.singularize.camelize.constantize.find_by_id(target_id)
   end
 
   # Mark merit_action as processed
