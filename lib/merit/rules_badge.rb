@@ -40,6 +40,7 @@ module Merit
       rule.level      = options[:level]
       rule.to         = options[:to] || :action_user
       rule.temporary  = options[:temporary] || false
+      rule.model_name = options[:model_name] || action.split('#')[0]
       rule.block      = block
 
       actions = action.kind_of?(String) ? [action] : action

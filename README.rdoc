@@ -28,6 +28,8 @@ Define rules on +app/models/merit_badge_rules.rb+:
 * :+to+: method name over target_object which obtains user to badge.
 * :+temporary+ (boolean): if the condition doesn't hold and the receiver had
   the badge, it gets removed. +false+ by default (badges are kept forever).
+* :+model_name+ (string): when controller's name differs from the model being
+  worked (like RegistrationsController for User model).
 * &+block+
   * empty (always grants)
   * a block which evaluates to boolean (recieves target object as parameter)
@@ -125,6 +127,8 @@ To run the test application inside this gem follow:
 = To-do list
 
 * Test points granting with different options.
+* Test model_name attribute for badge_rules.
+* Add model_name option on rank and point rules.
 * Ranking should not be badges, so .badges doesn't return them (2-stars shouldn't be badge).
 * grep -r 'FIXME\|TODO' .
 * :value parameter (for star voting for example) should be configurable (depends

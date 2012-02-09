@@ -2,7 +2,7 @@ module Merit
   # Rules has a badge name and level, a target to badge, a conditions block
   # and a temporary option.
   class Rule
-    attr_accessor :badge_name, :level, :to, :temporary, :block
+    attr_accessor :badge_name, :level, :to, :temporary, :block, :model_name
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)
@@ -38,7 +38,7 @@ module Merit
     # then remove it.
     def grant_or_delete_badge(action)
       if sash = sash_to_badge(action)
-        if applies? action.target_object
+        if applies? action.target_object(model_name)
           badge.grant_to sash
         elsif temporary?
           badge.delete_from sash
@@ -54,10 +54,10 @@ module Merit
                when :action_user
                  User.find_by_id(action.user_id) # _by_id doens't raise ActiveRecord::RecordNotFound
                when :itself
-                 action.target_object
+                 action.target_object(model_name)
                else
                  begin
-                   action.target_object.send(to)
+                   action.target_object(model_name).send(to)
                  rescue
                    Rails.logger.warn "[merit] #{action.target_model.singularize}.find(#{action.target_id}) not found, no badges giving today"
                    return
