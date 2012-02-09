@@ -35,15 +35,16 @@ module Merit
     def grant_on(action, *args, &block)
       options = args.extract_options!
 
+      actions = action.kind_of?(String) ? [action] : action
+
       rule = Rule.new
       rule.badge_name = options[:badge]
       rule.level      = options[:level]
       rule.to         = options[:to] || :action_user
       rule.temporary  = options[:temporary] || false
-      rule.model_name = options[:model_name] || action.split('#')[0]
+      rule.model_name = options[:model_name] || actions[0].split('#')[0]
       rule.block      = block
 
-      actions = action.kind_of?(String) ? [action] : action
       actions.each do |action|
         defined_rules[action] ||= []
         defined_rules[action] << rule

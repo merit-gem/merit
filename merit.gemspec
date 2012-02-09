@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary     = "General reputation Rails engine."
   s.description = "General reputation Rails engine."
   s.files       = Dir["{app,lib,config}/**/*"] + ["MIT-LICENSE", "Rakefile", "Gemfile", "README.rdoc"]
-  s.version     = "0.2.2"
+  s.version     = "0.2.4"
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
 end
