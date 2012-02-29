@@ -1,42 +1,42 @@
-= Merit Rails Gem
+# Merit Gem: Reputation rules (badges, points and rankings) for Rails applications
 
-Define reputation for users and data on your application.
-
-http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg
+![Merit](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
 
 
-= Installation
+# Installation
 
 1. Add 'merit' to your Gemfile
-2. Run +rails+ +g+ +merit+:+install+
-3. Run +rails+ +g+ +merit+ +MODEL_NAME+
-4. Run +rake+ +db+:+migrate+
+2. Run <tt>rails g merit:install</tt>
+3. Run <tt>rails g merit MODEL_NAME</tt>
+4. Run <tt>rake db:migrate</tt>
 5. Configure reputation rules for your application
 
+---
 
-= Defining badge rules
+# Defining badge rules
 
 You may give badges to any resource on your application if some condition
-holds. Badges may have levels, and may be temporary.
+holds. Badges may have levels, and may be temporary. Define rules on
+<tt>app/models/merit_badge_rules.rb</tt>:
 
-Define rules on +app/models/merit_badge_rules.rb+:
+<tt>grant_on</tt> accepts:
 
-+grant_on+ accepts:
-* +controller+#+action+ string (similar to Rails routes)
-* :+badge+ for badge name
-* :+level+ for badge level
-* :+to+: method name over target_object which obtains user to badge.
-* :+model_name+ (string): when controller's name differs from the model being
-  worked (like RegistrationsController for User model).
-* :+temporary+ (boolean): if the condition doesn't hold and the receiver had
-  the badge, it gets removed. +false+ by default (badges are kept forever).
-* &+block+
+* <tt>'controller#action'</tt> string (similar to Rails routes)
+* <tt>:badge</tt> for badge name
+* <tt>:level</tt> for badge level
+* <tt>:to</tt> method name over target_object which obtains object to badge
+* <tt>:model_name</tt> (string) define controller's name if it differs from
+  the model (like <tt>RegistrationsController</tt> for <tt>User</tt> model).
+* <tt>:temporary</tt> (boolean) if the receiver had the badge but the
+  condition doesn't hold anymore, remove it. <tt>false</tt> by default (badges
+  are kept forever).
+* <tt>&block</tt>
   * empty (always grants)
   * a block which evaluates to boolean (recieves target object as parameter)
   * a block with a hash composed of methods to run on the target object with
     expected values
 
-== Examples
+## Examples
 
     grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do
       { :votes => 5 }
@@ -46,16 +46,16 @@ Define rules on +app/models/merit_badge_rules.rb+:
       user.name.present? && user.address.present?
     end
 
+---
 
-= Defining point rules
+# Defining point rules
 
 Points are a simple integer value which are given to "meritable" resources.
 They are given on actions-triggered, either to the action user or to the
-method (or array of methods) defined in the +:to+ option.
+method(s) defined in the <tt>:to</tt> option. Define rules on
+<tt>app/models/merit_point_rules.rb</tt>:
 
-Define rules on +app/models/merit_point_rules.rb+:
-
-== Examples
+## Examples
 
     score 10, :on => [
       'users#update'
@@ -68,31 +68,34 @@ Define rules on +app/models/merit_point_rules.rb+:
       'photos#create'
     ]
 
+---
 
-= Defining rank rules
+# Defining rank rules
 
 Rankings are very similar to badges. They give "badges" which have a hierarchy
-defined by +level+'s lexicografical order (greater is better). If a rank is
-granted, lower level ranks are taken off. 5 stars is a common ranking use
-case.
+defined by <tt>level</tt>'s lexicografical order (greater is better). If a
+rank is granted, lower level ranks are taken off. 5 stars is a common ranking
+use case.
 
 They are not given at specified actions like badges, you should define a cron
 job to test if ranks are to be granted.
 
-Define rules on +app/models/merit_rank_rules.rb+:
+Define rules on <tt>app/models/merit_rank_rules.rb</tt>:
 
-+set_rank+ accepts:
-* +badge_name+ name of this ranking
-* :+level+ ranking level (greater is better)
-* :+to+ model or scope to check if new rankings apply
+<tt>set_rank</tt> accepts:
+
+* <tt>badge_name</tt> name of this ranking
+* <tt>:level</tt> ranking level (greater is better)
+* <tt>:to</tt> model or scope to check if new rankings apply
 
 Check for rules on a rake task executed in background like:
+
     task :cron => :environment do
       MeritRankRules.new.check_rank_rules
     end
 
 
-== Examples
+## Examples
 
     set_rank :stars, :level => 2, :to => Commiter.active do |commiter|
       commiter.branches > 1 && commiter.followers >= 10
@@ -102,29 +105,35 @@ Check for rules on a rake task executed in background like:
       commiter.branches > 2 && commiter.followers >= 20
     end
 
+---
 
-= Grant manually
+# Grant manually
 
 You may also add badges/rank "by hand" from controller actions:
-   Badge.find(3).grant_to(current_user)
 
+    Badge.find(3).grant_to(current_user)
 
-= Upgrade to 0.2.0
+---
 
-Added +had_errors+ boolean attribute to +merit_actions+ table.
+# Upgrade to 0.2.0
 
+Added <tt>had_errors</tt> boolean attribute to <tt>merit_actions</tt> table.
 
-= Test application
+---
+
+# Test application
 
 To run the test application inside this gem follow:
-  cd test/dummy
-  rails g merit:install
-  rails g merit user
-  rake db:migrate ; rake db:seed
-  rails s
 
+    cd test/dummy
+    rails g merit:install
+    rails g merit user
+    rake db:migrate ; rake db:seed
+    rails s
 
-= To-do list
+---
+
+# To-do list
 
 * Test points granting with different options.
 * Test model_name attribute for badge_rules.
