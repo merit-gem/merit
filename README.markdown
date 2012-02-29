@@ -138,7 +138,6 @@ To run tests follow:
 
 # To-do list
 
-* Add model_name option on rank and point rules.
 * Ranking should not be badges, so .badges doesn't return them (2-stars
   shouldn't be badge).
 * <tt>grep -r 'FIXME\|TODO' .</tt>

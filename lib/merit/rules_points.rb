@@ -11,7 +11,10 @@ module Merit
       options[:to] ||= [:action_user]
       targets = options[:to].kind_of?(Array) ? options[:to] : [options[:to]]
       actions.each do |action|
-        actions_to_point[action] = { to: targets, score: points }
+        actions_to_point[action] = {
+          :to => targets,
+          :score => points
+        }
       end
     end
 

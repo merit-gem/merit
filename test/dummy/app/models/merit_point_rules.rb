@@ -12,7 +12,7 @@ class MeritPointRules
 
     score 20, :on => [
       'comments#create',
-      'users#update'
+      'registrations#update'
     ]
   end
 end
