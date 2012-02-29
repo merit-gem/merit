@@ -6,7 +6,7 @@ class MeritPointRules
   include Merit::PointRules
 
   def initialize
-    score 5, :on => [
+    score 5, :to => :user, :on => [
       'comments#vote'
     ]
 

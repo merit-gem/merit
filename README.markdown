@@ -123,19 +123,21 @@ Added <tt>had_errors</tt> boolean attribute to <tt>merit_actions</tt> table.
 
 # Test application
 
-To run the test application inside this gem follow:
+To run tests follow:
 
     cd test/dummy
-    rails g merit:install
+    rails g merit:install # Next n's for not overriding already defined rules
+    n
+    n
+    n
     rails g merit user
     rake db:migrate ; rake db:seed
-    rails s
+    cd ../.. ; rake test
 
 ---
 
 # To-do list
 
-* Test points granting with different options.
 * Test model_name attribute for badge_rules.
 * Add model_name option on rank and point rules.
 * Ranking should not be badges, so .badges doesn't return them (2-stars shouldn't be badge).
