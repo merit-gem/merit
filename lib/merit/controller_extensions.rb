@@ -16,7 +16,7 @@ module Merit
             target_id = target_object.try(:id)
           end
 
-          # TODO: value relies on params[:value] on the controller, should be configurable
+          # TODO: value should be configurable (now it's params[:value] set in the controller)
           value = params[:value]
           MeritAction.create(
             :user_id       => current_user.try(:id),

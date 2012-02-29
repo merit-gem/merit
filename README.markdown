@@ -140,7 +140,6 @@ To run tests follow:
 
 * Ranking should not be badges, so .badges doesn't return them (2-stars
   shouldn't be badge).
-* <tt>grep -r 'FIXME\|TODO' .</tt>
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
