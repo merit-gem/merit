@@ -32,9 +32,9 @@ class MeritBadgeRules
       comment.votes >= 10
     end
 
-    # Changes his name by one wider than 4 chars (arbitrary ruby code case)
+    # Changes his name by one wider than 4 chars (arbitrary ruby code and custom model_name)
     # This badge is temporary (user may lose it)
-    grant_on 'users#update', :badge => 'autobiographer', :temporary => true do |user|
+    grant_on 'registrations#update', :badge => 'autobiographer', :temporary => true, :model_name => 'User' do |user|
       user.name.length > 4
     end
   end

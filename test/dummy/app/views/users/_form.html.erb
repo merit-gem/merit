@@ -1,4 +1,5 @@
-<%= form_for(@user) do |f| %>
+<% obj = params[:action] == :new ? @user : [:registrations, @user] %>
+<%= form_for obj do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
