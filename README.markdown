@@ -139,8 +139,17 @@ To run tests follow:
 # To-do list
 
 * Add model_name option on rank and point rules.
-* Ranking should not be badges, so .badges doesn't return them (2-stars shouldn't be badge).
-* grep -r 'FIXME\|TODO' .
-* :value parameter (for star voting for example) should be configurable (depends
-  on params[:value] on the controller).
+* Ranking should not be badges, so .badges doesn't return them (2-stars
+  shouldn't be badge).
+* <tt>grep -r 'FIXME\|TODO' .</tt>
+* :value parameter (for star voting for example) should be configurable
+  (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
+
+---
+
+# Contributors
+
+* [A4bandas media](https://github.com/a4bandas)
+* [Juan Schwindt](https://github.com/jschwindt)
+* [Eric Knudtson](https://github.com/ek)
