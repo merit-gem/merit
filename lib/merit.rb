@@ -19,7 +19,7 @@ module Merit
   class Engine < Rails::Engine
     initializer 'merit.controller' do |app|
       ActiveSupport.on_load(:action_controller) do
-         include Merit::ControllerExtensions
+        include Merit::ControllerExtensions
       end
     end
   end

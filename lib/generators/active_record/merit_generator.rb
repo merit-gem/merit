@@ -3,24 +3,25 @@ require 'rails/generators/active_record'
 module ActiveRecord
   module Generators
     class MeritGenerator < ActiveRecord::Generators::Base
-      argument :attributes, :type => :array, :default => [], :banner => "field:type field:type"
+      include Rails::Generators::Migration
+      source_root File.expand_path('../templates', __FILE__)
+      desc "add active_record merit migrations"
 
-      source_root File.expand_path("../templates", __FILE__)
-
-      def model_exists?
-        File.exists?(File.join(destination_root, model_path))
+      def self.next_migration_number(path)
+        unless @prev_migration_nr
+          @prev_migration_nr = Time.now.utc.strftime("%Y%m%d%H%M%S").to_i
+        else
+          @prev_migration_nr += 1
+        end
+        @prev_migration_nr.to_s
       end
 
-      def model_path
-        @model_path ||= File.join("app", "models", "#{file_path}.rb")
-      end
-
-      def copy_merit_migration
+      def copy_migrations_and_model
+        migration_template 'create_merit_actions.rb', 'db/migrate/create_merit_actions.rb'
+        migration_template 'create_badges.rb', 'db/migrate/create_badges.rb'
+        migration_template 'create_sashes.rb', 'db/migrate/create_sashes.rb'
+        migration_template 'create_badges_sashes.rb', 'db/migrate/create_badges_sashes.rb'
         migration_template "add_fields_to_model.rb", "db/migrate/add_fields_to_#{table_name}"
-      end
-
-      def inject_merit_content
-        inject_into_class(model_path, class_name, "  has_merit\n\n") if model_exists?
       end
     end
   end
