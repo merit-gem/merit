@@ -19,13 +19,4 @@ class MeritUnitTest < ActiveSupport::TestCase
     rule.block = lambda{|obj| obj.length >= 4 }
     assert rule.applies?(str), 'block should make rule apply'
   end
-
-  test "Sash#latest should return 5 non-repeated sashes ordered by latest badges granting date (desc)" do
-    (1..6).each{|i|
-      s = Sash.create
-      b1 = Badge.create(name: "badge #{i} 1").grant_to s
-      b2 = Badge.create(name: "badge #{i} 2").grant_to s
-    }
-    assert_equal Sash.latest_badges(5).all, Sash.order('id DESC').limit(5).all
-  end
 end

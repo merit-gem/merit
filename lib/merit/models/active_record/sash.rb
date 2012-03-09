@@ -2,8 +2,11 @@ class Sash < ActiveRecord::Base
   has_many :badges_sashes
   has_many :badges, :through => :badges_sashes
 
-  # Latest badges granted by Merit
-  def self.latest_badges(limit = 10)
-    select('DISTINCT sashes.id, sashes.*').joins(:badges_sashes).order('badges_sashes.created_at DESC').limit(limit)
+  def add_badge(badge_id)
+    BadgesSash.create(sash: self, badge_id: badge_id)
+  end
+  def rm_badge(badge_id)
+    ActiveRecord::Base.connection.execute("DELETE FROM badges_sashes
+      WHERE badge_id = #{badge_id} AND sash_id = #{self.id}")
   end
 end

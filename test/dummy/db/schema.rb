@@ -11,16 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120206132223) do
-
-  create_table "badges", :force => true do |t|
-    t.string   "name"
-    t.string   "level"
-    t.string   "image"
-    t.string   "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(:version => 20120309191345) do
 
   create_table "badges_sashes", :id => false, :force => true do |t|
     t.integer  "badge_id"

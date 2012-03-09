@@ -18,7 +18,6 @@ module ActiveRecord
 
       def copy_migrations_and_model
         migration_template 'create_merit_actions.rb', 'db/migrate/create_merit_actions.rb'
-        migration_template 'create_badges.rb', 'db/migrate/create_badges.rb'
         migration_template 'create_sashes.rb', 'db/migrate/create_sashes.rb'
         migration_template 'create_badges_sashes.rb', 'db/migrate/create_badges_sashes.rb'
         migration_template "add_fields_to_model.rb", "db/migrate/add_fields_to_#{table_name}"

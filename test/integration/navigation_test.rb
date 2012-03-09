@@ -2,36 +2,6 @@ require 'test_helper'
 
 class NavigationTest < ActiveSupport::IntegrationCase
   setup do
-    # Rank badges (5 stars)
-    (1..5).each do |i|
-      Badge.create(
-        :name  => 'stars',
-        :level => i
-      )
-    end
-
-    # Normal badges
-    Badge.create([
-      {
-        :name        => 'commenter',
-        :description => 'You\'ve participated good in our boards!',
-        :level       => 10
-      }, {
-        :name        => 'commenter',
-        :description => 'You\'ve participated great in our boards!',
-        :level       => 20
-      }, {
-        :name        => 'relevant-commenter',
-        :description => 'You\'ve received 5 votes on a comment',
-        :level       => 5
-      }, {
-        :name        => 'autobiographer',
-      }, {
-        :name => 'just-registered'
-      }
-    ])
-
-    # Test user
     User.create(:name => 'test-user')
   end
 
@@ -58,7 +28,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Create Comment')
 
     user = User.where(:name => 'test-user').first
-    assert_equal [Badge.where(:name => 'commenter').where(:level => 10).first], user.badges
+    assert_equal [Badge.by_name('commenter').by_level(10).first], user.badges
 
     # Vote (to 5) a user's comment, assert relevant-commenter badge granted
     relevant_comment = user.comments.where(:votes => 8).first
@@ -67,7 +37,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
       click_link '2'
     end
 
-    relevant_badge = Badge.where(:name => 'relevant-commenter').first
+    relevant_badge = Badge.by_name('relevant-commenter').first
     user_badges    = User.where(:name => 'test-user').first.badges
     assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
 
@@ -81,7 +51,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'long_name!').first
-    autobiographer_badge = Badge.where(:name => 'autobiographer').first
+    autobiographer_badge = Badge.by_name('autobiographer').first
     assert user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain autobiographer badge."
 
     # Edit user's name by short name
@@ -135,7 +105,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'ab').first
-    stars2 = Badge.where(:name => :stars, :level => 2).first
+    stars2 = Badge.by_name(:stars).by_level(2).first
     MeritRankRules.new.check_rank_rules
     assert_equal user.badges, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
 
@@ -154,8 +124,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'abcde').first
-    stars5 = Badge.where(:name => :stars, :level => 5).first
-    assert_equal user.badges.where(:name => :stars).count, 1, "Should not contain more than 2 stars ranking."
+    stars5 = Badge.by_name(:stars).by_level(5).first
+    assert_equal Badge.find_by_id(user.sash.badge_ids).by_name(:stars).count, 1, "Should not contain more than 2 stars ranking."
     MeritRankRules.new.check_rank_rules
     assert user.badges.include?(stars5), "User badges: #{user.badges.collect(&:name).inspect} should contain 5-stars badge."
   end

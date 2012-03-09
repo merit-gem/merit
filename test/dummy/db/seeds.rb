@@ -1,33 +1,3 @@
-# Rank badges (5 stars)
-(1..5).each do |i|
-  Badge.create(
-    :name  => 'stars',
-    :level => i
-  )
-end
-
-# Normal badges
-Badge.create([
-  {
-    :name        => 'commenter',
-    :description => 'You\'ve participated good in our boards!',
-    :level       => 10
-  }, {
-    :name        => 'commenter',
-    :description => 'You\'ve participated great in our boards!',
-    :level       => 20
-  }, {
-    :name        => 'relevant-commenter',
-    :description => 'You\'ve received 5 votes on a comment.',
-    :level       => 5
-  }, {
-    :name        => 'autobiographer',
-    :description => 'You\'ve edited your name and it\'s above 4 characters! (?)'
-  }, {
-    :name => 'just-registered'
-  }
-])
-
 commenter = User.create(:name => 'the-commenter-guy')
 social = User.create(:name => 'social-skilled-man')
 bored  = User.create(:name => 'bored-or-speechless')

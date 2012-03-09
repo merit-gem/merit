@@ -147,6 +147,7 @@ To run tests follow:
 
 # To-do list
 
+* Installer should place file with Ambry Badges data.
 * Ranking should not be badges, so .badges doesn't return them (2-stars
   shouldn't be badge).
 * :value parameter (for star voting for example) should be configurable

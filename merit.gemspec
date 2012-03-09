@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name        = "merit"
   s.summary     = "General reputation Rails engine."
   s.description = "General reputation Rails engine."
-  s.files       = Dir["{app,lib,config}/**/*"] + ["MIT-LICENSE", "Rakefile", "Gemfile", "README.markdown"]
+  s.files       = `git ls-files`.split("\n").reject{|f| f =~ /^\./ }
   s.version     = "0.2.5"
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'

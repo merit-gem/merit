@@ -15,7 +15,7 @@ module Merit
 
   def badges
     create_sash_if_none
-    sash.badges
+    Badge.find_by_id(sash.badge_ids).to_a
   end
 
   # Create sash if doesn't have
