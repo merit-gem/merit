@@ -28,3 +28,4 @@ module Merit
 end
 
 ActiveRecord::Base.send :include, Merit
+MongoMapper::Document.send :include, Merit if Object.const_defined?('MongoMapper')

@@ -1,4 +1,4 @@
-class MeritAction < ActiveRecord::Base
+class MeritAction
   # Check rules defined for a merit_action
   def check_badge_rules(defined_rules)
     action_name = "#{target_model}\##{action_method}"

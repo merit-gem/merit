@@ -5,6 +5,11 @@ require 'merit/rules_points'
 require 'merit/rules_rank'
 require 'merit/controller_extensions'
 require 'merit/model_additions'
+# ActiveRecord model relations
+require 'merit/models/active_record/badge'
+require 'merit/models/active_record/badges_sash'
+require 'merit/models/active_record/merit_action'
+require 'merit/models/active_record/sash'
 
 module Merit
   # Check rules on each request

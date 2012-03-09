@@ -1,7 +1,4 @@
-class Badge < ActiveRecord::Base
-  has_many :badges_sashes
-  has_many :sashes, :through => :badges_sashes
-
+class Badge
   # Grant badge to sash
   def grant_to(object_or_sash)
     object_or_sash.create_sash_if_none unless object_or_sash.kind_of?(Sash)
