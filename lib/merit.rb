@@ -5,16 +5,15 @@ require 'merit/rules_points'
 require 'merit/rules_rank'
 require 'merit/controller_extensions'
 require 'merit/model_additions'
-# ActiveRecord model relations
-require 'merit/models/active_record/badge'
-require 'merit/models/active_record/badges_sash'
-require 'merit/models/active_record/merit_action'
-require 'merit/models/active_record/sash'
 
 module Merit
   # Check rules on each request
   mattr_accessor :checks_on_each_request
   @@checks_on_each_request = true
+
+  # Define ORM
+  mattr_accessor :orm
+  @@orm = :active_record
 
   # Load configuration from initializer
   def self.setup
@@ -24,6 +23,14 @@ module Merit
   class Engine < Rails::Engine
     initializer 'merit.controller' do |app|
       ActiveSupport.on_load(:action_controller) do
+        # Require Merit models
+        require "merit/models/#{Merit.orm}/badge"
+        require "merit/models/#{Merit.orm}/merit_action"
+        require "merit/models/#{Merit.orm}/sash"
+        if @@orm == :active_record
+          require "merit/models/#{Merit.orm}/badges_sash"
+        end
+
         include Merit::ControllerExtensions
       end
     end

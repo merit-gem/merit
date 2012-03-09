@@ -1,4 +1,5 @@
 class MeritAction
+  include MongoMapper::Document
   key :user_id, String
   key :action_method, String
   key :action_value, Integer
