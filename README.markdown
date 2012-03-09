@@ -5,9 +5,9 @@
 
 # Installation
 
-1. Add 'merit' to your Gemfile
+1. Add <tt>gem 'merit'</tt> to your Gemfile
 2. Run <tt>rails g merit:install</tt>
-3. Run <tt>rails g merit MODEL_NAME</tt>
+3. Run <tt>rails g merit MODEL_NAME [--orm mongo_mapper]</tt>
 4. Run <tt>rake db:migrate</tt>
 5. Configure reputation rules for your application
 
