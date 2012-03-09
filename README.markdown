@@ -7,7 +7,7 @@
 
 1. Add <tt>gem 'merit'</tt> to your Gemfile
 2. Run <tt>rails g merit:install</tt>
-3. Run <tt>rails g merit MODEL_NAME [--orm mongo_mapper]</tt>
+3. Run <tt>rails g merit MODEL_NAME</tt>
 4. Run <tt>rake db:migrate</tt>
 5. Configure reputation rules for your application
 
@@ -112,6 +112,15 @@ Check for rules on a rake task executed in background like:
 You may also add badges/rank "by hand" from controller actions:
 
     Badge.find(3).grant_to(current_user)
+
+---
+
+# MongoMapper support (experimental)
+
+You may use <tt>merit</tt> with <tt>mongo_mapper</tt> ORM by calling
+<tt>rails g merit MODEL_NAME --orm mongo_mapper</tt> in the third step of the
+installation, and configuring <tt>config.orm = :mongo_mapper</tt> in
+<tt>config/initializers/merit.rb</tt>.
 
 ---
 

@@ -1,6 +1,8 @@
+require "merit/models/#{Merit.orm}/merit_action"
+
 class MeritAction
   # Check rules defined for a merit_action
-  def check_badge_rules(defined_rules)
+  def check_rules(defined_rules)
     action_name = "#{target_model}\##{action_method}"
 
     unless had_errors
@@ -25,7 +27,7 @@ class MeritAction
             begin
               target = target_object.send(to)
             rescue
-              Rails.logger.warn "[merit] No target_object found on check_badge_rules."
+              Rails.logger.warn "[merit] No target_object found on check_rules."
               return
             end
           end

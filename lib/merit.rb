@@ -22,15 +22,12 @@ module Merit
 
   class Engine < Rails::Engine
     initializer 'merit.controller' do |app|
-      ActiveSupport.on_load(:action_controller) do
-        # Require Merit models
-        require "merit/models/#{Merit.orm}/badge"
-        require "merit/models/#{Merit.orm}/merit_action"
-        require "merit/models/#{Merit.orm}/sash"
-        if @@orm == :active_record
-          require "merit/models/#{Merit.orm}/badges_sash"
-        end
+      # Merit.orm now set
+      if Merit.orm == :active_record
+        require "merit/models/#{Merit.orm}/badges_sash"
+      end
 
+      ActiveSupport.on_load(:action_controller) do
         include Merit::ControllerExtensions
       end
     end

@@ -1,31 +1,31 @@
 module Merit
-  def self.included(base)
-    base.send :extend, ClassMethods
-  end
+  extend ActiveSupport::Concern
 
   module ClassMethods
     def has_merit(options = {})
       belongs_to :sash
-      send :include, InstanceMethods
+
+      if Merit.orm == :mongo_mapper
+        plugin Merit
+        key :sash_id, String
+        key :points, Integer, :default => 0
+      end
     end
   end
 
-  module InstanceMethods
-    # Return it's sash badges
-    def badges
-      create_sash_if_none
-      sash.badges
-    end
+  def badges
+    create_sash_if_none
+    sash.badges
+  end
 
-    # Create sash if doesn't have
-    def create_sash_if_none
-      if sash.nil?
-        self.sash = Sash.new
-        self.save(:validate => false)
-      end
+  # Create sash if doesn't have
+  def create_sash_if_none
+    if sash.nil?
+      self.sash = Sash.new
+      self.save(:validate => false)
     end
   end
 end
 
-ActiveRecord::Base.send :include, Merit
-MongoMapper::Document.send :include, Merit if Object.const_defined?('MongoMapper')
+ActiveRecord::Base.send :include, Merit if Object.const_defined?('ActiveRecord')
+MongoMapper::Document.plugin Merit if Object.const_defined?('MongoMapper')

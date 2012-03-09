@@ -1,3 +1,5 @@
+require "merit/models/#{Merit.orm}/badge"
+
 class Badge
   # Grant badge to sash
   def grant_to(object_or_sash)

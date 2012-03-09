@@ -29,7 +29,7 @@ module Merit
 
           # Check rules in after_filter?
           if Merit.checks_on_each_request
-            ::MeritBadgeRules.new.check_new_actions
+            badge_rules.check_new_actions
           end
         end
       end

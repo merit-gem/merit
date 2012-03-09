@@ -1,3 +1,5 @@
+require "merit/models/#{Merit.orm}/sash"
+
 class Sash
   # Decides if sash has lower rank than a given badge
   def has_lower_rank_than(badge)
