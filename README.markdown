@@ -147,7 +147,8 @@ To run tests follow:
 
 # To-do list
 
-* Installer should place file with Ambry Badges data.
+* Use ActiveSupport's Array#wrap where I build arrays by hand
+* Is gem 'ambry' required in app's Gemfile? (for require 'ambry/active_model')
 * Ranking should not be badges, so .badges doesn't return them (2-stars
   shouldn't be badge).
 * :value parameter (for star voting for example) should be configurable

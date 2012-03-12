@@ -6,3 +6,9 @@ Merit.setup do |config|
   # Define ORM. Could be :active_record (default) and :mongo_mapper
   # config.orm = :active_record
 end
+
+# Create application badges (uses https://github.com/norman/ambry)
+# Badge.create!({
+#   :id => 1,
+#   :name => 'just-registered'
+# })
