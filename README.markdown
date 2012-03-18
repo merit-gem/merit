@@ -2,6 +2,8 @@
 
 ![Merit](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
 
+[![Build Status](https://secure.travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
+
 
 # Installation
 
@@ -124,30 +126,17 @@ installation, and configuring <tt>config.orm = :mongo_mapper</tt> in
 
 ---
 
-# Upgrade to 0.3.0
+# Notes on upgrades
+
+## to 0.3.0
 
 Badges data is now stored in <tt>config/initializers/merit.rb</tt> using
 <tt>ambry</tt> syntax (not in the DB anymore, as that table needed to be in
 sync in all development environments).
 
-# Upgrade to 0.2.0
+## to 0.2.0
 
 Added <tt>had_errors</tt> boolean attribute to <tt>merit_actions</tt> table.
-
----
-
-# Test application
-
-To run tests follow:
-
-    cd test/dummy
-    rails g merit:install # Next n's for not overriding already defined rules
-    n
-    n
-    n
-    rails g merit user
-    rake db:migrate ; rake db:seed
-    cd ../.. ; rake test
 
 ---
 
