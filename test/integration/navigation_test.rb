@@ -28,7 +28,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Create Comment')
 
     user = User.where(:name => 'test-user').first
-    assert_equal [Badge.by_name('commenter').by_level(10).first], user.badges
+    assert_equal [Badge.by_name('commenter').by_level(10).first], user.badges.to_a
 
     # Vote (to 5) a user's comment, assert relevant-commenter badge granted
     relevant_comment = user.comments.where(:votes => 8).first
@@ -38,13 +38,13 @@ class NavigationTest < ActiveSupport::IntegrationCase
     end
 
     relevant_badge = Badge.by_name('relevant-commenter').first
-    user_badges    = User.where(:name => 'test-user').first.badges
+    user_badges    = User.where(:name => 'test-user').first.badges.to_a
     assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
 
     # Edit user's name by long name
     # tests ruby code in grant_on is being executed, and gives badge
     user = User.where(:name => 'test-user').first
-    user_badges = user.badges
+    user_badges = user.badges.to_a
 
     visit "/users/#{user.id}/edit"
     fill_in 'Name', :with => 'long_name!'
@@ -52,7 +52,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'long_name!').first
     autobiographer_badge = Badge.by_name('autobiographer').first
-    assert user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain autobiographer badge."
+    assert user.badges.to_a.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain autobiographer badge."
 
     # Edit user's name by short name
     # tests ruby code in grant_on is being executed, and removes badge
@@ -61,7 +61,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'abc').first
-    assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
+    assert !user.badges.to_a.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
   end
 
   test 'user workflow should add up points at some times' do
@@ -107,7 +107,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user = User.where(:name => 'ab').first
     stars2 = Badge.by_name(:stars).by_level(2).first
     MeritRankRules.new.check_rank_rules
-    assert_equal user.badges, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
+    assert_equal user.badges.to_a, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
 
     # Edit user's name by short name. Doesn't go back to previous rank.
     visit "/users/#{user.id}/edit"
@@ -116,7 +116,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'a').first
     MeritRankRules.new.check_rank_rules
-    assert_equal user.badges, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
+    assert_equal user.badges.to_a, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
 
     # Edit user's name by 5 chars name
     visit "/users/#{user.id}/edit"
@@ -127,6 +127,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     stars5 = Badge.by_name(:stars).by_level(5).first
     assert_equal Badge.find_by_id(user.sash.badge_ids).by_name(:stars).count, 1, "Should not contain more than 2 stars ranking."
     MeritRankRules.new.check_rank_rules
-    assert user.badges.include?(stars5), "User badges: #{user.badges.collect(&:name).inspect} should contain 5-stars badge."
+    user.reload
+    assert user.badges.to_a.include?(stars5), "User badges: #{user.badges.collect(&:inspect)} should contain 5-stars badge."
   end
 end

@@ -32,7 +32,7 @@ module Merit
       defined_rules.each do |scoped_model, rankings| # For each model
         rankings.each do |ranking, rules| # For each model's ranking (stars, etc)
           rules.each do |rule|            # For each ranking's rule (level)
-            scoped_model.all.each {|obj| grant_rank(rule, obj) }
+            scoped_model.all.each{|obj| grant_rank(rule, obj) }
           end
         end
       end
