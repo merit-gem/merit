@@ -1,3 +1,4 @@
+require 'ambry'
 require 'ambry/active_model'
 
 class Badge
