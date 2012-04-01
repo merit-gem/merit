@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary     = "General reputation Rails engine."
   s.description = "General reputation Rails engine."
   s.files       = `git ls-files`.split("\n").reject{|f| f =~ /^\./ }
-  s.version     = "0.3.2"
+  s.version     = "0.3.3"
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
   s.add_dependency 'ambry'

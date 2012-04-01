@@ -9,7 +9,14 @@ class Sash < ActiveRecord::Base
     BadgesSash.create(sash_id: self.id, badge_id: badge_id)
   end
   def rm_badge(badge_id)
-    ActiveRecord::Base.connection.execute("DELETE FROM badges_sashes
-      WHERE badge_id = #{badge_id} AND sash_id = #{self.id}")
+    badges_sashes = BadgesSash.where(:badge_id => badge_id, :sash_id => self.id)
+    # ActiveRecord::Relation#delete doesn't work with composite keys.
+    # Badge is not AR model (Ambry) so can't do self.badges.find(badge_id).delete
+    badges_sash = badges_sashes.first
+    badges_sashes.delete_all
+    # delete doesn't run callbacks, do it by hand
+    if Object.const_defined?('BadgesSashObserver')
+      BadgesSashObserver.instance.after_delete(badges_sash)
+    end
   end
 end
