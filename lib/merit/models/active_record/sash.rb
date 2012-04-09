@@ -15,7 +15,7 @@ class Sash < ActiveRecord::Base
     badges_sash = badges_sashes.first
     badges_sashes.delete_all
     # delete doesn't run callbacks, do it by hand
-    if Object.const_defined?('BadgesSashObserver')
+    if Object.const_defined?('BadgesSashObserver') && badges_sash.present?
       BadgesSashObserver.instance.after_delete(badges_sash)
     end
   end
