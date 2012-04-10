@@ -48,6 +48,12 @@ holds. Badges may have levels, and may be temporary. Define rules on
       user.name.present? && user.address.present?
     end
 
+## Grant manually
+
+You may also grant badges "by hand":
+
+    Badge.find(3).grant_to(current_user)
+
 ---
 
 # Defining point rules
@@ -106,14 +112,6 @@ Check for rules on a rake task executed in background like:
 
 ---
 
-# Grant manually
-
-You may also add badges "by hand" from controller actions:
-
-    Badge.find(3).grant_to(current_user)
-
----
-
 # MongoMapper support (experimental)
 
 You may use <tt>merit</tt> with <tt>mongo_mapper</tt> ORM by calling
@@ -127,9 +125,8 @@ installation, and configuring <tt>config.orm = :mongo_mapper</tt> in
 
 ## to 0.4.0
 
-Rankings are now integer attributes on "meritable" models ("<tt>level</tt>"),
-they are not badges anymore. <tt>set_rank</tt> now doesn't accept
-<tt>badge_name</tt>.
+Rankings are now integer attributes (<tt>level</tt>), they are not badges
+anymore. <tt>set_rank</tt> doesn't accept <tt>badge_name</tt> anymore.
 
 ## to 0.3.0
 
