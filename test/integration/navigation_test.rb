@@ -95,7 +95,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal 45, user.points, 'Voting comments should grant 5 points'
   end
 
-  test 'user workflow should grant stars at some times' do
+  test 'user workflow should grant levels at some times' do
     user = User.first
     assert user.badges.empty?
 
@@ -105,9 +105,10 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'ab').first
-    stars2 = Badge.by_name(:stars).by_level(2).first
+    assert_equal 0, user.level, "User level should be 0."
     MeritRankRules.new.check_rank_rules
-    assert_equal user.badges.to_a, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
+    user.reload
+    assert_equal 2, user.level, "User level should be 2."
 
     # Edit user's name by short name. Doesn't go back to previous rank.
     visit "/users/#{user.id}/edit"
@@ -116,7 +117,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'a').first
     MeritRankRules.new.check_rank_rules
-    assert_equal user.badges.to_a, [stars2], "User badges: #{user.badges.collect(&:name).inspect} should contain only 2-stars badge."
+    user.reload
+    assert_equal 2, user.level, "User level should be 2."
 
     # Edit user's name by 5 chars name
     visit "/users/#{user.id}/edit"
@@ -124,10 +126,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'abcde').first
-    stars5 = Badge.by_name(:stars).by_level(5).first
-    assert_equal Badge.find_by_id(user.sash.badge_ids).by_name(:stars).count, 1, "Should not contain more than 2 stars ranking."
     MeritRankRules.new.check_rank_rules
     user.reload
-    assert user.badges.to_a.include?(stars5), "User badges: #{user.badges.collect(&:inspect)} should contain 5-stars badge."
+    assert_equal 5, user.level, "User level should be 5."
   end
 end

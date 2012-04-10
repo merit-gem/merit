@@ -17,12 +17,3 @@ class Hash
     applies
   end
 end
-
-# Array core extensions:
-#   * all_lower_than(value)
-class Array
-  # All array values are lower than parameter
-  def all_lower_than(value)
-    self.select{|elem| elem >= value }.empty?
-  end
-end

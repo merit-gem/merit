@@ -9,6 +9,7 @@ module Merit
         plugin Merit
         key :sash_id, String
         key :points, Integer, :default => 0
+        key :level, Integer, :default => 0
       end
     end
   end
@@ -27,5 +28,9 @@ module Merit
   end
 end
 
-ActiveRecord::Base.send :include, Merit if Object.const_defined?('ActiveRecord')
-MongoMapper::Document.plugin Merit if Object.const_defined?('MongoMapper')
+if Object.const_defined?('ActiveRecord')
+  ActiveRecord::Base.send :include, Merit
+end
+if Object.const_defined?('MongoMapper')
+  MongoMapper::Document.plugin Merit
+end

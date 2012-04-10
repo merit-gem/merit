@@ -25,6 +25,7 @@ module Merit
       # Merit.orm now set
       if Merit.orm == :active_record
         require "merit/models/#{Merit.orm}/badges_sash"
+        require "merit/models/#{Merit.orm}/sash"
       end
 
       ActiveSupport.on_load(:action_controller) do

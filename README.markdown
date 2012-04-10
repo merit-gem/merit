@@ -142,8 +142,8 @@ Added <tt>had_errors</tt> boolean attribute to <tt>merit_actions</tt> table.
 
 # To-do list
 
-* Rank should be attribute in meritable model. Then it's easy to sort by reputation,
-  and it's trivial to go up or down a rank, and have only one rank "badge".
+* Remove Hash#conditions_apply? syntax.
+* Why 1.8.7 tests are not passing?
 * Ranking should not be badges, so .badges doesn't return them (2-stars
   shouldn't be badge).
 * :value parameter (for star voting for example) should be configurable

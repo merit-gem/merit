@@ -36,13 +36,4 @@ class Badge
     sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
     sash.rm_badge(id) if sash.badge_ids.include?(id)
   end
-
-  # Give rank to sash if it's greater. Delete lower ranks it may have.
-  def grant_rank_to(sash)
-    # Grant to sash if had lower rank. Do nothing if has same or greater rank.
-    if sash.has_lower_rank_than(self)
-      Badge.by_name(name).keys.each{|id| sash.rm_badge(id) } # Clean up old ranks
-      sash.add_badge(id)
-    end
-  end
 end
