@@ -74,21 +74,18 @@ method(s) defined in the <tt>:to</tt> option. Define rules on
 
 # Defining rank rules
 
-Rankings are very similar to badges. They give "badges" which have a hierarchy
-defined by <tt>level</tt>'s lexicografical order (greater is better). If a
-rank is granted, lower level ranks are taken off. 5 stars is a common ranking
-use case.
-
-They are not given at specified actions like badges, you should define a cron
-job to test if ranks are to be granted.
+5 stars is a common ranking use case. They are not given at specified actions
+like badges, you should define a cron job to test if ranks are to be granted.
 
 Define rules on <tt>app/models/merit_rank_rules.rb</tt>:
 
 <tt>set_rank</tt> accepts:
 
-* <tt>badge_name</tt> name of this ranking
 * <tt>:level</tt> ranking level (greater is better)
 * <tt>:to</tt> model or scope to check if new rankings apply
+* <tt>:level_name</tt> attribute name (default is empty and results in
+  '<tt>level</tt>' attribute, if set it's appended like
+  '<tt>level_#{level_name}</tt>')
 
 Check for rules on a rake task executed in background like:
 
@@ -99,11 +96,11 @@ Check for rules on a rake task executed in background like:
 
 ## Examples
 
-    set_rank :stars, :level => 2, :to => Commiter.active do |commiter|
+    set_rank :level => 2, :to => Commiter.active do |commiter|
       commiter.branches > 1 && commiter.followers >= 10
     end
 
-    set_rank :stars, :level => 3, :to => Commiter.active do |commiter|
+    set_rank :level => 3, :to => Commiter.active do |commiter|
       commiter.branches > 2 && commiter.followers >= 20
     end
 
@@ -127,6 +124,12 @@ installation, and configuring <tt>config.orm = :mongo_mapper</tt> in
 ---
 
 # Notes on upgrades
+
+## to 0.4.0
+
+Rankings are now integer attributes on "meritable" models ("<tt>level</tt>"),
+they are not badges anymore. <tt>set_rank</tt> now doesn't accept
+<tt>badge_name</tt>.
 
 ## to 0.3.0
 

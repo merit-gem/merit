@@ -6,6 +6,8 @@ module Merit
   # +set_rank+ accepts:
   # * :+level+ ranking level (greater is better)
   # * :+to+ model or scope to check if new rankings apply
+  # * :+level_name+ attribute name (default is empty and results in 'level'
+  #   attribute, if set it's appended like 'level_#{level_name}')
   module RankRules
     # Populates +defined_rules+ hash with following hierarchy:
     #   defined_rules[ModelToRank] = { levels => blocks }
