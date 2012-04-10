@@ -25,14 +25,14 @@ module Merit
       defined_rules.each do |scoped_model, level_and_rules|
         level_and_rules = level_and_rules.sort
         level_and_rules.each do |level, rule|
-          scoped_model.where("#{rule.level_name} < #{level}").each do |obj|
-            if rule.applies?(obj)
-              begin
+          begin
+            scoped_model.where("#{rule.level_name} < #{level}").each do |obj|
+              if rule.applies?(obj)
                 obj.update_attribute rule.level_name, level
-              rescue ActiveRecord::StatementInvalid
-                Rails.logger.warn "[merit] Please add #{rule.level_name} column/attribute to #{obj.class}"
               end
             end
+          rescue ActiveRecord::StatementInvalid
+            Rails.logger.warn "[merit] Please add #{rule.level_name} column/attribute to #{scoped_model.new.class.name}"
           end
         end
       end
