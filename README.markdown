@@ -40,8 +40,8 @@ holds. Badges may have levels, and may be temporary. Define rules on
 
 ## Examples
 
-    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do
-      { :votes => 5 }
+    grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do |comment|
+      comment.votes.count == 5
     end
 
     grant_on ['users#create', 'users#update'], :badge => 'autobiographer', :temporary => true do |user|
@@ -142,7 +142,6 @@ Added <tt>had_errors</tt> boolean attribute to <tt>merit_actions</tt> table.
 
 # To-do list
 
-* Remove Hash#conditions_apply? syntax.
 * Why 1.8.7 tests are not passing?
 * Ranking should not be badges, so .badges doesn't return them (2-stars
   shouldn't be badge).

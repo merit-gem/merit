@@ -3,8 +3,7 @@ module Merit
   # app/models/merit_rules.rb, con la siguiente sintaxis:
   #
   #   grant_on 'users#create', :badge => 'just', :level => 'registered' do
-  #     # Nothing, or code block which evaluates to true
-  #     # or with a { methods -> expected_values } hash.
+  #     # Nothing, or code block which evaluates to boolean
   #   end
   #
   # También se puede asignar medallas desde métodos en controladores:

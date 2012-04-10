@@ -1,4 +1,3 @@
-require 'merit/core_extensions'
 require 'merit/rule'
 require 'merit/rules_badge'
 require 'merit/rules_points'

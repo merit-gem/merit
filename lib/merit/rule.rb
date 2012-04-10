@@ -20,12 +20,8 @@ module Merit
           end
 
         when 0
-          # block evaluates to true, or is a hash of methods and expected value
+          # block evaluates to boolean
           called = block.call
-          if called.kind_of?(Hash)
-            no_block_or_true = called.conditions_apply? target_obj
-          end
-
         end
       end
       no_block_or_true
