@@ -1,30 +1,25 @@
 module Merit
   # Rules has a badge name and level, a target to badge, a conditions block
   # and a temporary option.
+  # Could split this class between badges and rankings functionality
   class Rule
-    attr_accessor :badge_name, :level, :to, :temporary, :block, :model_name
+    attr_accessor :badge_name, :level, :to, :temporary, :block, :model_name, :level_name
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)
-      # no block given: always true
-      no_block_or_true = true
-      unless block.nil?
-        case block.parameters.count
-        when 1
-          # block expects parameter: pass target_object
-          if target_obj.nil?
-            no_block_or_true = false
-            Rails.logger.warn "[merit] no target_obj found on Rule#applies?"
-          else
-            no_block_or_true = block.call(target_obj)
-          end
+      return true if block.nil? # no block given: always true
 
-        when 0
-          # block evaluates to boolean
-          called = block.call
+      case block.parameters.count
+      when 1 # Expects target object
+        if target_obj.present?
+          return block.call(target_obj)
+        else
+          Rails.logger.warn "[merit] no target_obj found on Rule#applies?"
+          return false
         end
+      when 0 # evaluates to boolean
+        return block.call
       end
-      no_block_or_true
     end
 
     # Is this rule's badge temporary?
@@ -54,7 +49,7 @@ module Merit
                else
                  begin
                    action.target_object(model_name).send(to)
-                 rescue
+                 rescue ActiveRecord::RecordNotFound
                    Rails.logger.warn "[merit] #{action.target_model.singularize}.find(#{action.target_id}) not found, no badges giving today"
                    return
                  end

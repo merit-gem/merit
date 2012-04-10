@@ -26,7 +26,7 @@ class MeritAction
           else
             begin
               target = target_object.send(to)
-            rescue
+            rescue ActiveRecord::RecordNotFound
               Rails.logger.warn "[merit] No target_object found on check_rules."
               return
             end

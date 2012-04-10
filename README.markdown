@@ -111,7 +111,7 @@ Check for rules on a rake task executed in background like:
 
 # Grant manually
 
-You may also add badges/rank "by hand" from controller actions:
+You may also add badges "by hand" from controller actions:
 
     Badge.find(3).grant_to(current_user)
 
@@ -142,6 +142,7 @@ Added <tt>had_errors</tt> boolean attribute to <tt>merit_actions</tt> table.
 
 # To-do list
 
+* rescue ActiveRecord::... should depend on ORM used (MongoMapper?)
 * Why 1.8.7 tests are not passing?
 * Ranking should not be badges, so .badges doesn't return them (2-stars
   shouldn't be badge).

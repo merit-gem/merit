@@ -12,9 +12,9 @@ module Merit
     def set_rank(*args, &block)
       options = args.extract_options!
 
-      # TODO: Design smell: Using Rule only for block and #applies?
       rule = Rule.new
       rule.block = block
+      rule.level_name = options[:level_name].present? ? "level_#{options[:level_name]}" : 'level'
 
       defined_rules[options[:to]] ||= {}
       defined_rules[options[:to]].merge!({ options[:level] => rule })
@@ -25,9 +25,13 @@ module Merit
       defined_rules.each do |scoped_model, level_and_rules|
         level_and_rules = level_and_rules.sort
         level_and_rules.each do |level, rule|
-          scoped_model.where("level < #{level}").each do |obj|
+          scoped_model.where("#{rule.level_name} < #{level}").each do |obj|
             if rule.applies?(obj)
-              obj.update_attribute :level, level
+              begin
+                obj.update_attribute rule.level_name, level
+              rescue ActiveRecord::StatementInvalid
+                Rails.logger.warn "[merit] Please add #{rule.level_name} column/attribute to #{obj.class}"
+              end
             end
           end
         end
