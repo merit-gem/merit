@@ -49,7 +49,7 @@ module Merit
                else
                  begin
                    action.target_object(model_name).send(to)
-                 rescue ActiveRecord::RecordNotFound
+                 rescue NoMethodError
                    Rails.logger.warn "[merit] #{action.target_model.singularize}.find(#{action.target_id}) not found, no badges giving today"
                    return
                  end
