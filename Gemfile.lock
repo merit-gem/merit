@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    merit (0.4.0)
+    merit (0.4.2)
       ambry
 
 GEM
