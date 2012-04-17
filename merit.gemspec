@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
   s.add_dependency 'ambry'
-  s.add_development_dependency 'rails'
+  s.add_development_dependency 'rails', '~> 3.0.10'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'haml'
   s.add_development_dependency 'capybara'
