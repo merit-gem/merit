@@ -123,6 +123,7 @@ installation, and configuring <tt>config.orm = :mongo_mapper</tt> in
 
 # To-do list
 
+* Should namespace app/models into Merit module.
 * rescue ActiveRecord::... should depend on ORM used (MongoMapper?)
 * Why 1.8.7 tests are not passing?
 * :value parameter (for star voting for example) should be configurable
