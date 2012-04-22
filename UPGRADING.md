@@ -1,5 +1,9 @@
 # Upgrading
 
+## to 0.5.0
+
+Add <tt>log:string</tt> column to <tt>merit_actions</tt> table.
+
 ## to 0.4.0
 
 Rankings are now integer attributes (<tt>level</tt>), they are not badges

@@ -112,17 +112,10 @@ Check for rules on a rake task executed in background like:
 
 ---
 
-# MongoMapper support (experimental)
-
-You may use <tt>merit</tt> with <tt>mongo_mapper</tt> ORM by calling
-<tt>rails g merit MODEL_NAME --orm mongo_mapper</tt> in the third step of the
-installation, and configuring <tt>config.orm = :mongo_mapper</tt> in
-<tt>config/initializers/merit.rb</tt>.
-
----
-
 # To-do list
 
+* Abstract User (rule.rb#51 for instance) into a Merit option.
+* What happens if 'class MeritPointRules; include Merit::PointRules' is changed by 'module Merit::PointRules'?
 * Should namespace app/models into Merit module.
 * rescue ActiveRecord::... should depend on ORM used (MongoMapper?)
 * Why 1.8.7 tests are not passing?
@@ -134,6 +127,7 @@ installation, and configuring <tt>config.orm = :mongo_mapper</tt> in
 
 # Contributors
 
-* [A4bandas media](https://github.com/a4bandas)
+* [Tute Costa](https://github.com/tute)
 * [Juan Schwindt](https://github.com/jschwindt)
 * [Eric Knudtson](https://github.com/ek)
+* [A4bandas media](https://github.com/a4bandas)

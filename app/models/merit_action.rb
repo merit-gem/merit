@@ -32,6 +32,7 @@ class MeritAction
             end
           end
           target.update_attribute(:points, target.points + point_rule[:score])
+          log!("points_granted:#{point_rule[:score]}")
         end
       end
     end
@@ -44,6 +45,10 @@ class MeritAction
     # Grab custom model_name from Rule, or target_model from MeritAction triggered
     klass = model_name || target_model
     klass.singularize.camelize.constantize.find_by_id(target_id)
+  end
+
+  def log!(str)
+    self.update_attribute :log, "#{self.log}#{str}|"
   end
 
   # Mark merit_action as processed

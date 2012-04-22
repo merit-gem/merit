@@ -28,14 +28,19 @@ module Merit
     # Grant badge if rule applies. If it doesn't, and the badge is temporary,
     # then remove it.
     def grant_or_delete_badge(action)
-      if sash = sash_to_badge(action)
-        if applies? action.target_object(model_name)
-          badge.grant_to sash
-        elsif temporary?
-          badge.delete_from sash
-        end
-      else
+      unless (sash = sash_to_badge(action))
         Rails.logger.warn "[merit] no sash found on Rule#grant_or_delete_badge"
+        return
+      end
+
+      if applies? action.target_object(model_name)
+        if badge.grant_to(sash)
+          action.log!("badge_granted:#{badge.name}")
+        end
+      elsif temporary?
+        if badge.delete_from(sash)
+          action.log!("badge_removed:#{badge.name}")
+        end
       end
     end
 

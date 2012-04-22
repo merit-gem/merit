@@ -27,13 +27,23 @@ class Badge
   def grant_to(object_or_sash)
     object_or_sash.create_sash_if_none unless object_or_sash.kind_of?(Sash)
     sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
-    sash.add_badge(id) unless sash.badge_ids.include?(id)
+    if sash.badge_ids.include?(id)
+      return false
+    else
+      sash.add_badge(id)
+      return true
+    end
   end
 
   # Take out badge from sash
   def delete_from(object_or_sash)
     object_or_sash.create_sash_if_none unless object_or_sash.kind_of?(Sash)
     sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
-    sash.rm_badge(id) if sash.badge_ids.include?(id)
+    if sash.badge_ids.include?(id)
+      sash.rm_badge(id)
+      return true
+    else
+      return false
+    end
   end
 end

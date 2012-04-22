@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120309191345) do
+ActiveRecord::Schema.define(:version => 20120318022220) do
 
   create_table "badges_sashes", :id => false, :force => true do |t|
     t.integer  "badge_id"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20120309191345) do
     t.string   "target_model"
     t.integer  "target_id"
     t.boolean  "processed",     :default => false
+    t.string   "log"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20120309191345) do
     t.datetime "updated_at"
     t.integer  "sash_id"
     t.integer  "points",     :default => 0
+    t.integer  "level",      :default => 0
   end
 
 end
