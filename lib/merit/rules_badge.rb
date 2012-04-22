@@ -29,7 +29,7 @@ module Merit
   #
   # Luego chequea las condiciones sincronizadamente, o mediante un proceso en
   # background, por ejemplo cada 5 minutos (Merit::BadgeRules#check_new_actions).
-  module BadgeRules
+  class BadgeRules
     # Define rule for granting badges
     def grant_on(action, *args, &block)
       options = args.extract_options!

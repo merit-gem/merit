@@ -106,7 +106,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'ab').first
     assert_equal 0, user.level, "User level should be 0."
-    MeritRankRules.new.check_rank_rules
+    Merit::RankRules.new.check_rank_rules
     user.reload
     assert_equal 2, user.level, "User level should be 2."
 
@@ -116,7 +116,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'a').first
-    MeritRankRules.new.check_rank_rules
+    Merit::RankRules.new.check_rank_rules
     user.reload
     assert_equal 2, user.level, "User level should be 2."
 
@@ -126,7 +126,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'abcde').first
-    MeritRankRules.new.check_rank_rules
+    Merit::RankRules.new.check_rank_rules
     user.reload
     assert_equal 5, user.level, "User level should be 5."
   end

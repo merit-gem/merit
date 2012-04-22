@@ -8,14 +8,14 @@
 # * :+level_name+ attribute name (default is empty and results in 'level'
 #   attribute, if set it's appended like 'level_#{level_name}')
 
-class MeritRankRules
-  include Merit::RankRules
-
-  def initialize
-    # i stars for i chars name
-    (1..5).each do |i|
-      set_rank :level => i, :to => User do |user|
-        user.name.length == i
+module Merit
+  class RankRules
+    def initialize
+      # i stars for i chars name
+      (1..5).each do |i|
+        set_rank :level => i, :to => User do |user|
+          user.name.length == i
+        end
       end
     end
   end

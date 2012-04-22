@@ -6,8 +6,8 @@ module Merit
     def self.included(base)
       base.after_filter do |controller|
         action      = "#{controller_name}\##{action_name}"
-        badge_rules = ::MeritBadgeRules.new
-        point_rules = ::MeritPointRules.new
+        badge_rules = BadgeRules.new
+        point_rules = PointRules.new
         if badge_rules.defined_rules[action].present? || point_rules.actions_to_point[action].present?
           target_id = params[:id]
           # TODO: target_object should be configurable (now it's singularized controller name)

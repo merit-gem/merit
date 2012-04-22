@@ -96,7 +96,7 @@ Define rules on <tt>app/models/merit_rank_rules.rb</tt>:
 Check for rules on a rake task executed in background like:
 
     task :cron => :environment do
-      MeritRankRules.new.check_rank_rules
+      Merit::RankRules.new.check_rank_rules
     end
 
 
@@ -115,7 +115,6 @@ Check for rules on a rake task executed in background like:
 # To-do list
 
 * Abstract User (rule.rb#51 for instance) into a Merit option.
-* What happens if 'class MeritPointRules; include Merit::PointRules' is changed by 'module Merit::PointRules'?
 * Should namespace app/models into Merit module.
 * rescue ActiveRecord::... should depend on ORM used (MongoMapper?)
 * Why 1.8.7 tests are not passing?

@@ -14,7 +14,7 @@ class MeritAction
       end
 
       # Check Point rules
-      actions_to_point = MeritPointRules.new.actions_to_point
+      actions_to_point = Merit::PointRules.new.actions_to_point
       if actions_to_point[action_name].present?
         point_rule = actions_to_point[action_name]
         point_rule[:to].each do |to|

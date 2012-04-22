@@ -1,5 +1,20 @@
 # Upgrading
 
+## to 0.6.0
+
+<tt>MeritBadgeRules</tt>, <tt>MeritPointRules</tt> and <tt>MeritRankRules</tt>
+are now namespaced into Merit module. Move and change:
+
+<pre>
+app/models/merit_{badge|point|rank}_rules.rb -> app/models/merit/{badge|point|rank}_rules.rb
+</pre>
+<pre>
+-class Merit{Badge|Point|Rank}Rules
+-  include Merit::{Badge|Point|Rank}Rules
++module Merit
++  class {Badge|Point|Rank}Rules
+</pre>
+
 ## to 0.5.0
 
 Add <tt>log:string</tt> column to <tt>merit_actions</tt> table.
