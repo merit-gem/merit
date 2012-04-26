@@ -10,6 +10,8 @@
 
 module Merit
   class RankRules
+    include Merit::RankRulesMethods
+
     def initialize
       # set_rank :level => 1, :to => Commiter.active do |commiter|
       #   commiter.repositories.count > 1 && commiter.followers >= 10

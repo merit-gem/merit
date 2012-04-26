@@ -1,6 +1,6 @@
 # Upgrading
 
-## to 0.6.0
+## to 0.6.1
 
 <tt>MeritBadgeRules</tt>, <tt>MeritPointRules</tt> and <tt>MeritRankRules</tt>
 are now namespaced into Merit module. Move and change:
@@ -13,6 +13,7 @@ app/models/merit_{badge|point|rank}_rules.rb -> app/models/merit/{badge|point|ra
 -  include Merit::{Badge|Point|Rank}Rules
 +module Merit
 +  class {Badge|Point|Rank}Rules
++  include Merit::{Badge|Point|Rank}RulesMethods
 </pre>
 
 ## to 0.5.0

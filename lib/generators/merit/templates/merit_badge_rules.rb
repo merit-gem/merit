@@ -16,6 +16,8 @@
 
 module Merit
   class BadgeRules
+    include Merit::BadgeRulesMethods
+
     def initialize
       # If it creates user, grant badge
       # Should be "current_user" after registration for badge to be granted.

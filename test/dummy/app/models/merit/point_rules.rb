@@ -4,6 +4,8 @@
 
 module Merit
   class PointRules
+    include Merit::PointRulesMethods
+
     def initialize
       score 5, :to => :user, :on => [
         'comments#vote'

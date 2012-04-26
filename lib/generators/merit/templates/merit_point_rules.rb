@@ -5,6 +5,8 @@
 
 module Merit
   class PointRules
+    include Merit::PointRulesMethods
+
     def initialize
       # score 10, :on => [
       #   'users#update'

@@ -16,6 +16,8 @@
 
 module Merit
   class BadgeRules
+    include Merit::BadgeRulesMethods
+
     def initialize
       # If it creates user, grant badge
       # Should be "current_user" after registration for badge to be granted.
@@ -23,7 +25,7 @@ module Merit
 
       # If it has 10 comments, grant commenter-10 badge
       grant_on 'comments#create', :badge => 'commenter', :level => 10 do |comment|
-        comment.user.comments.count == 10
+        comment.user.comments.count >= 10
       end
 
       # If it has at least 10 votes, grant relevant-commenter badge

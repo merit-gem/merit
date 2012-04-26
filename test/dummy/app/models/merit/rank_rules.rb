@@ -10,6 +10,8 @@
 
 module Merit
   class RankRules
+    include Merit::RankRulesMethods
+
     def initialize
       # i stars for i chars name
       (1..5).each do |i|

@@ -2,7 +2,7 @@ module Merit
   # Points are a simple integer value which are given to "meritable" resources
   # according to rules in +app/models/merit_point_rules.rb+. They are given on
   # actions-triggered.
-  class PointRules
+  module PointRulesMethods
     # Define rules on certaing actions for giving points
     def score(points, *args, &block)
       options = args.extract_options!
