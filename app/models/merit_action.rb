@@ -1,6 +1,8 @@
 require "merit/models/#{Merit.orm}/merit_action"
 
 class MeritAction
+  attr_accessible :user_id, :action_method, :action_value, :had_errors, :target_model, :target_id, :processed, :log
+
   # Check rules defined for a merit_action
   def check_rules(defined_rules)
     action_name = "#{target_model}\##{action_method}"
