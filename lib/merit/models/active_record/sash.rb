@@ -6,7 +6,10 @@ class Sash < ActiveRecord::Base
   end
 
   def add_badge(badge_id)
-    BadgesSash.create(sash_id: self.id, badge_id: badge_id)
+    bs = BadgesSash.new
+    bs.sash_id = self.id
+    bs.badge_id = badge_id
+    bs.save
   end
   def rm_badge(badge_id)
     badges_sashes = BadgesSash.where(:badge_id => badge_id, :sash_id => self.id)

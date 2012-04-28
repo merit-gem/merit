@@ -114,6 +114,7 @@ Check for rules on a rake task executed in background like:
 
 # To-do list
 
+* rails g merit MODEL_NAME shouldn't create general migrations again.
 * Abstract User (rule.rb#51 for instance) into a Merit option.
 * Should namespace app/models into Merit module.
 * rescue ActiveRecord::... should depend on ORM used (MongoMapper?)
