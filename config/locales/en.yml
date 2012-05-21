@@ -1,0 +1,4 @@
+en:
+  merit:
+    flashs:
+      badge_granted: "Congratulations! You've just earned '%{badge}' badge."

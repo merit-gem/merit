@@ -1,0 +1,11 @@
+cd test/dummy
+rails g merit:install # Next n's for not overriding already defined rules
+n
+n
+n
+rails g merit user
+rake db:migrate ; rake db:seed
+# see it in the browser
+rails server
+# or run tests
+cd ../.. ; rake test

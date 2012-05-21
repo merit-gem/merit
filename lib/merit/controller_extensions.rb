@@ -18,7 +18,7 @@ module Merit
 
           # TODO: value should be configurable (now it's params[:value] set in the controller)
           value = params[:value]
-          MeritAction.create(
+          merit_action_id = MeritAction.create(
             :user_id       => current_user.try(:id),
             :action_method => action_name,
             :action_value  => value,
@@ -30,6 +30,15 @@ module Merit
           # Check rules in after_filter?
           if Merit.checks_on_each_request
             badge_rules.check_new_actions
+
+            # Show flash msg?
+            if (log = MeritAction.find(merit_action_id).log)
+              # Only if assigned to current_user
+              rules = badge_rules.defined_rules[action].select{|rule| rule.to.to_sym == :action_user }
+              rules.each do |rule|
+                flash[:merit] = t('merit.flashs.badge_granted', badge: rule.badge.name)
+              end
+            end
           end
         end
       end

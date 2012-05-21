@@ -35,11 +35,11 @@ module Merit
 
       if applies? action.target_object(model_name)
         if badge.grant_to(sash)
-          action.log!("badge_granted:#{badge.name}")
+          action.log!("badge_granted:#{badge.id}")
         end
       elsif temporary?
         if badge.delete_from(sash)
-          action.log!("badge_removed:#{badge.name}")
+          action.log!("badge_removed:#{badge.id}")
         end
       end
     end
