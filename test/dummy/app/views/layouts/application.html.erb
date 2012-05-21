@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Merit Dummy app</title>
+  <%= stylesheet_link_tag :all %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  <h1><%= link_to 'Dummy app', '/' %></h1>
+
+  <% flash.each do |name, msg| %>
+    <%= content_tag :p, msg, :class => (name == 'error' ? 'error' : 'notice') %>
+  <% end %>
+
+  <%= yield %>
+
+  <ul>
+    <li><%= link_to 'Users', users_url %></li>
+    <li><%= link_to 'Comments', comments_url %></li>
+  </ul>
+</body>
+</html>
