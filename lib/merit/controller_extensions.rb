@@ -33,10 +33,11 @@ module Merit
 
             # Show flash msg?
             if (log = MeritAction.find(merit_action_id).log)
-              # Only if assigned to current_user
-              rules = badge_rules.defined_rules[action].select{|rule| rule.to.to_sym == :action_user }
-              rules.each do |rule|
-                flash[:merit] = t('merit.flashs.badge_granted', badge: rule.badge.name)
+              # Badges granted to current_user
+              granted = log.split('|').select{|log| log =~ /badge_granted_to_action_user/ }
+              granted.each do |badge|
+                badge_id = badge.split(':').last.to_i
+                flash[:merit] = t('merit.flashs.badge_granted', badge: Badge.find(badge_id).name)
               end
             end
           end

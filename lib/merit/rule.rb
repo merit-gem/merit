@@ -35,7 +35,8 @@ module Merit
 
       if applies? action.target_object(model_name)
         if badge.grant_to(sash)
-          action.log!("badge_granted:#{badge.id}")
+          to_action_user = (to.to_sym == :action_user ? '_to_action_user' : '')
+          action.log!("badge_granted#{to_action_user}:#{badge.id}")
         end
       elsif temporary?
         if badge.delete_from(sash)
