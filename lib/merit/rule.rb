@@ -3,7 +3,7 @@ module Merit
   # and a temporary option.
   # Could split this class between badges and rankings functionality
   class Rule
-    attr_accessor :badge_name, :level, :to, :temporary, :block, :model_name, :level_name
+    attr_accessor :badge_name, :level, :to, :multiple, :temporary, :block, :model_name, :level_name
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)
@@ -22,7 +22,7 @@ module Merit
       end
     end
 
-    # Is this rule's badge temporary?
+    def multiple?; self.multiple; end
     def temporary?; self.temporary; end
 
     # Grant badge if rule applies. If it doesn't, and the badge is temporary,
@@ -34,7 +34,8 @@ module Merit
       end
 
       if applies? action.target_object(model_name)
-        if badge.grant_to(sash)
+        if !sash.badge_ids.include?(badge.id) || multiple?
+          badge.grant_to(sash)
           to_action_user = (to.to_sym == :action_user ? '_to_action_user' : '')
           action.log!("badge_granted#{to_action_user}:#{badge.id}")
         end

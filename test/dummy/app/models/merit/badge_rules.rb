@@ -26,6 +26,9 @@ module Merit
         Date.today > 1.year.ago.to_date
       end
 
+      # Example rule for multiple badge granting
+      grant_on 'users#index', :badge => 'gossip', :multiple => true
+
       # If it has 10 comments, grant commenter-10 badge
       grant_on 'comments#create', :badge => 'commenter', :level => 10 do |comment|
         comment.user.comments.count >= 10

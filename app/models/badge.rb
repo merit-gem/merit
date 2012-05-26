@@ -27,12 +27,8 @@ class Badge
   def grant_to(object_or_sash)
     object_or_sash.create_sash_if_none unless object_or_sash.kind_of?(Sash)
     sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
-    if sash.badge_ids.include?(id)
-      return false
-    else
-      sash.add_badge(id)
-      return true
-    end
+    sash.add_badge(id)
+    return true
   end
 
   # Take out badge from sash

@@ -29,6 +29,7 @@ holds. Badges may have levels, and may be temporary. Define rules on
 * <tt>:to</tt> method name over target_object which obtains object to badge
 * <tt>:model_name</tt> (string) define controller's name if it differs from
   the model (like <tt>RegistrationsController</tt> for <tt>User</tt> model).
+* <tt>:multiple</tt> (boolean) badge may be granted multiple times
 * <tt>:temporary</tt> (boolean) if the receiver had the badge but the
   condition doesn't hold anymore, remove it. <tt>false</tt> by default (badges
   are kept forever).

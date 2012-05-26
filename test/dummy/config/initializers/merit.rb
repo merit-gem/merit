@@ -29,6 +29,9 @@ badge_id = 0
 }, {
   :id => (badge_id = badge_id+1),
   :name => 'just-registered'
+}, {
+  :id => (badge_id = badge_id+1),
+  :name => 'gossip'
 }].each do |badge|
   Badge.create! badge
 end

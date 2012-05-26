@@ -10,6 +10,15 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal [Badge.by_name('just-registered').first], user.badges.to_a
   end
 
+  test 'users#index should grant badge multiple times' do
+    user = User.create(:name => 'test-user')
+    visit '/users'
+    visit '/users'
+    visit '/users'
+    visit '/users'
+    assert_equal 4, User.first.badges.count
+  end
+
   test 'user workflow should grant some badges at some times' do
     # Commented 9 times, no badges yet
     user = User.create(:name => 'test-user')

@@ -40,6 +40,7 @@ module Merit
       rule.badge_name = options[:badge]
       rule.level      = options[:level]
       rule.to         = options[:to] || :action_user
+      rule.multiple   = options[:multiple] || false
       rule.temporary  = options[:temporary] || false
       rule.model_name = options[:model_name] || actions[0].split('#')[0]
       rule.block      = block
