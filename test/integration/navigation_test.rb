@@ -1,15 +1,18 @@
 require 'test_helper'
 
 class NavigationTest < ActiveSupport::IntegrationCase
-  setup do
-    User.create(:name => 'test-user')
+  test 'user sign up should grant badge to itself' do
+    visit '/users/new'
+    fill_in 'Name', :with => 'Jack'
+    click_button('Create User')
+
+    user = User.where(:name => 'Jack').first
+    assert_equal [Badge.by_name('just-registered').first], user.badges.to_a
   end
 
   test 'user workflow should grant some badges at some times' do
-    user = User.first
-    assert user.badges.empty?
-
     # Commented 9 times, no badges yet
+    user = User.create(:name => 'test-user')
     (1..9).each do |i|
       Comment.create(
         :name    => "Title #{i}",
@@ -65,7 +68,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should add up points at some times' do
-    user = User.first
+    user = User.create(:name => 'test-user')
     assert_equal 0, user.points, 'User should start with 0 points'
 
     visit "/users/#{user.id}/edit"
@@ -96,7 +99,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should grant levels at some times' do
-    user = User.first
+    user = User.create(:name => 'test-user')
     assert user.badges.empty?
 
     # Edit user's name by 2 chars name

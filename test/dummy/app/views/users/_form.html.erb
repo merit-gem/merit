@@ -1,4 +1,4 @@
-<% obj = params[:action] == :new ? @user : [:registrations, @user] %>
+<% obj = params[:action] == 'new' ? @user : [:registrations, @user] %>
 <%= form_for obj do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">

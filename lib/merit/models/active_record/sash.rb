@@ -13,7 +13,7 @@ class Sash < ActiveRecord::Base
   end
   def rm_badge(badge_id)
     badges_sashes = BadgesSash.where(:badge_id => badge_id, :sash_id => self.id)
-    # ActiveRecord::Relation#delete doesn't work with composite keys.
+    # ActiveRecord::Relation#delete|destroy(_all) doesn't work with composite keys.
     # Badge is not AR model (Ambry) so can't do self.badges.find(badge_id).delete
     badges_sash = badges_sashes.first
     badges_sashes.delete_all
