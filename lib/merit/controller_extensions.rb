@@ -24,7 +24,7 @@ module Merit
             :had_errors    => target_object.try(:errors).try(:present?),
             :target_model  => controller_name,
             :target_id     => target_id
-          )
+          ).id
 
           # Check rules in after_filter?
           if Merit.checks_on_each_request

@@ -3,7 +3,7 @@ Merit.setup do |config|
   # Check rules on each request or in background
   # config.checks_on_each_request = true
 
-  # Define ORM. Could be :active_record (default) and :mongo_mapper
+  # Define ORM. Could be :active_record (default) and :mongo_mapper and :mongoid
   # config.orm = :active_record
 end
 
