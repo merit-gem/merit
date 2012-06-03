@@ -12,7 +12,8 @@ module Merit
           target_id = params[:id]
           # TODO: target_object should be configurable (now it's singularized controller name)
           target_object = instance_variable_get(:"@#{controller_name.singularize}")
-          unless target_id =~ /^[0-9]+$/ # id nil, or string (friendly_id)?
+          # id nil, or string (friendly_id); target_object found
+          if target_object.present? && (target_id.nil? || !(target_id =~ /^[0-9]+$/))
             target_id = target_object.try(:id)
           end
 
