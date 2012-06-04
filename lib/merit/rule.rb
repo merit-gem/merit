@@ -57,7 +57,7 @@ module Merit
                  begin
                    action.target_object(model_name).send(to)
                  rescue NoMethodError
-                   Rails.logger.warn "[merit] #{action.target_model.singularize}.find(#{action.target_id}) not found, no badges giving today"
+                   Rails.logger.warn "[merit] #{action.target_model.singularize.camelize}.find(#{action.target_id}) not found, no badges giving today"
                    return
                  end
                end
