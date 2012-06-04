@@ -9,3 +9,5 @@ rake db:migrate ; rake db:seed
 rails server
 # or run tests
 cd ../.. ; rake test
+# or run tests with Mongoid
+cd ../.. ; ORM=mongoid rake test
