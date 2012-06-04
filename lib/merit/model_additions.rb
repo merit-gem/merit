@@ -25,10 +25,11 @@ module Merit
 
   # Create sash if doesn't have
   def create_sash_if_none
-    if sash.nil?
-      self.sash = Sash.new
+    if self.sash.blank?
+      self.sash = Sash.create
       self.save(:validate => false)
     end
+    Rails.logger.debug "--------- create_sash_if_none: #{self.sash.new_record?}"
   end
 end
 
