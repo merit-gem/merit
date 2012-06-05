@@ -28,7 +28,13 @@ module Merit
         level_and_rules = level_and_rules.sort
         level_and_rules.each do |level, rule|
           begin
-            scoped_model.where("#{rule.level_name} < #{level}").each do |obj|
+            items = []
+            if Merit.orm == :mongoid
+              items = scoped_model.where(:"#{rule.level_name}".lt => level)
+            else
+              items = scoped_model.where("#{rule.level_name} < #{level}")
+            end
+            items.each do |obj|
               if rule.applies?(obj)
                 obj.update_attribute rule.level_name, level
               end

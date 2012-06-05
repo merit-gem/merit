@@ -23,7 +23,12 @@ module Merit
     initializer 'merit.controller' do |app|
       # Merit.orm now set
       if Merit.orm == :active_record
-        require "merit/models/#{Merit.orm}/badges_sash"
+        # This line to fix rails g merit:install raise "uninitialized constant ActiveRecord" with Mongoid projects.
+        if Module.const_defined?("ActiveRecord")
+          require "merit/models/#{Merit.orm}/sash"
+          require "merit/models/#{Merit.orm}/badges_sash"
+        end
+      elsif Merit.orm == :mongoid
         require "merit/models/#{Merit.orm}/sash"
       end
 

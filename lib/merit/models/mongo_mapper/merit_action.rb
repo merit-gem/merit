@@ -8,5 +8,6 @@ class MeritAction
   key :target_model, String
   key :target_id, String
   key :processed, Boolean, :default => false
+  key :log, String
   timestamps!
 end
