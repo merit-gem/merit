@@ -4,7 +4,6 @@ require 'merit/rules_points'
 require 'merit/rules_rank'
 require 'merit/controller_extensions'
 require 'merit/model_additions'
-require 'merit/engine'
 
 module Merit
   # Check rules on each request
