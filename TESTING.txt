@@ -1,13 +1,16 @@
 cd test/dummy
-rails g merit:install # Next n's for not overriding already defined rules
+rails g merit:install # n's for not overriding already defined badges & rules
+n
 n
 n
 n
 rails g merit user
 rake db:migrate ; rake db:seed
+
 # see it in the browser
 rails server
+
 # or run tests
-cd ../.. ; rake test
-# or run tests with Mongoid
-cd ../.. ; ORM=mongoid rake test
+cd ../..
+rake test
+ORM=mongoid rake test

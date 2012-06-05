@@ -4,7 +4,5 @@
 log/*.log
 pkg/
 test/dummy/db/*.sqlite3
-test/dummy/log/*.log
-test/dummy/tmp/
-test/dummy-mongoid/log/*.log
-test/dummy-mongoid/tmp/
+test/dummy*/log/*.log
+test/dummy*/tmp/

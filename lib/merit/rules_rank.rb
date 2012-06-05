@@ -28,7 +28,6 @@ module Merit
         level_and_rules = level_and_rules.sort
         level_and_rules.each do |level, rule|
           begin
-            items = []
             if Merit.orm == :mongoid
               items = scoped_model.where(:"#{rule.level_name}".lt => level)
             else

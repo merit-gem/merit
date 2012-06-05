@@ -115,11 +115,13 @@ Check for rules on a rake task executed in background like:
 
 # To-do list
 
+* Can infer params[:id] = instance_variable.id in create actions, for having
+  the object in the rule method parameter, so we don't need it in controllers.
 * add an error handler for inexistent badges.
 * rails g merit MODEL_NAME shouldn't create general migrations again.
 * Abstract User (rule.rb#51 for instance) into a Merit option.
 * Should namespace app/models into Merit module.
-* rescue ActiveRecord::... should depend on ORM used (MongoMapper?)
+* rescue ActiveRecord::... should depend on ORM used
 * Why 1.8.7 tests are not passing?
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).

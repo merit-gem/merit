@@ -1,8 +1,13 @@
 language: ruby
+
 rvm:
   - 1.8.7
   - 1.9.2
   - 1.9.3
+env:
+  - ORM=activerecord
+  - ORM=mongoid
+
 matrix:
   allow_failures:
     - rvm: 1.8.7

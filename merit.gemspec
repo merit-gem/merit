@@ -7,10 +7,14 @@ Gem::Specification.new do |s|
   s.version     = "0.7.1"
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
-  s.add_dependency 'ambry'
+  s.add_dependency 'ambry',  '~> 0.3.0'
   s.add_development_dependency 'rails', '~> 3.2.3'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'haml'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'simplecov'
+  # Testing with Mongoid
+  s.add_development_dependency 'bson_ext'
+  s.add_development_dependency 'mongoid', '2.4.8'
+  s.add_development_dependency 'mongoid_auto_increment_id', '0.4.0'
 end
