@@ -1,0 +1,14 @@
+defaults: &defaults
+  host: '127.0.0.1'
+
+development:
+  <<: *defaults
+  database: merit_dummy_dev
+
+test:
+  <<: *defaults
+  database: "merit_dummy_test"
+
+production:
+  <<: *defaults
+  database: merit_dummy

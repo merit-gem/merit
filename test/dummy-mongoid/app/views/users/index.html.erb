@@ -1,0 +1,26 @@
+<h1>Listing users</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>#Comments</th>
+    <th>Badges</th>
+    <th>Points</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr>
+    <td><%= user.name %></td>
+    <td><%= user.comments.count %></td>
+    <td><%= user.show_badges %></td>
+    <td><%= user.points %></td>
+    <td><%= link_to 'Show', user %>
+    - <%= link_to 'Edit', edit_user_path(user) %>
+    - <%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User', new_user_path %>

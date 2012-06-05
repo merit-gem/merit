@@ -1,0 +1,18 @@
+<p>
+  <b>Name:</b>
+  <%= @user.name %>
+</p>
+
+<p>
+  <b>Comments:</b>
+  <%= @user.comments.count %>
+</p>
+
+<p>
+  <b>Badges:</b>
+  <%= @user.show_badges %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_path(@user) %> |
+<%= link_to 'Back', users_path %>

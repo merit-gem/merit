@@ -4,7 +4,7 @@ Merit.setup do |config|
   # config.checks_on_each_request = true
 
   # Define ORM. Could be :active_record (default) and :mongo_mapper and :mongoid
-  # config.orm = :active_record
+  config.orm = :mongoid
 end
 
 # Create application badges (uses https://github.com/norman/ambry)

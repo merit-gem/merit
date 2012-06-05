@@ -10,6 +10,10 @@ module Merit
         key :sash_id, String
         key :points, Integer, :default => 0
         key :level, Integer, :default => 0
+      elsif Merit.orm == :mongoid
+        field :sash_id
+        field :points, :type => Integer, :default => 0
+        field :level, :type => Integer, :default => 0
       end
     end
   end
@@ -21,8 +25,8 @@ module Merit
 
   # Create sash if doesn't have
   def create_sash_if_none
-    if sash.nil?
-      self.sash = Sash.new
+    if self.sash.blank?
+      self.sash = Sash.create
       self.save(:validate => false)
     end
   end
@@ -33,4 +37,7 @@ if Object.const_defined?('ActiveRecord')
 end
 if Object.const_defined?('MongoMapper')
   MongoMapper::Document.plugin Merit
+end
+if Object.const_defined?('Mongoid')
+  Mongoid::Document.send :include, Merit
 end
