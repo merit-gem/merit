@@ -29,7 +29,6 @@ module Merit
       self.sash = Sash.create
       self.save(:validate => false)
     end
-    Rails.logger.debug "--------- create_sash_if_none: #{self.sash.new_record?}"
   end
 end
 
