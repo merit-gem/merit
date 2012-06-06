@@ -9,7 +9,7 @@ module Merit
     def applies?(target_obj = nil)
       return true if block.nil? # no block given: always true
 
-      case block.parameters.count
+      case block.arity
       when 1 # Expects target object
         if target_obj.present?
           return block.call(target_obj)

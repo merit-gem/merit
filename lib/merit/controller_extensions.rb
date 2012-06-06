@@ -37,7 +37,7 @@ module Merit
               granted = log.split('|').select{|log| log =~ /badge_granted_to_action_user/ }
               granted.each do |badge|
                 badge_id = badge.split(':').last.to_i
-                flash[:merit] = t('merit.flashs.badge_granted', badge: Badge.find(badge_id).name)
+                flash[:merit] = t('merit.flashs.badge_granted', :badge => Badge.find(badge_id).name)
               end
             end
           end
