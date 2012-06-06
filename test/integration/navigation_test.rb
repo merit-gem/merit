@@ -102,7 +102,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user = User.where(:name => 'a').first
     assert_equal 40, user.points, 'Commenting should grant 20 points'
 
-    visit "/comments/1/vote/4"
+    visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first
     assert_equal 45, user.points, 'Voting comments should grant 5 points'
   end

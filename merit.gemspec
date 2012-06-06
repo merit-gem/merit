@@ -15,6 +15,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   # Testing with Mongoid
   s.add_development_dependency 'bson_ext'
-  s.add_development_dependency 'mongoid', '2.4.8'
-  s.add_development_dependency 'mongoid_auto_increment_id', '0.4.0'
+  s.add_development_dependency 'mongoid', '~> 2.0.0'
 end
