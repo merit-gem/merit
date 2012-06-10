@@ -72,7 +72,9 @@ module Merit
       if @badge.nil?
         badges = Badge.by_name(badge_name)
         badges = badges.by_level(level) unless level.nil?
-        @badge = badges.first
+        if !(@badge = badges.first)
+          raise "No badge '#{badge_name}'#{level.nil? ? '' : " with level #level"} found. Define it in 'config/initializers/merit.rb'."
+        end
       end
       @badge
     end
