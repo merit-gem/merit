@@ -13,8 +13,10 @@
 
 1. Add `gem 'merit'` to your `Gemfile`
 2. Run `rails g merit:install`
-3. Run `rails g merit USER_MODEL_NAME`
-4. Run `rake db:migrate` (only for **ActiveRecord**)
+3. Run `rails g merit MODEL_NAME`
+4.
+  * ActiveRecord: Run `rake db:migrate`
+  * Mongoid: Set `config.orm = :mongoid` in `config/initializers/merit.rb`
 5. Configure reputation rules for your application
 
 ---
@@ -34,9 +36,9 @@ holds. Badges may have levels, and may be temporary. Define rules on
 * `:model_name` (string) define controller's name if it differs from
   the model (like `RegistrationsController` for `User` model).
 * `:multiple` (boolean) badge may be granted multiple times
-* `:temporary` (boolean) if the receiver had the badge but the
-  condition doesn't hold anymore, remove it. `false` by default (badges
-  are kept forever).
+* `:temporary` (boolean) if the receiver had the badge but the condition
+  doesn't hold anymore, remove it. `false` by default (badges are kept
+  forever).
 * `&block`
   * empty (always grants)
   * a block which evaluates to boolean (recieves target object as parameter)
