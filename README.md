@@ -17,7 +17,8 @@
 4.
   * ActiveRecord: Run `rake db:migrate`
   * Mongoid: Set `config.orm = :mongoid` in `config/initializers/merit.rb`
-5. Configure reputation rules for your application
+5. Define badges you will use in `config/initializers/merit.rb`
+6. Configure reputation rules for your application in `app/models/merit/*`
 
 ---
 
