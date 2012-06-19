@@ -133,6 +133,7 @@ end
 
 # To-do list
 
+* `Badge#grant_to` should accept a second `multiple` parameter
 * Can infer params[:id] = instance_variable.id in create actions, for having
   the object in the rule method parameter, so we don't need it in controllers.
 * add an error handler for inexistent badges.
@@ -151,5 +152,5 @@ end
 
 * [Tute Costa](https://github.com/tute)
 * [Juan Schwindt](https://github.com/jschwindt)
-* [Eric Knudtson](https://github.com/ek)
+* [Eric Knudtson](https://github.com/ek) ([Chef Surfing](https://chefsurfing.com/))
 * [A4bandas media](https://github.com/a4bandas)
