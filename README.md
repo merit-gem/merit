@@ -14,7 +14,7 @@
 1. Add `gem 'merit'` to your `Gemfile`
 2. Run `rails g merit:install`
 3. Run `rails g merit MODEL_NAME`
-4.
+4. Depending on your ORM
   * ActiveRecord: Run `rake db:migrate`
   * Mongoid: Set `config.orm = :mongoid` in `config/initializers/merit.rb`
 5. Define badges you will use in `config/initializers/merit.rb`
