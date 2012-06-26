@@ -16,6 +16,10 @@ module Merit
         field :level, :type => Integer, :default => 0
       end
     end
+
+    def find_by_id(id)
+      Merit.orm == :mongoid ? where(:_id => id).first : super(id)
+    end
   end
 
   def badges
