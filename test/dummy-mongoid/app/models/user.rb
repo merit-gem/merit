@@ -10,10 +10,6 @@ class User
 
   attr_accessible :name
 
-  def self.find_by_id(id)
-    where(:_id => id).first
-  end
-
   def show_badges
     create_sash_if_none
     badges_uniq = Badge.find_by_id(sash.badge_ids)

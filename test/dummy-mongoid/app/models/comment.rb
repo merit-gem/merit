@@ -10,8 +10,4 @@ class Comment
   attr_accessible :name, :comment, :user_id, :votes
 
   validates :name, :comment, :user_id, :presence => true
-
-  def self.find_by_id(id)
-    where(:_id => id).first
-  end
 end
