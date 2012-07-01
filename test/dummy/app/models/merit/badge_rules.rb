@@ -23,7 +23,7 @@ module Merit
       # Should be "current_user" after registration for badge to be granted.
       # Example rule with block with no parameters
       grant_on 'users#create', :badge => 'just-registered', :to => :itself do
-        Date.today > 1.year.ago.to_date
+        true
       end
 
       # Example rule for multiple badge granting

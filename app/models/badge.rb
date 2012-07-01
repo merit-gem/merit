@@ -12,8 +12,8 @@ class Badge
 
   filters do
     def find_by_id(ids)
-      ids = ids.kind_of?(Array) ? ids : [ids]
-      find{|b| ids.include? b.id }
+      ids = Array.wrap(ids)
+      find{|b| ids.include? b[:id] }
     end
     def by_name(name)
       find{|b| b.name == name.to_s }

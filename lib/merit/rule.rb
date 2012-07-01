@@ -17,7 +17,7 @@ module Merit
           Rails.logger.warn "[merit] no target_obj found on Rule#applies?. MeritAction: #{action.inspect}"
           return false
         end
-      when 0 # evaluates to boolean
+      else # evaluates to boolean. block.arity returns 0 in Ruby 1.9.3 and -1 in Ruby 1.8.7
         return block.call
       end
     end
