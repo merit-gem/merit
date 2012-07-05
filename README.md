@@ -83,12 +83,18 @@ score 10, :on => [
   'users#update'
 ]
 
-score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
-
 score 20, :on => [
   'comments#create',
   'photos#create'
 ]
+```
+
+`:to` method(s) work as in badge rules: they are sent to the target_object.
+In the following example, after a review gets created both `review.reviewer`
+and `review.reviewed` are granted 15 points:
+
+```ruby
+score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
 ```
 
 ---
