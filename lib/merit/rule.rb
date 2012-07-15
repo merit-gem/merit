@@ -22,7 +22,6 @@ module Merit
       end
     end
 
-    def multiple?; self.multiple; end
     def temporary?; self.temporary; end
 
     # Grant badge if rule applies. If it doesn't, and the badge is temporary,
@@ -34,8 +33,7 @@ module Merit
       end
 
       if applies? action.target_object(model_name)
-        if !sash.badge_ids.include?(badge.id) || multiple?
-          badge.grant_to(sash)
+        if badge.grant_to(sash, :allow_multiple => self.multiple)
           to_action_user = (to.to_sym == :action_user ? '_to_action_user' : '')
           action.log!("badge_granted#{to_action_user}:#{badge.id}")
         end

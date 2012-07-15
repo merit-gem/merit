@@ -24,11 +24,20 @@ class Badge
   end
 
   # Grant badge to sash
-  def grant_to(object_or_sash)
+  # Accepts :allow_multiple boolean option, defaults to false
+  def grant_to(object_or_sash, *args)
     object_or_sash.create_sash_if_none unless object_or_sash.kind_of?(Sash)
     sash = object_or_sash.respond_to?(:sash) ? object_or_sash.sash : object_or_sash
-    sash.add_badge(id)
-    return true
+
+    options = args.extract_options!
+    options[:allow_multiple] ||= false
+
+    if !sash.badge_ids.include?(id) || options[:allow_multiple]
+      sash.add_badge(id)
+      return true
+    else
+      return false
+    end
   end
 
   # Take out badge from sash

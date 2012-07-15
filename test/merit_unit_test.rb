@@ -22,4 +22,16 @@ class MeritUnitTest < ActiveSupport::TestCase
     badge_sash.badge_id = 99
     assert_equal Badge.find(99), badge_sash.badge
   end
+
+  test "Badge#grant_to allow_multiple option" do
+    badge = Badge.create(:id => 99, :name => 'test-badge')
+    sash = Sash.create(:id => 99)
+    assert_equal 0, sash.badge_ids.count
+    badge.grant_to sash
+    assert_equal 1, sash.reload.badge_ids.count
+    badge.grant_to sash
+    assert_equal 1, sash.reload.badge_ids.count
+    badge.grant_to sash, :allow_multiple => true
+    assert_equal 2, sash.reload.badge_ids.count
+  end
 end

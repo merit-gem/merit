@@ -139,7 +139,6 @@ end
 
 # To-do list
 
-* `Badge#grant_to` should accept a second `multiple` parameter
 * Can infer params[:id] = instance_variable.id in create actions, for having
   the object in the rule method parameter, so we don't need it in controllers.
 * add an error handler for inexistent badges.
@@ -147,7 +146,6 @@ end
 * Abstract User (rule.rb#51 for instance) into a Merit option.
 * Should namespace app/models into Merit module.
 * rescue ActiveRecord::... should depend on ORM used
-* Why 1.8.7 tests are not passing?
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
