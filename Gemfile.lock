@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    merit (0.8.1)
+    merit (0.9.1)
       ambry (~> 0.3.0)
 
 GEM
@@ -35,7 +35,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.2.7)
-    ambry (0.3.0)
+    ambry (0.3.1)
     arel (3.0.2)
     bson (1.6.2)
     bson_ext (1.6.2)
