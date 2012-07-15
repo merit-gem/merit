@@ -139,8 +139,6 @@ end
 
 # To-do list
 
-* Can infer params[:id] = instance_variable.id in create actions, for having
-  the object in the rule method parameter, so we don't need it in controllers.
 * add an error handler for inexistent badges.
 * rails g merit MODEL_NAME shouldn't create general migrations again.
 * Abstract User (rule.rb#51 for instance) into a Merit option.

@@ -6,7 +6,7 @@ Adds `allow_multiple` boolean option to `Badge#grant_to` (defaults to
 `false`). If you used this method to grant a badge it will now grant only if
 resource doesn't have the badge.
 
-Use `grant_to resource, :allow_multiple => true` where needed.
+Use `badge.grant_to resource, :allow_multiple => true` where needed.
 
 ## to 0.8.0
 
