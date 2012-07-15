@@ -1,6 +1,23 @@
 # Upgrading
 
-## to 0.6.1
+## to 0.9.0
+
+Adds `allow_multiple` boolean option to `Badge#grant_to` (defaults to
+`false`). If you used this method to grant a badge it will now grant only if
+resource doesn't have the badge.
+
+Use `grant_to resource, :allow_multiple => true` where needed.
+
+## to 0.8.0
+
+No changes needed. Adds Mongoid support.
+
+## to 0.7.0
+
+No changes needed. Adds `:multiple` boolean option to `grant_on` to grant
+badge multiple times.
+
+## to 0.6.0
 
 <tt>MeritBadgeRules</tt>, <tt>MeritPointRules</tt> and <tt>MeritRankRules</tt>
 are now namespaced into Merit module. Move and change:
