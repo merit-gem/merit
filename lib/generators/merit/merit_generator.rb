@@ -4,6 +4,12 @@ module Merit
       source_root File.expand_path("../templates", __FILE__)
       hook_for :orm
 
+      def inject_merit_content
+        inject_into_class(model_path, class_name, "  has_merit\n\n") if model_exists?
+      end
+
+      private
+
       def model_exists?
         File.exists?(File.join(destination_root, model_path))
       end
@@ -12,9 +18,6 @@ module Merit
         @model_path ||= File.join("app", "models", "#{file_path}.rb")
       end
 
-      def inject_merit_content
-        inject_into_class(model_path, class_name, "  has_merit\n\n") if model_exists?
-      end
     end
   end
 end
