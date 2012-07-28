@@ -18,23 +18,24 @@ class MeritAction
       # Check Point rules
       actions_to_point = Merit::PointRules.new.actions_to_point
       if actions_to_point[action_name].present?
-        point_rule = actions_to_point[action_name]
-        point_rule[:to].each do |to|
-          if to == :action_user
-            if !(target = User.find_by_id(user_id))
-              Rails.logger.warn "[merit] no user found to grant points"
-              return
+        actions_to_point[action_name].each do |point_rule|
+          point_rule[:to].each do |to|
+            if to == :action_user
+              if !(target = User.find_by_id(user_id))
+                Rails.logger.warn "[merit] no user found to grant points"
+                return
+              end
+            else
+              begin
+                target = target_object.send(to)
+              rescue NoMethodError
+                Rails.logger.warn "[merit] No target_object found on check_rules."
+                return
+              end
             end
-          else
-            begin
-              target = target_object.send(to)
-            rescue NoMethodError
-              Rails.logger.warn "[merit] No target_object found on check_rules."
-              return
-            end
+            target.update_attribute(:points, target.points + point_rule[:score])
+            log!("points_granted:#{point_rule[:score]}")
           end
-          target.update_attribute(:points, target.points + point_rule[:score])
-          log!("points_granted:#{point_rule[:score]}")
         end
       end
     end
