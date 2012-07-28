@@ -16,9 +16,8 @@ class MeritAction
       end
 
       # Check Point rules
-      actions_to_point = Merit::PointRules.new.actions_to_point
-      if actions_to_point[action_name].present?
-        point_rule = actions_to_point[action_name]
+      Merit::PointRules.new.actions_to_point[action_name] ||= []
+      Merit::PointRules.new.actions_to_point[action_name].each do |point_rule|
         point_rule[:to].each do |to|
           if to == :action_user
             target = Merit.user_model.find_by_id(user_id)
