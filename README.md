@@ -87,6 +87,10 @@ score 20, :on => [
   'comments#create',
   'photos#create'
 ]
+
+score 10, to: [:post_creator], :on => [
+  'comments#create'
+]
 ```
 
 `:to` method(s) work as in badge rules: they are sent to the target_object.
@@ -156,3 +160,4 @@ end
 * [Juan Schwindt](https://github.com/jschwindt)
 * [Eric Knudtson](https://github.com/ek) ([Chef Surfing](https://chefsurfing.com/))
 * [A4bandas media](https://github.com/a4bandas)
+* [Moritz Winter](https://github.com/PizzaPill) ([Wintersolutions](http://wintersolutions.de))
