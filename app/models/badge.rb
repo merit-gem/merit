@@ -15,6 +15,9 @@ class Badge
       ids = Array.wrap(ids)
       find{|b| ids.include? b[:id] }
     end
+    def find_by_name(name)
+      by_name(name).first
+    end
     def by_name(name)
       find{|b| b.name == name.to_s }
     end
