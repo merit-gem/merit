@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20120318022220) do
 
-  create_table "badges_sashes", :id => false, :force => true do |t|
+  create_table "badges_sashes", :force => true do |t|
     t.integer  "badge_id"
     t.integer  "sash_id"
     t.boolean  "notified_user", :default => false
