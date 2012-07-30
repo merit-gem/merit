@@ -21,6 +21,7 @@ module ActiveRecord
         migration_template 'create_sashes.rb', 'db/migrate/create_sashes.rb'
         migration_template 'create_badges_sashes.rb', 'db/migrate/create_badges_sashes.rb'
         migration_template "add_fields_to_model.rb", "db/migrate/add_fields_to_#{table_name}"
+        migration_template 'add_id_to_badges_sashes.rb', 'db/migrate/add_id_to_badges_sashes.rb'
       end
     end
   end
