@@ -1,5 +1,5 @@
 class Sash < ActiveRecord::Base
-  has_many :badges_sashes
+  has_many :badges_sashes, :dependent => :destroy
 
   def badges
     badge_ids.collect { |b_id| Badge.find(b_id) }
