@@ -49,6 +49,8 @@ class MeritAction
     # Grab custom model_name from Rule, or target_model from MeritAction triggered
     klass = model_name || target_model
     klass.singularize.camelize.constantize.find_by_id(target_id)
+  rescue => e
+    Rails.logger.warn "[merit] no target_object found: #{e}"
   end
 
   def log!(str)
