@@ -61,10 +61,10 @@ end
 
 ## Grant manually
 
-You may also grant badges "by hand":
+You may also grant badges "by hand" (optionally multiple times):
 
 ```ruby
-Badge.find(3).grant_to(current_user)
+Badge.find(3).grant_to(current_user, :allow_multiple => true)
 ```
 
 ---

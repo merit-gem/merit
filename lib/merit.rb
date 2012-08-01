@@ -20,6 +20,8 @@ module Merit
   end
 
   class Engine < Rails::Engine
+    config.app_generators.orm Merit.orm
+
     initializer 'merit.controller' do |app|
       if Merit.orm == :active_record
         require "merit/models/#{Merit.orm}/sash"
