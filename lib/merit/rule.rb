@@ -48,7 +48,7 @@ module Merit
     def sash_to_badge(action)
       target = case to
                when :action_user
-                 User.find_by_id(action.user_id) # _by_id doens't raise ActiveRecord::RecordNotFound
+                 Merit.user_model.find_by_id(action.user_id) # _by_id doens't raise ActiveRecord::RecordNotFound
                when :itself
                  action.target_object(model_name)
                else

@@ -14,6 +14,20 @@ module Merit
   mattr_accessor :orm
   @@orm = :active_record
 
+  # Define user_model_name
+  mattr_accessor :user_model_name
+  @@user_model_name = "User"
+  def self.user_model
+    @@user_model_name.constantize
+  end
+
+  # Define current_user_method
+  mattr_accessor :current_user_method
+  def self.current_user_method
+    @@current_user_method || "current_#{@@user_model_name.downcase}".to_sym
+  end
+
+
   # Load configuration from initializer
   def self.setup
     yield self
