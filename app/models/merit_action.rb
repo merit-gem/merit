@@ -21,7 +21,8 @@ class MeritAction
         point_rule = actions_to_point[action_name]
         point_rule[:to].each do |to|
           if to == :action_user
-            if !(target = User.find_by_id(user_id))
+            target = Merit.user_model.find_by_id(user_id)
+            if target.nil?
               Rails.logger.warn "[merit] no user found to grant points"
               return
             end
@@ -33,7 +34,8 @@ class MeritAction
               return
             end
           end
-          target.update_attribute(:points, target.points + point_rule[:score])
+          target.points += point_rule[:score]
+          target.save
           log!("points_granted:#{point_rule[:score]}")
         end
       end
@@ -47,14 +49,18 @@ class MeritAction
     # Grab custom model_name from Rule, or target_model from MeritAction triggered
     klass = model_name || target_model
     klass.singularize.camelize.constantize.find_by_id(target_id)
+  rescue => e
+    Rails.logger.warn "[merit] no target_object found: #{e}"
   end
 
   def log!(str)
-    self.update_attribute :log, "#{self.log}#{str}|"
+    self.log = "#{self.log}#{str}|"
+    self.save
   end
 
   # Mark merit_action as processed
   def processed!
-    self.update_attribute :processed, true
+    self.processed = true
+    self.save
   end
 end

@@ -20,7 +20,7 @@ module Merit
 
           # TODO: value should be configurable (now it's params[:value] set in the controller)
           merit_action_id = MeritAction.create(
-            :user_id       => current_user.try(:id),
+            :user_id       => send(Merit.current_user_method).try(:id),
             :action_method => action_name,
             :action_value  => params[:value],
             :had_errors    => target_object.try(:errors).try(:present?),
