@@ -1,0 +1,6 @@
+##################################################
+#            NOTE FOR UPGRADING MERIT            #
+##################################################
+
+Recent Merit upgrade introduces a non-backward compatible change.
+Check https://github.com/tute/merit/blob/master/UPGRADING.md for details.
