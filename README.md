@@ -141,7 +141,6 @@ end
 
 * add an error handler for inexistent badges.
 * rails g merit MODEL_NAME shouldn't create general migrations again.
-* Abstract User (rule.rb#51 for instance) into a Merit option.
 * Should namespace app/models into Merit module.
 * rescue ActiveRecord::... should depend on ORM used
 * :value parameter (for star voting for example) should be configurable
