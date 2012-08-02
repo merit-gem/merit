@@ -104,7 +104,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first
-    assert_equal 45, user.points, 'Voting comments should grant 5 points'
+    assert_equal 46, user.points, 'Voting comments should grant 5 points for voted, and 1 point for voting'
   end
 
   test 'user workflow should grant levels at some times' do

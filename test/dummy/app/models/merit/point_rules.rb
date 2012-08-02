@@ -7,9 +7,10 @@ module Merit
     include Merit::PointRulesMethods
 
     def initialize
-      score 5, :to => :user, :on => [
-        'comments#vote'
-      ]
+      # Thanks for voting point
+      score 1, :on => 'comments#vote'
+      # Points to voted user
+      score 5, :to => :user, :on => 'comments#vote'
 
       score 20, :on => [
         'comments#create',

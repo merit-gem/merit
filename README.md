@@ -79,9 +79,7 @@ method(s) defined in the `:to` option. Define rules on
 ## Examples
 
 ```ruby
-score 10, :on => [
-  'users#update'
-]
+score 10, :to => :post_creator, :on => 'comments#create'
 
 score 20, :on => [
   'comments#create',
