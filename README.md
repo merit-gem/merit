@@ -4,11 +4,6 @@
 
 [![Build Status](https://secure.travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
 
-
-# Requirements
-
-* ActiveRecord or Mongoid
-
 # Installation
 
 1. Add `gem 'merit'` to your `Gemfile`
@@ -143,6 +138,7 @@ end
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
+* Rules should be cached? Calling *Rules.new more than once
 
 ---
 
