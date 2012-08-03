@@ -22,29 +22,45 @@ class MeritAction
   end
 
   def check_point_rules
-    actions_to_point = Merit::PointRules.new.actions_to_point["#{target_model}\##{action_method}"]
     return if actions_to_point.nil?
 
     actions_to_point.each do |point_rule|
       point_rule[:to].each do |to|
-        if to == :action_user
-          target = Merit.user_model.find_by_id(user_id)
-          if target.nil?
-            Rails.logger.warn "[merit] no user found to grant points"
-            return
-          end
-        else
-          begin
-            target = target_object.send(to)
-          rescue NoMethodError
-            Rails.logger.warn "[merit] No target_object found on check_rules."
-            return
-          end
-        end
-        target.points += point_rule[:score]
-        target.save
+        t = target(to)
+        t.points += point_rule[:score]
+        t.save
         log!("points_granted:#{point_rule[:score]}")
       end
+    end
+  end
+
+  def actions_to_point
+    if @actions_to_point.nil?
+      actions = Merit::PointRules.new.actions_to_point
+      @actions_to_point = actions["#{target_model}\##{action_method}"] || []
+    end
+    @actions_to_point
+  end
+
+  def target(to)
+    @target ||= (to == :action_user) ? action_user : other_target(to)
+  end
+
+  def action_user
+    begin
+      Merit.user_model.find_by_id!(user_id)
+    rescue
+      Rails.logger.warn "[merit] no user found to grant points" unless user
+      return
+    end
+  end
+
+  def other_target(to)
+    begin
+      target_object.send(to)
+    rescue NoMethodError
+      Rails.logger.warn "[merit] No target_object found on check_rules."
+      return
     end
   end
 
