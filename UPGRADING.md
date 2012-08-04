@@ -1,5 +1,19 @@
 # Upgrading
 
+## to 0.9.5
+This upgrade introduces a non-backward compatible change in badges_sashes table.
+If using active_record you have to add and run this migration:
+
+    class AddIdToBadgesSashes < ActiveRecord::Migration
+      def self.up
+        add_column :badges_sashes, :id, :primary_key
+      end
+
+      def self.down
+        remove_column :badges_sashes, :id
+      end
+    end
+
 ## to 0.9.0
 
 Adds `allow_multiple` boolean option to `Badge#grant_to` (defaults to

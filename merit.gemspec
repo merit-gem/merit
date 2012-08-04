@@ -7,6 +7,11 @@ Gem::Specification.new do |s|
   s.version     = "0.9.5"
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
+
+  if File.exists?('UPGRADING')
+    s.post_install_message = File.read("UPGRADING")
+  end
+
   s.add_dependency 'ambry',  '~> 0.3.0'
   s.add_development_dependency 'rails', '~> 3.2.3'
   s.add_development_dependency 'sqlite3'

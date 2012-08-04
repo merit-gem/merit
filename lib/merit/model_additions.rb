@@ -3,7 +3,7 @@ module Merit
 
   module ClassMethods
     def has_merit(options = {})
-      belongs_to :sash
+      belongs_to :sash, :dependent => :destroy
 
       if Merit.orm == :mongo_mapper
         plugin Merit
@@ -24,7 +24,7 @@ module Merit
 
   def badges
     create_sash_if_none
-    sash.badge_ids.collect{|b_id| Badge.find(b_id) }
+    sash.badges
   end
 
   # Create sash if doesn't have
