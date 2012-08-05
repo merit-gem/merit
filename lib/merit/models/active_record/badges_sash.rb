@@ -6,11 +6,7 @@ class BadgesSash < ActiveRecord::Base
   end
 
   # To be used in the application, mark badge granting as notified to user
-  def set_notified!(badge = nil, sash = nil)
-    ActiveSupport::Deprecation.warn(
-        "set_notified!(badge, sash) is deprecated and may be removed from future releases, use set_notified!() instead.",
-        caller
-    ) if badge || sash
+  def set_notified!
     self.notified_user = true
     save
   end

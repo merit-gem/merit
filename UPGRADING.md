@@ -1,5 +1,22 @@
 # Upgrading
 
+## to 0.10.0
+
+`badges_sashes` table gets a primary key `id` column. Run the following migration:
+
+    class AddIdToBadgesSashes < ActiveRecord::Migration
+      def self.up
+        add_column :badges_sashes, :id, :primary_key
+      end
+
+      def self.down
+        remove_column :badges_sashes, :id
+      end
+    end
+
+`set_notified!(badge = nil, sash = nil)` no longer exists, just call `set_notified!`
+over the `badge_sash` object, with no parameters.
+
 ## to 0.9.0
 
 Adds `allow_multiple` boolean option to `Badge#grant_to` (defaults to
