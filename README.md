@@ -15,6 +15,8 @@
 5. Define badges you will use in `config/initializers/merit.rb`
 6. Configure reputation rules for your application in `app/models/merit/*`
 
+NOTE: Mongoid support is experimental.
+
 ---
 
 # Defining badge rules

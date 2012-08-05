@@ -6,4 +6,3 @@ rvm:
 
 env:
   - ORM=activerecord
-  - ORM=mongoid
