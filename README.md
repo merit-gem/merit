@@ -141,6 +141,7 @@ end
   (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
 * Rules should be cached? Calling *Rules.new more than once
+* Add badges_sashes timestamps
 
 ---
 
