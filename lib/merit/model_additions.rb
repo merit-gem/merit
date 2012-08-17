@@ -3,7 +3,10 @@ module Merit
 
   module ClassMethods
     def has_merit(options = {})
-      belongs_to :sash, :dependent => :destroy
+      # :dependent => destroy may raise
+      # ERROR: update or delete on table "sashes" violates foreign key constraint "users_sash_id_fk"
+      # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
+      belongs_to :sash
 
       if Merit.orm == :mongo_mapper
         plugin Merit
