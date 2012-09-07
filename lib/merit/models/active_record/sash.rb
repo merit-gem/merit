@@ -16,6 +16,6 @@ class Sash < ActiveRecord::Base
   end
 
   def rm_badge(badge_id)
-    badges_sashes.find_by_badge_id(badge_id).destroy
+    badges_sashes.find_by_badge_id(badge_id).try(:destroy)
   end
 end
