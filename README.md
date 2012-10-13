@@ -134,14 +134,13 @@ end
 
 # To-do list
 
-* add an error handler for inexistent badges.
+* add an error handler for inexistent badges (`rule.rb#74`?).
+* Translate comments from spanish in `rules_badge.rb`.
 * Should namespace app/models into Merit module.
-* rescue ActiveRecord::... should depend on ORM used
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
 * Rules should be cached? Calling *Rules.new more than once
-* Add badges_sashes timestamps
 
 ---
 

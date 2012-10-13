@@ -6,13 +6,13 @@ class Sash < ActiveRecord::Base
   end
 
   def badge_ids
-    badges_sashes.collect(&:badge_id)
+    badges_sashes.map(&:badge_id)
   end
 
   def add_badge(badge_id)
     bs = BadgesSash.new
     bs.badge_id = badge_id
-    badges_sashes << bs
+    self.badges_sashes << bs
   end
 
   def rm_badge(badge_id)

@@ -17,11 +17,10 @@ module Merit
         field :sash_id
         field :points, :type => Integer, :default => 0
         field :level, :type => Integer, :default => 0
+        def find_by_id(id)
+          where(:_id => id).first
+        end
       end
-    end
-
-    def find_by_id(id)
-      Merit.orm == :mongoid ? where(:_id => id).first : super(id)
     end
   end
 
