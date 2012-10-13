@@ -31,16 +31,6 @@ module Merit
           # Check rules in after_filter?
           if Merit.checks_on_each_request
             badge_rules.check_new_actions
-
-            # Show flash msg?
-            if (log = MeritAction.find(merit_action_id).log)
-              # Badges granted to current_user
-              granted = log.split('|').select{|log| log =~ /badge_granted_to_action_user/ }
-              granted.each do |badge|
-                badge_id = badge.split(':').last.to_i
-                flash[:merit] = t('merit.flashs.badge_granted', :badge => t("badges.#{Badge.find(badge_id).name}.name"))
-              end
-            end
           end
         end
       end
