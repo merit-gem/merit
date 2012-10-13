@@ -23,12 +23,15 @@ class MeritAction
 
   def check_point_rules
     return if actions_to_point.nil?
+    category ||= 'default' # Will be configurable
 
     actions_to_point.each do |point_rule|
       point_rule[:to].each do |to|
-        t = target(to)
-        t.points += point_rule[:score]
-        t.save
+        sash = target(to).sash
+        point = Merit::Score::Point.new
+        point.num_points = point_rule[:score]
+        point.log        = point_rule.inspect # TODO
+        sash.scores.where(:category => category).first.score_points << point
         log!("points_granted:#{point_rule[:score]}")
       end
     end

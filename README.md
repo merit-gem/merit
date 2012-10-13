@@ -140,6 +140,7 @@ end
 
 # To-do list
 
+* target_object should be configurable (now it's singularized controller name)
 * add an error handler for inexistent badges (`rule.rb#74`?).
 * Translate comments from spanish in `rules_badge.rb`.
 * Should namespace app/models into Merit module.

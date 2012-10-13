@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120318022220) do
+ActiveRecord::Schema.define(:version => 20121013174256) do
 
   create_table "badges_sashes", :force => true do |t|
     t.integer  "badge_id"
@@ -46,6 +46,17 @@ ActiveRecord::Schema.define(:version => 20120318022220) do
     t.datetime "updated_at",                       :null => false
   end
 
+  create_table "merit_score_points", :force => true do |t|
+    t.integer "score_id"
+    t.integer "num_points", :default => 0
+    t.string  "log"
+  end
+
+  create_table "merit_scores", :force => true do |t|
+    t.integer "sash_id"
+    t.string  "category", :default => "default"
+  end
+
   create_table "sashes", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -56,7 +67,6 @@ ActiveRecord::Schema.define(:version => 20120318022220) do
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
     t.integer  "sash_id"
-    t.integer  "points",     :default => 0
     t.integer  "level",      :default => 0
   end
 

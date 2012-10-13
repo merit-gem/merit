@@ -6,8 +6,7 @@ class User < ActiveRecord::Base
   attr_accessible :name
 
   def show_badges
-    create_sash_if_none
-    badges_uniq = Badge.find_by_id(sash.badge_ids)
+    badges_uniq = Badge.find_by_id(badge_ids)
     badges_uniq.collect{|b| "#{b.name.capitalize}#{badge_status(b)}" }.join(', ')
   end
 

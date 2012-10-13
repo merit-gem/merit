@@ -59,9 +59,9 @@ module Merit
                    return
                  end
                end
+
       if target
-        target.create_sash_if_none
-        target.sash
+        target.sash || target.create_sash_and_scores
       end
     end
 

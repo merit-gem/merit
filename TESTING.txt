@@ -12,5 +12,5 @@ rails server
 
 # or run tests
 cd ../..
-rake test
+rake
 ORM=mongoid rake test
