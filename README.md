@@ -23,7 +23,7 @@ NOTE: Mongoid support is experimental.
 
 You may give badges to any resource on your application if some condition
 holds. Badges may have levels, and may be temporary. Define rules on
-`app/models/merit_badge_rules.rb`:
+`app/models/merit/badge_rules.rb`:
 
 `grant_on` accepts:
 
@@ -64,6 +64,12 @@ You may also grant badges "by hand" (optionally multiple times):
 Badge.find(3).grant_to(current_user, :allow_multiple => true)
 ```
 
+Similarly you can take back badges that have been granted:
+
+```ruby
+Badge.find(3).delete_from(current_user)
+```
+
 ---
 
 # Defining point rules
@@ -71,7 +77,7 @@ Badge.find(3).grant_to(current_user, :allow_multiple => true)
 Points are a simple integer value which are given to "meritable" resources.
 They are given on actions-triggered, either to the action user or to the
 method(s) defined in the `:to` option. Define rules on
-`app/models/merit_point_rules.rb`:
+`app/models/merit/point_rules.rb`:
 
 ## Examples
 
@@ -99,7 +105,7 @@ score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
 5 stars is a common ranking use case. They are not given at specified actions
 like badges, you should define a cron job to test if ranks are to be granted.
 
-Define rules on `app/models/merit_rank_rules.rb`:
+Define rules on `app/models/merit/rank_rules.rb`:
 
 `set_rank` accepts:
 
