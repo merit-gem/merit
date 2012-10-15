@@ -147,12 +147,3 @@ end
   (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
 * Rules should be cached? Calling *Rules.new more than once
-
----
-
-# Contributors
-
-* [Tute Costa](https://github.com/tute)
-* [Juan Schwindt](https://github.com/jschwindt)
-* [Eric Knudtson](https://github.com/ek) ([Chef Surfing](https://chefsurfing.com/))
-* [A4bandas media](https://github.com/a4bandas)
