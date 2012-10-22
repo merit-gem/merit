@@ -28,18 +28,24 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert_equal Badge.find(98), rule.badge
   end
 
+  # TODO: Test and refactor:
+  # Rule: grant_or_delete_badge(action), sash_to_badge
+  # Badge: delete_from
+  # MeritAction: target(to), action_user, other_target(to), target_object(model_name = nil)
+
+
   test "Badge#grant_to allow_multiple option" do
     badge = Badge.create(:id => 99, :name => 'test-badge')
     sash = Sash.create(:id => 99)
 
     assert_equal 0, sash.badge_ids.count
 
-    badge.grant_to sash
+    assert badge.grant_to(sash)
     assert_equal 1, sash.badge_ids.count
-    badge.grant_to sash
+    assert !badge.grant_to(sash)
     assert_equal 1, sash.badge_ids.count
 
-    badge.grant_to sash, :allow_multiple => true
+    assert badge.grant_to(sash, :allow_multiple => true)
     assert_equal 2, sash.badge_ids.count
   end
 end

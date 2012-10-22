@@ -28,7 +28,7 @@ class Badge
   def grant_to(object_or_sash, *args)
     options = args.extract_options!
     options[:allow_multiple] ||= false
-    sash = sash(object_or_sash)
+    sash = sash_from(object_or_sash)
 
     if !sash.badge_ids.include?(id) || options[:allow_multiple]
       sash.add_badge(id)
@@ -40,7 +40,7 @@ class Badge
 
   # Take out badge from sash
   def delete_from(object_or_sash)
-    sash = sash(object_or_sash)
+    sash = sash_from(object_or_sash)
     if sash.badge_ids.include?(id)
       sash.rm_badge(id)
       true
@@ -49,7 +49,7 @@ class Badge
     end
   end
 
-  def sash(object_or_sash)
+  def sash_from(object_or_sash)
     if object_or_sash.kind_of?(Sash)
       object_or_sash
     else
