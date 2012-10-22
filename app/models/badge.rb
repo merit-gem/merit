@@ -32,9 +32,9 @@ class Badge
 
     if !sash.badge_ids.include?(id) || options[:allow_multiple]
       sash.add_badge(id)
-      return true
+      true
     else
-      return false
+      false
     end
   end
 
@@ -43,9 +43,9 @@ class Badge
     sash = sash(object_or_sash)
     if sash.badge_ids.include?(id)
       sash.rm_badge(id)
-      return true
+      true
     else
-      return false
+      false
     end
   end
 

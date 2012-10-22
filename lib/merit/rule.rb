@@ -3,7 +3,8 @@ module Merit
   # and a temporary option.
   # Could split this class between badges and rankings functionality
   class Rule
-    attr_accessor :badge_name, :level, :to, :multiple, :temporary, :block, :model_name, :level_name
+    attr_accessor :badge_name, :level, :to, :model_name, :level_name,
+      :multiple, :temporary, :block
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)
@@ -12,13 +13,13 @@ module Merit
       case block.arity
       when 1 # Expects target object
         if target_obj.present?
-          return block.call(target_obj)
+          block.call(target_obj)
         else
           Rails.logger.warn "[merit] no target_obj found on Rule#applies?"
-          return false
+          false
         end
       else # evaluates to boolean. block.arity returns 0 in Ruby 1.9.3 and -1 in Ruby 1.8.7
-        return block.call
+        block.call
       end
     end
 
@@ -46,20 +47,11 @@ module Merit
 
     # Subject to badge: source_user or target.user?
     def sash_to_badge(action)
-      target = case to
-               when :action_user
-                 Merit.user_model.find_by_id(action.user_id) # _by_id doens't raise ActiveRecord::RecordNotFound
-               when :itself
-                 action.target_object(model_name)
-               else
-                 begin
-                   action.target_object(model_name).send(to)
-                 rescue NoMethodError
-                   Rails.logger.warn "[merit] #{action.target_model.singularize.camelize}.find(#{action.target_id}) not found, no badges giving today"
-                   return
-                 end
-               end
-
+      if to == :itself
+        target = action.target_object(model_name)
+      else
+        target = action.target(to)
+      end
       if target
         target.sash || target.create_sash_and_scores
       end

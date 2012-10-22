@@ -1,7 +1,8 @@
 require "merit/models/#{Merit.orm}/merit_action"
 
 class MeritAction
-  attr_accessible :user_id, :action_method, :action_value, :had_errors, :target_model, :target_id, :processed, :log
+  attr_accessible :user_id, :action_method, :action_value, :had_errors,
+    :target_model, :target_id, :processed, :log
 
   # Check rules defined for a merit_action
   def check_rules
@@ -13,19 +14,15 @@ class MeritAction
   end
 
   def check_badge_rules
-    defined_rules = Merit::BadgeRules.new.defined_rules["#{target_model}\##{action_method}"]
-    return if defined_rules.nil?
-
-    defined_rules.each do |rule|
-      rule.grant_or_delete_badge(self)
-    end
+    return if badge_rules.nil?
+    badge_rules.each { |rule| rule.grant_or_delete_badge(self) }
   end
 
   def check_point_rules
-    return if actions_to_point.nil?
+    return if point_rules.nil?
     category ||= 'default' # Will be configurable
 
-    actions_to_point.each do |point_rule|
+    point_rules.each do |point_rule|
       point_rule[:to].each do |to|
         sash = target(to).sash
         point = Merit::Score::Point.new
@@ -37,12 +34,15 @@ class MeritAction
     end
   end
 
-  def actions_to_point
-    if @actions_to_point.nil?
-      actions = Merit::PointRules.new.actions_to_point
-      @actions_to_point = actions["#{target_model}\##{action_method}"] || []
-    end
-    @actions_to_point
+
+  def badge_rules
+    @badge_rules ||= Merit::BadgeRules.new.defined_rules[action_str] || []
+  end
+  def point_rules
+    @point_rules ||= Merit::PointRules.new.actions_to_point[action_str] || []
+  end
+  def action_str
+    "#{target_model}\##{action_method}"
   end
 
   def target(to)
@@ -51,9 +51,9 @@ class MeritAction
 
   def action_user
     begin
-      Merit.user_model.find_by_id!(user_id)
-    rescue
-      Rails.logger.warn "[merit] no user found to grant points" unless user
+      Merit.user_model.find(user_id)
+    rescue ActiveRecord::RecordNotFound
+      Rails.logger.warn "[merit] no #{Merit.user_model} found with id #{user_id}"
       return
     end
   end
