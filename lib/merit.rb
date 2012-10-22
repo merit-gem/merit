@@ -33,6 +33,8 @@ module Merit
     yield self
   end
 
+  class BadgeNotFound < Exception; end
+
   class Engine < Rails::Engine
     config.app_generators.orm Merit.orm
 
