@@ -2,17 +2,24 @@
 
 ## to 1.0.0 (unreleased)
 
-Points granting history is now logged persisted. Run the following migration
-to have the new data structures:
+Points granting history is now logged persisted.
 
-    class CreateScoresAndPoints < ActiveRecord::Migration
+* Attribute `points` and method `points=` don't exist anymore (method `points`
+  still works for querying number of points for a resource).
+* There are new methods `add_points(num_points, log_message)` and
+  `remove_points(num_points, log_message)` in meritable resources to manually
+  change their amount of points, keeping a history log.
+
+Run the following migration to have the new DB tables:
+
+    class UpgradeMerit < ActiveRecord::Migration
       def self.up
         create_table :merit_scores do |t|
           t.references :sash
           t.string :category, :default => 'default'
         end
 
-        create_table :merit_scores_points do |t|
+        create_table :merit_score_points do |t|
           t.references :score
           t.integer :num_points, :default => 0
           t.string :log
@@ -21,12 +28,24 @@ to have the new data structures:
 
       def self.down
         drop_table :merit_scores
-        drop_table :merit_scores_points
+        drop_table :merit_score_points
       end
     end
 
-TODO: Recreate scores and a point entry with MeritableResource#points.
-
+    # This will create a single point entry log, with previous points granted
+    # to each meritable resource. Code example for a User class.
+    class UpgradeMeritableResources < ActiveRecord::Migration
+      def up
+        User.find_each do |user|
+          user.sash.scores << Merit::Score.create
+          point = Merit::Score::Point.new
+          point.num_points = user.read_attribute(:points)
+          point.log        = 'Initial merit points import.'
+          user.sash.scores.first.score_points << point
+        end
+        remove_column :users, :points
+      end
+    end
 
 ## to 0.10.0
 

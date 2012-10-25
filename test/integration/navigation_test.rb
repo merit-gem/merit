@@ -32,6 +32,14 @@ class NavigationTest < ActiveSupport::IntegrationCase
     end
     assert user.badges.empty?, 'Should not have badges'
 
+    assert_equal 0, user.points
+    assert_equal 0, Merit::Score::Point.count
+    user.add_points 15
+    assert_equal 15, user.points
+    user.substract_points 15
+    assert_equal 0, user.points
+    assert_equal 2, Merit::Score::Point.count
+
     # Make tenth comment, assert 10-commenter badge granted
     visit '/comments/new'
     fill_in 'Name', :with => 'Hi!'
@@ -100,7 +108,16 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Create Comment')
 
     user = User.where(:name => 'a').first
-    assert_equal 40, user.points, 'Commenting should grant 20 points'
+    assert_equal 20, user.points, 'Commenting should not grant 20 points if name.length <= 4'
+
+    visit '/comments/new'
+    fill_in 'Name', :with => 'Hi there!'
+    fill_in 'Comment', :with => 'Hi bro!'
+    fill_in 'User', :with => user.id
+    click_button('Create Comment')
+
+    user = User.where(:name => 'a').first
+    assert_equal 40, user.points, 'Commenting should grant 20 points if name.length > 4'
 
     visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first

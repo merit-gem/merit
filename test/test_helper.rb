@@ -31,7 +31,6 @@ Capybara.default_driver   = :rack_test
 Capybara.default_selector = :css
 
 if ENV["ORM"] == "mongoid"
-  puts 'Testing with ORM Mongoid'
   class ActiveSupport::TestCase
     def teardown
       Mongoid.database.collections.each do |collection|
@@ -39,8 +38,7 @@ if ENV["ORM"] == "mongoid"
       end
     end
   end
-else
-  puts 'Testing with ORM ActiveRecord'
+else # ActiveRecord
   # Run any available migration
   ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
 end

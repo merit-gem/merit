@@ -32,6 +32,15 @@ module Merit
     end
   end
 
+  def add_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
+    _sash = sash || create_sash_and_scores
+    _sash.add_points num_points, log, category
+  end
+  def substract_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
+    _sash = sash || create_sash_and_scores
+    _sash.substract_points num_points, log, category
+  end
+
   # Create sash if doesn't have
   def create_sash_and_scores
     if self.sash.blank?

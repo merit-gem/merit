@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class MeritUnitTest < ActiveSupport::TestCase
-  test "Rule#applies?" do
+  test "Rule#applies? should depend on provided block" do
     rule = Merit::Rule.new
     assert rule.applies?, 'empty conditions should make rule apply'
 

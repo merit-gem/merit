@@ -4,7 +4,7 @@ module Merit
   # Could split this class between badges and rankings functionality
   class Rule
     attr_accessor :badge_name, :level, :to, :model_name, :level_name,
-      :multiple, :temporary, :block
+      :multiple, :temporary, :score, :block
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)
@@ -15,6 +15,7 @@ module Merit
         if target_obj.present?
           block.call(target_obj)
         else
+          # TODO RAISE ERROR
           Rails.logger.warn "[merit] no target_obj found on Rule#applies?"
           false
         end
@@ -29,7 +30,7 @@ module Merit
     # then remove it.
     def grant_or_delete_badge(action)
       unless (sash = sash_to_badge(action))
-        Rails.logger.warn "[merit] no sash found on Rule#grant_or_delete_badge"
+        Rails.logger.warn "[merit] no sash found on Rule#grant_or_delete_badge for action #{action.inspect}"
         return
       end
 
@@ -45,7 +46,22 @@ module Merit
       end
     end
 
+    def grant_points(action)
+      unless (sash = sash_to_badge(action))
+        Rails.logger.warn "[merit] no sash found on Rule#grant_points"
+        return
+      end
+
+      if applies? action.target_object(model_name)
+        sash.add_points self.score, action.inspect[0..240]
+        action.log!("points_granted:#{self.score}")
+      end
+    end
+
     # Subject to badge: source_user or target.user?
+    # Knows (law of demeter):
+    #  * Rule#model_name & Rule#to
+    #  * MeritAction#object & MeritAction#target_object
     def sash_to_badge(action)
       if to == :itself
         target = action.target_object(model_name)

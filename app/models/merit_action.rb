@@ -20,20 +20,8 @@ class MeritAction
 
   def check_point_rules
     return if point_rules.nil?
-    category ||= 'default' # Will be configurable
-
-    point_rules.each do |point_rule|
-      point_rule[:to].each do |to|
-        sash = target(to).sash
-        point = Merit::Score::Point.new
-        point.num_points = point_rule[:score]
-        point.log        = point_rule.inspect # TODO
-        sash.scores.where(:category => category).first.score_points << point
-        log!("points_granted:#{point_rule[:score]}")
-      end
-    end
+    point_rules.each { |rule| rule.grant_points(self) }
   end
-
 
   def badge_rules
     @badge_rules ||= Merit::BadgeRules.new.defined_rules[action_str] || []
@@ -62,7 +50,7 @@ class MeritAction
     begin
       target_object.send(to)
     rescue NoMethodError
-      Rails.logger.warn "[merit] No target_object found on check_rules."
+      Rails.logger.warn "[merit] NoMethodError on '#{target_object.inspect}.#{to}' (called from MeritAction#other_target)"
       return
     end
   end

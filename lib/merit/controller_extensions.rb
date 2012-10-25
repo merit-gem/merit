@@ -13,7 +13,7 @@ module Merit
             :user_id       => send(Merit.current_user_method).try(:id),
             :action_method => action_name,
             :action_value  => params[:value],
-            :had_errors    => target_object.try(:errors).try(:present?),
+            :had_errors    => target_object.try(:errors).try(:present?) || false,
             :target_model  => controller_name,
             :target_id     => target_id
           ).id
@@ -27,7 +27,11 @@ module Merit
     end
 
     def target_object
-      instance_variable_get(:"@#{controller_name.singularize}")
+      target_obj = instance_variable_get(:"@#{controller_name.singularize}")
+      if target_obj.nil?
+        Rails.logger.warn("[merit] No object found, maybe you need a '@#{controller_name.singularize}' variable in '#{controller_name}_controller'?")
+      end
+      target_obj
     end
 
     def target_id

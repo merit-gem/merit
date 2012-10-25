@@ -15,7 +15,13 @@ module Merit
       score 20, :on => [
         'comments#create',
         'registrations#update'
-      ]
+      ] do |object|
+        if object.class == Comment
+          object.name.length > 4
+        else
+          true
+        end
+      end
     end
   end
 end

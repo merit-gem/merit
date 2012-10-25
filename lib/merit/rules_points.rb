@@ -9,12 +9,17 @@ module Merit
       options[:to] ||= [:action_user]
 
       actions = Array.wrap(options[:on])
-      actions.each do |action|
-        actions_to_point[action] ||= []
-        actions_to_point[action] << {
-          :score => points,
-          :to => Array.wrap(options[:to])
-        }
+
+      Array.wrap(options[:to]).each do |to|
+        rule = Rule.new
+        rule.score = points
+        rule.to    = to
+        rule.block = block
+
+        actions.each do |action|
+          actions_to_point[action] ||= []
+          actions_to_point[action] << rule
+        end
       end
     end
 
