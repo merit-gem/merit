@@ -9,6 +9,7 @@ class CreateScoresAndPoints < ActiveRecord::Migration
       t.references :score
       t.integer :num_points, :default => 0
       t.string :log
+      t.datetime :created_at
     end
   end
 

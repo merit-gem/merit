@@ -47,9 +47,10 @@ ActiveRecord::Schema.define(:version => 20121013174256) do
   end
 
   create_table "merit_score_points", :force => true do |t|
-    t.integer "score_id"
-    t.integer "num_points", :default => 0
-    t.string  "log"
+    t.integer  "score_id"
+    t.integer  "num_points", :default => 0
+    t.string   "log"
+    t.datetime "created_at"
   end
 
   create_table "merit_scores", :force => true do |t|

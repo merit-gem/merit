@@ -1,5 +1,9 @@
 # Upgrading
 
+## to 1.0.1
+
+Adds Merit::Point#created_at attribute.
+
 ## to 1.0.0
 
 Points granting history is now logged.
