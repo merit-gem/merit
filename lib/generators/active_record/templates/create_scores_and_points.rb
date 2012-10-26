@@ -5,7 +5,7 @@ class CreateScoresAndPoints < ActiveRecord::Migration
       t.string :category, :default => 'default'
     end
 
-    create_table :merit_scores_points do |t|
+    create_table :merit_score_points do |t|
       t.references :score
       t.integer :num_points, :default => 0
       t.string :log
@@ -14,6 +14,6 @@ class CreateScoresAndPoints < ActiveRecord::Migration
 
   def self.down
     drop_table :merit_scores
-    drop_table :merit_scores_points
+    drop_table :merit_score_points
   end
 end

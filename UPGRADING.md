@@ -1,8 +1,8 @@
 # Upgrading
 
-## to 1.0.0 (unreleased)
+## to 1.0.0
 
-Points granting history is now logged persisted.
+Points granting history is now logged.
 
 * Attribute `points` and method `points=` don't exist anymore (method `points`
   still works for querying number of points for a resource).
@@ -38,10 +38,7 @@ Run the following migration to have the new DB tables:
       def up
         User.find_each do |user|
           user.sash.scores << Merit::Score.create
-          point = Merit::Score::Point.new
-          point.num_points = user.read_attribute(:points)
-          point.log        = 'Initial merit points import.'
-          user.sash.scores.first.score_points << point
+          user.add_points(user.points, 'Initial merit points import.')
         end
         remove_column :users, :points
       end
