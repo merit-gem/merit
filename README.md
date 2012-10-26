@@ -45,7 +45,6 @@ holds. Badges may have levels, and may be temporary. Define rules on
 
 ## Examples
 
-
 ```ruby
 grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do |comment|
   comment.votes.count == 5
@@ -74,28 +73,41 @@ Badge.find(3).delete_from(current_user)
 
 # Defining point rules
 
-Points are a simple integer value which are given to "meritable" resources.
-They are given on actions-triggered, either to the action user or to the
-method(s) defined in the `:to` option. Define rules on
+Points are given to "meritable" resources on actions-triggered, either to the
+action user or to the method(s) defined in the `:to` option. Define rules on
 `app/models/merit/point_rules.rb`:
+
+`score` accepts:
+
+* `:on` action as string or array of strings (similar to Rails routes)
+* `:to` method(s) to send to the target_object (who should be scored?)
+* `&block`
+  * empty (always scores)
+  * a block which evaluates to boolean (recieves target object as parameter)
 
 ## Examples
 
 ```ruby
-score 10, :to => :post_creator, :on => 'comments#create'
+score 10, :to => :post_creator, :on => 'comments#create' do |comment|
+  comment.title.present?
+end
 
 score 20, :on => [
   'comments#create',
   'photos#create'
 ]
+
+score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
 ```
 
-`:to` method(s) work as in badge rules: they are sent to the target_object.
-In the following example, after a review gets created both `review.reviewer`
-and `review.reviewed` are granted 15 points:
+## Score manually
+
+You may also change user points "by hand":
 
 ```ruby
-score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
+current_user.add_points(20, 'Optional log message')
+
+current_user.substract_points(10)
 ```
 
 ---
@@ -146,4 +158,3 @@ end
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).
 * Make fixtures for integration testing (now creating objects on test file!).
-* Rules should be cached? Calling *Rules.new more than once

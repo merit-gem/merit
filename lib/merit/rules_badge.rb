@@ -1,6 +1,6 @@
 module Merit
   # La configuración para especificar cuándo aplicar cada badge va en
-  # app/models/merit_rules.rb, con la siguiente sintaxis:
+  # app/models/merit/badge_rules.rb, con la siguiente sintaxis:
   #
   #   grant_on 'users#create', :badge => 'just', :level => 'registered' do
   #     # Nothing, or code block which evaluates to boolean
