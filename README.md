@@ -2,20 +2,16 @@
 
 ![Merit](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
 
-[![Build Status](https://secure.travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
+[![Build Status](https://travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
 
 # Installation
 
 1. Add `gem 'merit'` to your `Gemfile`
 2. Run `rails g merit:install`
 3. Run `rails g merit MODEL_NAME` (e.g. `user`)
-4. Depending on your ORM
-  * ActiveRecord: Run `rake db:migrate`
-  * Mongoid: Set `config.orm = :mongoid` in `config/initializers/merit.rb`
+4. Run `rake db:migrate`
 5. Define badges you will use in `config/initializers/merit.rb`
 6. Configure reputation rules for your application in `app/models/merit/*`
-
-NOTE: Mongoid support is experimental.
 
 ---
 
@@ -152,9 +148,11 @@ end
 
 # To-do list
 
+* `Merit::BadgeRules.new.defined_rules` should be cached on initialization,
+  instead of initialized per controllers `after_filter` and
+  `merit_action.check_rules`.
 * target_object should be configurable (now it's singularized controller name)
 * Translate comments from spanish in `rules_badge.rb`.
 * Should namespace app/models into Merit module.
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).
-* Make fixtures for integration testing (now creating objects on test file!).

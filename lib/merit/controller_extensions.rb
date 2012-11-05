@@ -8,7 +8,7 @@ module Merit
         action      = "#{controller_name}\##{action_name}"
         badge_rules = BadgeRules.new
         point_rules = PointRules.new
-        if badge_rules.defined_rules[action].present? || point_rules.actions_to_point[action].present?
+        if badge_rules.defined_rules[action].present? || point_rules.defined_rules[action].present?
           merit_action_id = MeritAction.create(
             :user_id       => send(Merit.current_user_method).try(:id),
             :action_method => action_name,

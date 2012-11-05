@@ -14,21 +14,15 @@ class MeritAction
   end
 
   def check_badge_rules
-    return if badge_rules.nil?
+    badge_rules = Merit::BadgeRules.new.defined_rules[action_str] || []
     badge_rules.each { |rule| rule.grant_or_delete_badge(self) }
   end
 
   def check_point_rules
-    return if point_rules.nil?
+    point_rules = Merit::PointRules.new.defined_rules[action_str] || []
     point_rules.each { |rule| rule.grant_points(self) }
   end
 
-  def badge_rules
-    @badge_rules ||= Merit::BadgeRules.new.defined_rules[action_str] || []
-  end
-  def point_rules
-    @point_rules ||= Merit::PointRules.new.actions_to_point[action_str] || []
-  end
   def action_str
     "#{target_model}\##{action_method}"
   end

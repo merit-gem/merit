@@ -17,15 +17,15 @@ module Merit
         rule.block = block
 
         actions.each do |action|
-          actions_to_point[action] ||= []
-          actions_to_point[action] << rule
+          defined_rules[action] ||= []
+          defined_rules[action] << rule
         end
       end
     end
 
     # Currently defined rules
-    def actions_to_point
-      @actions_to_point ||= {}
+    def defined_rules
+      @defined_rules ||= {}
     end
   end
 end
