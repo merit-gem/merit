@@ -2,7 +2,8 @@
 
 ## to 1.0.1
 
-Adds Merit::Point#created_at attribute.
+Adds `Merit::Point#created_at` (`merit_score_points` table) attribute.
+May already be added if upgrading from merit < 1).
 
 ## to 1.0.0
 
@@ -27,6 +28,7 @@ Run the following migration to have the new DB tables:
           t.references :score
           t.integer :num_points, :default => 0
           t.string :log
+          t.datetime :created_at
         end
       end
 
@@ -47,6 +49,11 @@ Run the following migration to have the new DB tables:
         remove_column :users, :points
       end
     end
+
+If you get an `ActiveRecord::DangerousAttributeError: points` exception, you
+may need to temporarily tweak your meritable model, as explained in
+http://stackoverflow.com/a/1515571/356060.
+
 
 ## to 0.10.0
 
