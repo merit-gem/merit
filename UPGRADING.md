@@ -40,11 +40,17 @@ Run the following migration to have the new DB tables:
 
     # This will create a single point entry log, with previous points granted
     # to each meritable resource. Code example for a User class.
+
     class UpgradeMeritableResources < ActiveRecord::Migration
       def up
         User.find_each do |user|
+          unless user.sash
+            user.sash = Sash.create!
+            user.save
+          end
+
           user.sash.scores << Merit::Score.create
-          user.add_points(user.points, 'Initial merit points import.')
+          user.add_points(user.read_attribute(:points), 'Initial merit points import.')
         end
         remove_column :users, :points
       end
