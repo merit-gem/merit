@@ -28,6 +28,14 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert_equal Badge.find(98), rule.badge
   end
 
+  # Do we need this non-documented attribute?
+  test "BadgesSash#set_notified! sets boolean attribute" do
+    badge_sash = BadgesSash.new
+    assert !badge_sash.notified_user
+    badge_sash.set_notified!
+    assert badge_sash.notified_user
+  end
+
   # TODO: Test and refactor:
   # Rule: grant_or_delete_badge(action), sash_to_badge
   # Badge: delete_from
