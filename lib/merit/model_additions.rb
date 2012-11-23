@@ -21,34 +21,37 @@ module Merit
           where(:_id => id).first
         end
       end
-    end
-  end
 
-  # Delegate relationship methods from meritable models to their sash
-  %w(badge_ids badges points).each do |method|
-    define_method(method) do
-      _sash = sash || create_sash_and_scores
-      _sash.send method
-    end
-  end
+      # Add instance methods to meritable models
+      # Using define_method on meritable classes to not pollute every model
 
-  def add_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
-    _sash = sash || create_sash_and_scores
-    _sash.add_points num_points, log, category
-  end
-  def substract_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
-    _sash = sash || create_sash_and_scores
-    _sash.substract_points num_points, log, category
-  end
+      # Delegate relationship methods from meritable models to their sash
+      %w(badge_ids badges points).each do |method|
+        define_method(method) do
+          _sash = sash || create_sash_and_scores
+          _sash.send method
+        end
+      end
 
-  # Create sash if doesn't have
-  def create_sash_and_scores
-    if self.sash.blank?
-      self.sash = Sash.create
-      self.sash.scores << Merit::Score.create
-      self.save(:validate => false)
+      define_method(:add_points) do |num_points, log = 'Manually through `add_points`', category = 'default'|
+        _sash = sash || create_sash_and_scores
+        _sash.add_points num_points, log, category
+      end
+      define_method(:substract_points) do |num_points, log = 'Manually through `substract_points`', category = 'default'|
+        _sash = sash || create_sash_and_scores
+        _sash.substract_points num_points, log, category
+      end
+
+      # Create sash if doesn't have
+      define_method(:create_sash_and_scores) do
+        if self.sash.blank?
+          self.sash = Sash.create
+          self.sash.scores << Merit::Score.create
+          self.save(:validate => false)
+        end
+        self.sash
+      end
     end
-    self.sash
   end
 end
 

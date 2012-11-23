@@ -28,6 +28,15 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert_equal Badge.find(98), rule.badge
   end
 
+  test "Extending only certain ActiveRecord models" do
+    class MeritableModel < ActiveRecord::Base
+      def self.columns; @columns ||= []; end
+      has_merit
+    end
+    assert MeritableModel.method_defined?(:points), 'Meritable model should respond to merit methods'
+    assert !ActiveRecord::Base.method_defined?(:points), 'ActiveRecord::Base shouldn\'t respond to merit methods'
+  end
+
   # Do we need this non-documented attribute?
   test "BadgesSash#set_notified! sets boolean attribute" do
     badge_sash = BadgesSash.new
