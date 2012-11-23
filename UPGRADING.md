@@ -1,5 +1,9 @@
 # Upgrading
 
+## to 1.1.0 (unreleased)
+
+Support of Ruby 1.8.7 has been dropped.
+
 ## to 1.0.1
 
 Adds `Merit::Point#created_at` (`merit_score_points` table) attribute.
