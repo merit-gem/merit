@@ -1,8 +1,8 @@
 # Upgrading
 
-## to 1.1.0 (unreleased)
+## to 1.1.0
 
-Support of Ruby 1.8.7 has been dropped.
+Code refactorings. Support for Ruby 1.8.7 has been dropped.
 
 ## to 1.0.1
 
