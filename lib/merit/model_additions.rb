@@ -3,8 +3,9 @@ module Merit
 
   module ClassMethods
     def has_merit(options = {})
-      # :dependent => destroy may raise
-      # ERROR: update or delete on table "sashes" violates foreign key constraint "users_sash_id_fk"
+      # MeritableModel#sash_id is more stable than Sash#meritable_model_id
+      # That's why MeritableModel belongs_to Sash. Can't use
+      # :dependent => destroy as it may raise FK constraint exceptions. See:
       # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
       belongs_to :sash
 
@@ -22,31 +23,16 @@ module Merit
         end
       end
 
-      # Add instance methods to meritable models
-      # Using define_method on meritable classes to not pollute every model
-
       # Delegate relationship methods from meritable models to their sash
-      %w(badge_ids badges points).each do |method|
-        define_method(method) do
-          _sash.send method
-        end
-      end
-      define_method(:add_points) do |num_points, log = 'Manually through `add_points`', category = 'default'|
-        _sash.add_points num_points, log, category
-      end
-      define_method(:substract_points) do |num_points, log = 'Manually through `substract_points`', category = 'default'|
-        _sash.substract_points num_points, log, category
-      end
-
-      # From Rails 3.2 we can override association methods:
+      # _sash initializes a sash if doesn't have one yet.
+      # From Rails 3.2 we can override association methods to do so
+      # transparently, but merit supports Rails ~> 3.0.0. See:
       # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
-      define_method(:_sash) do
-        sash || create_sash_and_scores
+      %w(badge_ids badges points add_points substract_points).each do |method|
+        delegate method, to: :_sash
       end
-
-      # Create sash if doesn't have
-      define_method(:create_sash_and_scores) do
-        if self.sash.nil?
+      define_method(:_sash) do
+        if sash.nil?
           self.sash = Sash.create
           self.save(:validate => false)
         end

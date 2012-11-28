@@ -1,3 +1,9 @@
+# Sash is a container for reputation data for meritable models. It's an
+# indirection between meritable models and badges and scores (one to one
+# relationship).
+#
+# It's existence make join models like badges_users and scores_users
+# unnecessary. It should be transparent at the application.
 class Sash < ActiveRecord::Base
   has_many :badges_sashes, :dependent => :destroy
   has_many :scores, :dependent => :destroy, :class_name => 'Merit::Score'

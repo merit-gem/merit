@@ -1,29 +1,37 @@
 module Merit
-  # This module sets up an after_filter to update merit_actions table.
-  # It executes on every action, and checks rules only if
-  # 'controller_name#action_name' has defined badge or point rules
+  # Sets up an app-wide after_filter, and inserts merit_action entries if
+  # there are defined rules (for badges or points) for current
+  # 'controller_name#action_name'
   module ControllerExtensions
     def self.included(base)
       base.after_filter do |controller|
-        action      = "#{controller_name}\##{action_name}"
-        badge_rules = BadgeRules.new
-        point_rules = PointRules.new
-        if badge_rules.defined_rules[action].present? || point_rules.defined_rules[action].present?
-          merit_action_id = MeritAction.create(
-            :user_id       => send(Merit.current_user_method).try(:id),
-            :action_method => action_name,
-            :action_value  => params[:value],
-            :had_errors    => target_object.try(:errors).try(:present?) || false,
-            :target_model  => controller_name,
-            :target_id     => target_id
-          ).id
+        return unless rules_defined?
 
-          # Check rules in after_filter?
-          if Merit.checks_on_each_request
-            badge_rules.check_new_actions
-          end
+        MeritAction.create(
+          :user_id       => send(Merit.current_user_method).try(:id),
+          :action_method => action_name,
+          :action_value  => params[:value],
+          :had_errors    => had_errors?,
+          :target_model  => controller_name,
+          :target_id     => target_id
+        ).id
+
+        if Merit.checks_on_each_request
+          badge_rules.check_new_actions
         end
       end
+    end
+
+    private
+
+    def rules_defined?
+      action = "#{controller_name}\##{action_name}"
+      badge_rules.defined_rules[action].present? ||
+      point_rules.defined_rules[action].present?
+    end
+
+    def had_errors?
+      target_object.try(:errors).try(:present?) || false
     end
 
     def target_object
@@ -36,11 +44,19 @@ module Merit
 
     def target_id
       target_id = params[:id] || target_object.try(:id)
-      # using friendly_id if id nil or string (), and target_object found
+      # using friendly_id if id is nil or string but an object was found
       if target_object.present? && (target_id.nil? || !(target_id =~ /^[0-9]+$/))
         target_id = target_object.id
       end
       target_id
+    end
+
+    def badge_rules
+      @badge_rules ||= BadgeRules.new
+    end
+
+    def point_rules
+      @point_rules ||= PointRules.new
     end
   end
 end

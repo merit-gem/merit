@@ -9,7 +9,6 @@ module Merit
     end
 
     class Point < ActiveRecord::Base
-      self.table_name = :merit_score_points
       belongs_to :score, :class_name => 'Merit::Score'
     end
   end

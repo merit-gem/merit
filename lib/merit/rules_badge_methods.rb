@@ -34,7 +34,7 @@ module Merit
     def grant_on(action, *args, &block)
       options = args.extract_options!
 
-      actions = action.kind_of?(String) ? [action] : action
+      actions = Array.wrap(action)
 
       rule = Rule.new
       rule.badge_name = options[:badge]
