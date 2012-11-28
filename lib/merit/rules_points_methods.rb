@@ -6,7 +6,7 @@ module Merit
     # Define rules on certaing actions for giving points
     def score(points, *args, &block)
       options = args.extract_options!
-      options[:to] ||= [:action_user]
+      options[:to] ||= :action_user
 
       actions = Array.wrap(options[:on])
 

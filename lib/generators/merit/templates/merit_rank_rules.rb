@@ -1,3 +1,5 @@
+# Be sure to restart your server when you modify this file.
+#
 # 5 stars is a common ranking use case. They are not given at specified
 # actions like badges, you should define a cron job to test if ranks are to be
 # granted.

@@ -7,7 +7,7 @@ module Merit
       base.after_filter do |controller|
         return unless rules_defined?
 
-        MeritAction.create(
+        Merit::Action.create(
           :user_id       => send(Merit.current_user_method).try(:id),
           :action_method => action_name,
           :action_value  => params[:value],
@@ -17,7 +17,7 @@ module Merit
         ).id
 
         if Merit.checks_on_each_request
-          MeritAction.check_unprocessed_rules
+          Merit::Action.check_unprocessed_rules
         end
       end
     end

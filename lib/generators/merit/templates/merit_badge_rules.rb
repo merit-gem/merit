@@ -1,3 +1,5 @@
+# Be sure to restart your server when you modify this file.
+#
 # +grant_on+ accepts:
 # * Nothing (always grants)
 # * A block which evaluates to boolean (recieves the object as parameter)

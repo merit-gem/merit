@@ -144,11 +144,12 @@ set_rank :level => 3, :to => Commiter.active do |commiter|
 end
 ```
 
----
 
 # To-do list
 
-* target_object should be configurable (now it's singularized controller name)
-* Should namespace app/models into Merit module.
-* :value parameter (for star voting for example) should be configurable
-  (depends on params[:value] on the controller).
+* Sash knows how to change it's points, but not how to change it's badges;
+  and badges know how to add/remove themselves from sashes. This functionality
+  belongs to Sash.
+  Keep only Sash#add_badge|rm_badge, delegate them to Sash in model_additions,
+  and remove Badge#grant_to|delete_from
+* Should namespace Badge, BadgesSash and Sash into Merit module.
