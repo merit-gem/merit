@@ -48,13 +48,13 @@ class MeritAction
   private
 
   def check_badge_rules
-    badge_rules = Merit::BadgeRules.new.defined_rules[action_str] || []
-    badge_rules.each { |rule| rule.apply_badges(self) }
+    rules = AppBadgeRules[action_str] || []
+    rules.each { |rule| rule.apply_badges(self) }
   end
 
   def check_point_rules
-    point_rules = Merit::PointRules.new.defined_rules[action_str] || []
-    point_rules.each { |rule| rule.apply_points(self) }
+    rules = AppPointRules[action_str] || []
+    rules.each { |rule| rule.apply_points(self) }
   end
 
   def action_str

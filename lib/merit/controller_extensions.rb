@@ -26,8 +26,7 @@ module Merit
 
     def rules_defined?
       action = "#{controller_name}\##{action_name}"
-      BadgeRules.new.defined_rules[action].present? ||
-      PointRules.new.defined_rules[action].present?
+      AppBadgeRules[action].present? || AppPointRules[action].present?
     end
 
     def had_errors?

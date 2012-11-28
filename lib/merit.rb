@@ -48,6 +48,10 @@ module Merit
       end
 
       ActiveSupport.on_load(:action_controller) do
+        # Load application defined rules
+        ::Merit::AppBadgeRules = BadgeRules.new.defined_rules
+        ::Merit::AppPointRules = PointRules.new.defined_rules
+
         include Merit::ControllerExtensions
       end
     end

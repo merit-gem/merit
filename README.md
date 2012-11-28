@@ -148,9 +148,6 @@ end
 
 # To-do list
 
-* `Merit::BadgeRules.new.defined_rules` should be cached on initialization,
-  instead of initialized per controllers `after_filter` and
-  `merit_action.check_rules`.
 * target_object should be configurable (now it's singularized controller name)
 * Should namespace app/models into Merit module.
 * :value parameter (for star voting for example) should be configurable
