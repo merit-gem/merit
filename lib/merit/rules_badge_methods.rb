@@ -51,11 +51,6 @@ module Merit
       end
     end
 
-    # Check non processed actions and grant badges if applies
-    def check_new_actions
-      MeritAction.where(:processed => false).map &:check_rules
-    end
-
     # Currently defined rules
     def defined_rules
       @defined_rules ||= {}

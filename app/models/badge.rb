@@ -23,6 +23,15 @@ class Badge
     end
   end
 
+  def self.find_by_name_and_level(name, level)
+    badges = Badge.by_name(name)
+    badges = badges.by_level(level) unless level.nil?
+    if !(badge = badges.first)
+      raise ::Merit::BadgeNotFound, "No badge '#{name}'#{level.nil? ? '' : " with level #{level}"} found. Define it in 'config/initializers/merit.rb'."
+    end
+    badge
+  end
+
   # Grant badge to sash
   # Accepts :allow_multiple boolean option, defaults to false
   def grant_to(object_or_sash, *args)
@@ -48,6 +57,8 @@ class Badge
       false
     end
   end
+
+  private
 
   def sash_from(object_or_sash)
     if object_or_sash.kind_of?(Sash)

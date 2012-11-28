@@ -45,12 +45,6 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert badge_sash.notified_user
   end
 
-  # TODO: Test and refactor:
-  # Rule: grant_or_delete_badge(action), sash_to_badge
-  # Badge: delete_from
-  # MeritAction: target(to), action_user, other_target(to), target_object(model_name = nil)
-
-
   test "Badge#grant_to allow_multiple option" do
     badge = Badge.create(:id => 99, :name => 'test-badge')
     sash = Sash.create(:id => 99)

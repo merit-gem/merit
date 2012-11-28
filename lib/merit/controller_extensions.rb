@@ -17,7 +17,7 @@ module Merit
         ).id
 
         if Merit.checks_on_each_request
-          badge_rules.check_new_actions
+          MeritAction.check_unprocessed_rules
         end
       end
     end
@@ -26,8 +26,8 @@ module Merit
 
     def rules_defined?
       action = "#{controller_name}\##{action_name}"
-      badge_rules.defined_rules[action].present? ||
-      point_rules.defined_rules[action].present?
+      BadgeRules.new.defined_rules[action].present? ||
+      PointRules.new.defined_rules[action].present?
     end
 
     def had_errors?
@@ -49,14 +49,6 @@ module Merit
         target_id = target_object.id
       end
       target_id
-    end
-
-    def badge_rules
-      @badge_rules ||= BadgeRules.new
-    end
-
-    def point_rules
-      @point_rules ||= PointRules.new
     end
   end
 end

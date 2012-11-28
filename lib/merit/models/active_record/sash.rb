@@ -43,7 +43,8 @@ class Sash < ActiveRecord::Base
   end
 
   private
-    def create_scores
-      self.scores << Merit::Score.create
-    end
+
+  def create_scores
+    self.scores << Merit::Score.create
+  end
 end

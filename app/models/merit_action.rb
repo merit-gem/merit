@@ -4,6 +4,10 @@ class MeritAction
   attr_accessible :user_id, :action_method, :action_value, :had_errors,
     :target_model, :target_id, :processed, :log
 
+  def self.check_unprocessed_rules
+    where(:processed => false).map &:check_rules
+  end
+
   # Check rules defined for a merit_action
   def check_rules
     unless had_errors
@@ -13,22 +17,36 @@ class MeritAction
     processed!
   end
 
+  def target(to)
+    @target ||= (to == :action_user) ? action_user : other_target(to)
+  end
+
+  def target_object(model_name = nil)
+    # Grab custom model_name from Rule, or target_model from MeritAction triggered
+    klass = model_name || target_model
+    klass.singularize.camelize.constantize.find_by_id(target_id)
+  rescue => e
+    Rails.logger.warn "[merit] no target_object found: #{e}"
+  end
+
+  def log_activity(str)
+    self.update_attribute :log, "#{self.log}#{str}|"
+  end
+
+  private
+
   def check_badge_rules
     badge_rules = Merit::BadgeRules.new.defined_rules[action_str] || []
-    badge_rules.each { |rule| rule.grant_or_delete_badge(self) }
+    badge_rules.each { |rule| rule.apply_badges(self) }
   end
 
   def check_point_rules
     point_rules = Merit::PointRules.new.defined_rules[action_str] || []
-    point_rules.each { |rule| rule.grant_points(self) }
+    point_rules.each { |rule| rule.apply_points(self) }
   end
 
   def action_str
     "#{target_model}\##{action_method}"
-  end
-
-  def target(to)
-    @target ||= (to == :action_user) ? action_user : other_target(to)
   end
 
   def action_user
@@ -47,20 +65,6 @@ class MeritAction
       Rails.logger.warn "[merit] NoMethodError on '#{target_object.inspect}.#{to}' (called from MeritAction#other_target)"
       return
     end
-  end
-
-  # Action's target object
-  def target_object(model_name = nil)
-    # Grab custom model_name from Rule, or target_model from MeritAction triggered
-    klass = model_name || target_model
-    klass.singularize.camelize.constantize.find_by_id(target_id)
-  rescue => e
-    Rails.logger.warn "[merit] no target_object found: #{e}"
-  end
-
-  def log!(str)
-    self.log = "#{self.log}#{str}|"
-    self.save
   end
 
   # Mark merit_action as processed

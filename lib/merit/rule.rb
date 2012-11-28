@@ -28,25 +28,25 @@ module Merit
 
     # Grant badge if rule applies. If it doesn't, and the badge is temporary,
     # then remove it.
-    def grant_or_delete_badge(action)
+    def apply_badges(action)
       unless (sash = sash_to_badge(action))
-        Rails.logger.warn "[merit] no sash found on Rule#grant_or_delete_badge for action #{action.inspect}"
+        Rails.logger.warn "[merit] no sash found on Rule#apply_badges for action #{action.inspect}"
         return
       end
 
       if applies? action.target_object(model_name)
         if badge.grant_to(sash, :allow_multiple => self.multiple)
           to_action_user = (to.to_sym == :action_user ? '_to_action_user' : '')
-          action.log!("badge_granted#{to_action_user}:#{badge.id}")
+          action.log_activity "badge_granted#{to_action_user}:#{badge.id}"
         end
       elsif temporary?
         if badge.delete_from(sash)
-          action.log!("badge_removed:#{badge.id}")
+          action.log_activity "badge_removed:#{badge.id}"
         end
       end
     end
 
-    def grant_points(action)
+    def apply_points(action)
       unless (sash = sash_to_badge(action))
         Rails.logger.warn "[merit] no sash found on Rule#grant_points"
         return
@@ -54,7 +54,7 @@ module Merit
 
       if applies? action.target_object(model_name)
         sash.add_points self.score, action.inspect[0..240]
-        action.log!("points_granted:#{self.score}")
+        action.log_activity "points_granted:#{self.score}"
       end
     end
 
@@ -73,14 +73,7 @@ module Merit
 
     # Get rule's related Badge.
     def badge
-      if @badge.nil?
-        badges = Badge.by_name(badge_name)
-        badges = badges.by_level(level) unless level.nil?
-        if !(@badge = badges.first)
-          raise BadgeNotFound, "No badge '#{badge_name}'#{level.nil? ? '' : " with level #level"} found. Define it in 'config/initializers/merit.rb'."
-        end
-      end
-      @badge
+      @badge ||= Badge.find_by_name_and_level(badge_name, level)
     end
   end
 end
