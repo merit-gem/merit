@@ -1,7 +1,7 @@
 require 'merit/rule'
-require 'merit/rules_badge'
-require 'merit/rules_points'
-require 'merit/rules_rank'
+require 'merit/rules_badge_methods'
+require 'merit/rules_points_methods'
+require 'merit/rules_rank_methods'
 require 'merit/controller_extensions'
 require 'merit/model_additions'
 

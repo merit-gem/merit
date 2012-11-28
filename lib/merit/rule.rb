@@ -68,9 +68,7 @@ module Merit
       else
         target = action.target(to)
       end
-      if target
-        target.sash || target.create_sash_and_scores
-      end
+      target._sash if target
     end
 
     # Get rule's related Badge.

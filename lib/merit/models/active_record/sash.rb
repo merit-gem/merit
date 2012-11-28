@@ -2,6 +2,8 @@ class Sash < ActiveRecord::Base
   has_many :badges_sashes, :dependent => :destroy
   has_many :scores, :dependent => :destroy, :class_name => 'Merit::Score'
 
+  after_create :create_scores
+
   def badges
     badge_ids.collect { |b_id| Badge.find(b_id) }
   end
@@ -33,4 +35,9 @@ class Sash < ActiveRecord::Base
   def substract_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
     add_points -num_points, log, category
   end
+
+  private
+    def create_scores
+      self.scores << Merit::Score.create
+    end
 end

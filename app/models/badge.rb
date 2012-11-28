@@ -53,7 +53,7 @@ class Badge
     if object_or_sash.kind_of?(Sash)
       object_or_sash
     else
-      object_or_sash.sash || object_or_sash.create_sash_and_scores
+      object_or_sash._sash
     end
   end
 end
