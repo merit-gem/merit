@@ -22,7 +22,8 @@ module Merit
       defined_rules[options[:to]].merge!({ options[:level] => rule })
     end
 
-    # Check rules defined for a merit_action
+    # Not part of merit after_filter. To be called asynchronously:
+    # Merit::RankRules.new.check_rank_rules
     def check_rank_rules
       defined_rules.each do |scoped_model, level_and_rules|
         level_and_rules = level_and_rules.sort

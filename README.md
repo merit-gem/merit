@@ -152,7 +152,6 @@ end
   instead of initialized per controllers `after_filter` and
   `merit_action.check_rules`.
 * target_object should be configurable (now it's singularized controller name)
-* Translate comments from spanish in `rules_badge.rb`.
 * Should namespace app/models into Merit module.
 * :value parameter (for star voting for example) should be configurable
   (depends on params[:value] on the controller).

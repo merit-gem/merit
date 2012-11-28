@@ -1,5 +1,17 @@
 require "merit/models/#{Merit.orm}/merit_action"
 
+# MeritAction general schema
+#   ______________________________________________________________
+#   source  | action       | target
+#   user_id | method,value | model,id | processed
+#   ______________________________________________________________
+#   1 | comment nil | List 8  | true
+#   1 | vote 3      | List 12 | true
+#   3 | follow nil  | User 1  | false
+#   X | create nil  | User #{generated_id} | false
+#   ______________________________________________________________
+#
+# Rules relate to merit_actions by action name ('controller#action' string)
 class MeritAction
   attr_accessible :user_id, :action_method, :action_value, :had_errors,
     :target_model, :target_id, :processed, :log
