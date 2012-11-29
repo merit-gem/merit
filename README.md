@@ -59,16 +59,16 @@ current_user.badges # Returns an array of badges
 
 ### Grant manually
 
-You may also grant badges "by hand" (optionally multiple times):
+You may also grant badges "by hand":
 
 ```ruby
-Badge.find(3).grant_to(current_user, :allow_multiple => true)
+current_user.add_badge(badge.id)
 ```
 
-Similarly you can take back badges that have been granted:
+Similarly you can remove badges that have been granted:
 
 ```ruby
-Badge.find(3).delete_from(current_user)
+current_user.rm_badge(badge.id)
 ```
 
 ---
@@ -159,9 +159,4 @@ end
 
 # To-do list
 
-* Sash knows how to change it's points, but not how to change it's badges;
-  and badges know how to add/remove themselves from sashes. This functionality
-  belongs to Sash.
-  Keep only Sash#add_badge|rm_badge, delegate them to Sash in model_additions,
-  and remove Badge#grant_to|delete_from
 * Should namespace Badge, BadgesSash and Sash into Merit module.

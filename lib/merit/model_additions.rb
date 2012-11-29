@@ -28,7 +28,7 @@ module Merit
       # From Rails 3.2 we can override association methods to do so
       # transparently, but merit supports Rails ~> 3.0.0. See:
       # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
-      %w(badge_ids badges points add_points substract_points).each do |method|
+      %w(badge_ids badges points add_badge rm_badge add_points substract_points).each do |method|
         delegate method, to: :_sash
       end
       define_method(:_sash) do

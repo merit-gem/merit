@@ -16,7 +16,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert !rule.applies?, 'block which expects object should return false if no argument'
   end
 
-  test "Rule#badge should get related badge or raise Merit exception" do
+  test "Rule#badge should get related badge or raise Merit::BadgeNotFound" do
     rule = Merit::Rule.new
     rule.badge_name = 'inexistent'
     assert_raise Merit::BadgeNotFound do
@@ -28,13 +28,16 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert_equal Badge.find(98), rule.badge
   end
 
-  test "Extending only certain ActiveRecord models" do
+  test "Extends only meritable ActiveRecord models" do
     class MeritableModel < ActiveRecord::Base
       def self.columns; @columns ||= []; end
       has_merit
     end
+    class OtherModels < ActiveRecord::Base
+      def self.columns; @columns ||= []; end
+    end
     assert MeritableModel.method_defined?(:points), 'Meritable model should respond to merit methods'
-    assert !ActiveRecord::Base.method_defined?(:points), 'ActiveRecord::Base shouldn\'t respond to merit methods'
+    assert !OtherModels.method_defined?(:points), 'Other models shouldn\'t respond to merit methods'
   end
 
   # Do we need this non-documented attribute?
@@ -43,20 +46,5 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert !badge_sash.notified_user
     badge_sash.set_notified!
     assert badge_sash.notified_user
-  end
-
-  test "Badge#grant_to allow_multiple option" do
-    badge = Badge.create(:id => 99, :name => 'test-badge')
-    sash = Sash.create(:id => 99)
-
-    assert_equal 0, sash.badge_ids.count
-
-    assert badge.grant_to(sash)
-    assert_equal 1, sash.badge_ids.count
-    assert !badge.grant_to(sash)
-    assert_equal 1, sash.badge_ids.count
-
-    assert badge.grant_to(sash, :allow_multiple => true)
-    assert_equal 2, sash.badge_ids.count
   end
 end

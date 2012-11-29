@@ -7,7 +7,27 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Create User')
 
     user = User.where(:name => 'Jack').first
-    assert_equal [Badge.by_name('just-registered').first], user.badges.to_a
+    assert_equal [Badge.by_name('just-registered').first], user.badges
+  end
+
+  test 'User#add_badge should add one badge, #rm_badge should delete one' do
+    user = User.create(:name => 'test-user')
+    assert_equal [], user.badges
+
+    badge = Badge.first
+    user.add_badge badge.id
+    user.add_badge badge.id
+    assert_equal [badge, badge], user.badges
+
+    user.rm_badge badge.id
+    assert_equal [badge], user.reload.badges
+  end
+
+  test 'Remove inexistent badge should do nothing' do
+    user = User.create(:name => 'test-user')
+    assert_equal [], user.badges
+    user.rm_badge 1
+    assert_equal [], user.badges
   end
 
   test 'users#index should grant badge multiple times' do
@@ -50,8 +70,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
     fill_in 'User', :with => user.id
     click_button('Create Comment')
 
-    assert_equal [Badge.by_name('commenter').by_level(10).first], user.reload.badges.to_a
-    assert_equal [Badge.by_name('has_commenter_friend').first], friend.reload.badges.to_a
+    assert_equal [Badge.by_name('commenter').by_level(10).first], user.reload.badges
+    assert_equal [Badge.by_name('has_commenter_friend').first], friend.reload.badges
 
     # Vote (to 5) a user's comment, assert relevant-commenter badge granted
     relevant_comment = user.comments.where(:votes => 8).first
@@ -61,13 +81,13 @@ class NavigationTest < ActiveSupport::IntegrationCase
     end
 
     relevant_badge = Badge.by_name('relevant-commenter').first
-    user_badges    = User.where(:name => 'test-user').first.badges.to_a
+    user_badges    = User.where(:name => 'test-user').first.badges
     assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
 
     # Edit user's name by long name
     # tests ruby code in grant_on is being executed, and gives badge
     user = User.where(:name => 'test-user').first
-    user_badges = user.badges.to_a
+    user_badges = user.badges
 
     visit "/users/#{user.id}/edit"
     fill_in 'Name', :with => 'long_name!'
@@ -75,7 +95,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(:name => 'long_name!').first
     autobiographer_badge = Badge.by_name('autobiographer').first
-    assert user.badges.to_a.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain autobiographer badge."
+    assert user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain autobiographer badge."
 
     # Edit user's name by short name
     # tests ruby code in grant_on is being executed, and removes badge
@@ -84,7 +104,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'abc').first
-    assert !user.badges.to_a.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
+    assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
   end
 
   test 'user workflow should add up points at some times' do

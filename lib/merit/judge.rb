@@ -12,14 +12,9 @@ module Merit
     # then remove it.
     def apply_badges
       if rule_applies?
-        if badge.grant_to(@sash, :allow_multiple => @rule.multiple)
-          to_action_user = (@rule.to.to_sym == :action_user ? '_to_action_user' : '')
-          @action.log_activity "badge_granted#{to_action_user}:#{badge.id}"
-        end
-      elsif @rule.temporary
-        if badge.delete_from(@sash)
-          @action.log_activity "badge_removed:#{badge.id}"
-        end
+        grant_badge if new_or_multiple?
+      else
+        remove_badge if @rule.temporary
       end
     end
 
@@ -30,6 +25,21 @@ module Merit
     end
 
     private
+
+    def grant_badge
+      @sash.add_badge(badge.id)
+      to_action_user = (@rule.to.to_sym == :action_user ? '_to_action_user' : '')
+      @action.log_activity "badge_granted#{to_action_user}:#{badge.id}"
+    end
+
+    def remove_badge
+      @sash.rm_badge(badge.id)
+      @action.log_activity "badge_removed:#{badge.id}"
+    end
+
+    def new_or_multiple?
+      !@sash.badge_ids.include?(badge.id) || @rule.multiple
+    end
 
     # FIXME: Too tightly coupled three objects
     def rule_applies?

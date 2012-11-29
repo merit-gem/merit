@@ -28,6 +28,7 @@ class Sash < ActiveRecord::Base
     badges_sashes.find_by_badge_id(badge_id).try(:destroy)
   end
 
+
   def points(category = 'default')
     scores.where(:category => category).first.points
   end
@@ -38,6 +39,7 @@ class Sash < ActiveRecord::Base
     point.num_points = num_points
     self.scores.where(:category => category).first.score_points << point
   end
+
   def substract_points(num_points, log = 'Manually granted through `add_points`', category = 'default')
     add_points -num_points, log, category
   end

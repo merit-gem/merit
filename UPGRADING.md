@@ -1,5 +1,12 @@
 # Upgrading
 
+## to 1.2.0
+
+* `Badge#grant_to(meritable_object)` no longer exists. Use
+  `meritable_object.add_badge(badge_id)` (may add badges more than once).
+* `Badge#delete_from(meritable_object)` no longer exists. Use
+  `meritable_object.rm_badge(badge_id)`.
+
 ## to 1.1.0
 
 Code refactorings. Support for Ruby 1.8.7 has been dropped.
