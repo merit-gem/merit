@@ -64,7 +64,7 @@ module Merit
     end
 
     def target(to)
-      @target ||= (to == :action_user) ? action_user : other_target(to)
+      (to == :action_user) ? action_user : other_target(to)
     end
 
     def action_str
