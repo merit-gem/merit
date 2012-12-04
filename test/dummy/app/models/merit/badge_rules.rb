@@ -33,6 +33,10 @@ module Merit
       grant_on 'comments#create', :badge => 'commenter', :level => 10 do |comment|
         comment.user.comments.count >= 10
       end
+      # Testing badge granting in more than one rule per action with different targets
+      grant_on 'comments#create', :badge => 'has_commenter_friend', :to => :friend do |comment|
+        comment.user.comments.count >= 10
+      end
 
       # If it has at least 10 votes, grant relevant-commenter badge
       grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do |comment|
