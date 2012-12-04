@@ -30,7 +30,7 @@ module Merit
     end
 
     def had_errors?
-      target_object.try(:errors).try(:present?) || false
+      target_object.respond_to?(:errors) && target_object.try(:errors).try(:present?)
     end
 
     def target_object
