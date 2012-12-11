@@ -30,6 +30,7 @@ module Merit
     end
 
     def had_errors?
+      # TODO: Could be not an ActiveRecord object.
       target_object.try(:errors).try(:present?) || false
     end
 
