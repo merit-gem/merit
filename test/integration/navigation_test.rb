@@ -22,6 +22,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
   test 'user workflow should grant some badges at some times' do
     # Commented 9 times, no badges yet
     user = User.create(:name => 'test-user')
+    # Create needed friend user object
+    friend = User.create(:name => 'friend')
+
     (1..9).each do |i|
       Comment.create(
         :name    => "Title #{i}",
@@ -47,8 +50,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
     fill_in 'User', :with => user.id
     click_button('Create Comment')
 
-    user = User.where(:name => 'test-user').first
-    assert_equal [Badge.by_name('commenter').by_level(10).first], user.badges.to_a
+    assert_equal [Badge.by_name('commenter').by_level(10).first], user.reload.badges.to_a
+    assert_equal [Badge.by_name('has_commenter_friend').first], friend.reload.badges.to_a
 
     # Vote (to 5) a user's comment, assert relevant-commenter badge granted
     relevant_comment = user.comments.where(:votes => 8).first
@@ -85,6 +88,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should add up points at some times' do
+    User.delete_all
     user = User.create(:name => 'test-user')
     assert_equal 0, user.points, 'User should start with 0 points'
 

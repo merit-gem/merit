@@ -12,12 +12,16 @@ badge_id = 0
 [{
   :id => (badge_id = badge_id+1),
   :name        => 'commenter',
-  :description => 'You\'ve participated good in our boards!',
+  :description => 'You\'ve participated good in our boards! (level 10)',
   :level       => 10
 }, {
   :id => (badge_id = badge_id+1),
   :name        => 'commenter',
   :description => 'You\'ve participated great in our boards!'
+}, {
+  :id => (badge_id = badge_id+1),
+  :name        => 'has_commenter_friend',
+  :description => 'Testing badge granting in more than one rule per action, with different targets'
 }, {
   :id => (badge_id = badge_id+1),
   :name        => 'relevant-commenter',
