@@ -51,7 +51,13 @@ grant_on ['users#create', 'users#update'], :badge => 'autobiographer', :temporar
 end
 ```
 
-## Grant manually
+### Check granted badges
+
+```ruby
+current_user.badges # Returns an array of badges
+```
+
+### Grant manually
 
 You may also grant badges "by hand" (optionally multiple times):
 
@@ -96,7 +102,13 @@ score 20, :on => [
 score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
 ```
 
-## Score manually
+### Check awarded points
+
+```ruby
+current_user.points # Returns an integer
+```
+
+### Score manually
 
 You may also change user points "by hand":
 
