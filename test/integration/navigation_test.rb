@@ -35,8 +35,15 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit '/users'
     visit '/users'
     visit '/users'
-    visit '/users'
+    gossip = Badge.by_name('gossip').first
+    assert_equal 3, User.first.badges.count
+    assert_equal [gossip, gossip, gossip], User.first.badges
+
+    # Testing with namespaced controllers
+    visit '/admin/users'
+    visited_admin = Badge.by_name('visited_admin').first
     assert_equal 4, User.first.badges.count
+    assert User.first.badges.include?(visited_admin)
   end
 
   test 'user workflow should grant some badges at some times' do

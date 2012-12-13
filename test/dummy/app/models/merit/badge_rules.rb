@@ -29,6 +29,9 @@ module Merit
       # Example rule for multiple badge granting
       grant_on 'users#index', :badge => 'gossip', :multiple => true
 
+      # Example rule for badge granting in namespaced controllers
+      grant_on 'admin/users#index', :badge => 'visited_admin'
+
       # If it has 10 comments, grant commenter-10 badge
       grant_on 'comments#create', :badge => 'commenter', :level => 10 do |comment|
         comment.user.comments.count >= 10

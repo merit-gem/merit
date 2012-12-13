@@ -1,7 +1,7 @@
 module Merit
   # Sets up an app-wide after_filter, and inserts merit_action entries if
   # there are defined rules (for badges or points) for current
-  # 'controller_name#action_name'
+  # 'controller_path#action_name'
   module ControllerExtensions
     def self.included(base)
       base.after_filter do |controller|
@@ -12,7 +12,7 @@ module Merit
           :action_method => action_name,
           :action_value  => params[:value],
           :had_errors    => had_errors?,
-          :target_model  => controller_name,
+          :target_model  => controller_path,
           :target_id     => target_id
         ).id
 
@@ -25,7 +25,7 @@ module Merit
     private
 
     def rules_defined?
-      action = "#{controller_name}\##{action_name}"
+      action = "#{controller_path}\##{action_name}"
       AppBadgeRules[action].present? || AppPointRules[action].present?
     end
 
@@ -36,7 +36,7 @@ module Merit
     def target_object
       target_obj = instance_variable_get(:"@#{controller_name.singularize}")
       if target_obj.nil?
-        Rails.logger.warn("[merit] No object found, maybe you need a '@#{controller_name.singularize}' variable in '#{controller_name}_controller'?")
+        Rails.logger.warn("[merit] No object found, maybe you need a '@#{controller_name.singularize}' variable in '#{controller_path}_controller'?")
       end
       target_obj
     end

@@ -20,6 +20,10 @@ badge_id = 0
   :description => 'You\'ve participated great in our boards!'
 }, {
   :id => (badge_id = badge_id+1),
+  :name        => 'visited_admin',
+  :description => 'You sneaked in!'
+}, {
+  :id => (badge_id = badge_id+1),
   :name        => 'has_commenter_friend',
   :description => 'Testing badge granting in more than one rule per action, with different targets'
 }, {
