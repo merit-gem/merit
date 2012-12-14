@@ -47,4 +47,17 @@ class MeritUnitTest < ActiveSupport::TestCase
     badge_sash.set_notified!
     assert badge_sash.notified_user
   end
+
+  test 'unknown ranking should raise merit exception' do
+    class WeirdRankRules
+      include Merit::RankRulesMethods
+      def initialize
+        set_rank :level => 1, :to => User, :level_name => :clown do |user|
+        end
+      end
+    end
+    assert_raises Merit::RankAttributeNotDefined do
+      WeirdRankRules.new.check_rank_rules
+    end
+  end
 end

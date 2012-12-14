@@ -26,22 +26,8 @@ module Merit
     # Merit::RankRules.new.check_rank_rules
     def check_rank_rules
       defined_rules.each do |scoped_model, level_and_rules|
-        level_and_rules = level_and_rules.sort
-        level_and_rules.each do |level, rule|
-          begin
-            if Merit.orm == :mongoid
-              items = scoped_model.where(:"#{rule.level_name}".lt => level)
-            else
-              items = scoped_model.where("#{rule.level_name} < #{level}")
-            end
-            items.each do |obj|
-              if rule.applies?(obj)
-                obj.update_attribute rule.level_name, level
-              end
-            end
-          rescue ActiveRecord::StatementInvalid
-            Rails.logger.warn "[merit] Please add #{rule.level_name} column/attribute to #{scoped_model.new.class.name}"
-          end
+        level_and_rules.sort.each do |level, rule|
+          grant_when_applies(scoped_model, rule, level)
         end
       end
     end
@@ -49,6 +35,26 @@ module Merit
     # Currently defined rules
     def defined_rules
       @defined_rules ||= {}
+    end
+
+    private
+
+    def grant_when_applies(scoped_model, rule, level)
+      scope_to_promote(scoped_model, rule.level_name, level).each do |object|
+        if rule.applies?(object)
+          object.update_attribute rule.level_name, level
+        end
+      end
+    rescue ActiveRecord::StatementInvalid => msg
+      raise RankAttributeNotDefined, "Add #{rule.level_name} column to #{scoped_model.new.class.name}\n[#{msg}]"
+    end
+
+    def scope_to_promote(scope, level_name, level)
+      if Merit.orm == :mongoid
+        scope.where(:"#{level_name}".lt => level)
+      else
+        scope.where("#{level_name} < #{level}")
+      end
     end
   end
 end

@@ -35,6 +35,7 @@ module Merit
   end
 
   class BadgeNotFound < Exception; end
+  class RankAttributeNotDefined < Exception; end
 
   class Engine < Rails::Engine
     config.app_generators.orm Merit.orm
