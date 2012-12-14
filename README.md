@@ -42,6 +42,7 @@ holds. Badges may have levels, and may be temporary. Define rules on
 ## Examples
 
 ```ruby
+# app/models/merit/badge_rules.rb
 grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do |comment|
   comment.votes.count == 5
 end
@@ -51,23 +52,12 @@ grant_on ['users#create', 'users#update'], :badge => 'autobiographer', :temporar
 end
 ```
 
-### Check granted badges
-
 ```ruby
+# Check granted badges
 current_user.badges # Returns an array of badges
-```
 
-### Grant manually
-
-You may also grant badges "by hand":
-
-```ruby
+# Grant or remove manually
 current_user.add_badge(badge.id)
-```
-
-Similarly you can remove badges that have been granted:
-
-```ruby
 current_user.rm_badge(badge.id)
 ```
 
@@ -90,6 +80,7 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 ## Examples
 
 ```ruby
+# app/models/merit/point_rules.rb
 score 10, :to => :post_creator, :on => 'comments#create' do |comment|
   comment.title.present?
 end
@@ -102,19 +93,12 @@ score 20, :on => [
 score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
 ```
 
-### Check awarded points
-
 ```ruby
+# Check awarded points
 current_user.points # Returns an integer
-```
 
-### Score manually
-
-You may also change user points "by hand":
-
-```ruby
+# Score manually
 current_user.add_points(20, 'Optional log message')
-
 current_user.substract_points(10)
 ```
 
