@@ -17,7 +17,7 @@ module Merit
     attr_accessible :user_id, :action_method, :action_value, :had_errors,
       :target_model, :target_id, :processed, :log
 
-    def self.check_unprocessed_rules
+    def self.check_unprocessed
       where(:processed => false).map &:check_all_rules
     end
 

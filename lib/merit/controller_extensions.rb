@@ -5,24 +5,25 @@ module Merit
   module ControllerExtensions
     def self.included(base)
       base.after_filter do |controller|
-        return unless rules_defined?
-
-        Merit::Action.create(
-          :user_id       => send(Merit.current_user_method).try(:id),
-          :action_method => action_name,
-          :action_value  => params[:value],
-          :had_errors    => had_errors?,
-          :target_model  => controller_path,
-          :target_id     => target_id
-        ).id
-
-        if Merit.checks_on_each_request
-          Merit::Action.check_unprocessed_rules
+        if rules_defined?
+          log_merit_action
+          Merit::Action.check_unprocessed if Merit.checks_on_each_request
         end
       end
     end
 
     private
+
+    def log_merit_action
+      Merit::Action.create(
+        :user_id       => send(Merit.current_user_method).try(:id),
+        :action_method => action_name,
+        :action_value  => params[:value],
+        :had_errors    => had_errors?,
+        :target_model  => controller_path,
+        :target_id     => target_id
+      ).id
+    end
 
     def rules_defined?
       action = "#{controller_path}\##{action_name}"
