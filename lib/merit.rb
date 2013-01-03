@@ -50,16 +50,17 @@ module Merit
       end
 
       ActiveSupport.on_load(:action_controller) do
-        # Load application defined rules on application boot up
-        # Test if constant exists (doesn't while installing/generating files)
-        if defined? '::Merit::BadgeRules'
+        begin
+          # Load application defined rules on application boot up
           ::Merit::AppBadgeRules = ::Merit::BadgeRules.new.defined_rules
-        end
-        if defined? '::Merit::PointRules'
           ::Merit::AppPointRules = ::Merit::PointRules.new.defined_rules
+          include Merit::ControllerExtensions
+        rescue NameError => e
+          # Trap NameError if installing/generating files
+          if !(e.to_s =~ /uninitialized constant Merit::BadgeRules/)
+            raise e
+          end
         end
-
-        include Merit::ControllerExtensions
       end
     end
   end
