@@ -51,8 +51,13 @@ module Merit
 
       ActiveSupport.on_load(:action_controller) do
         # Load application defined rules on application boot up
-        ::Merit::AppBadgeRules = ::Merit::BadgeRules.new.defined_rules
-        ::Merit::AppPointRules = ::Merit::PointRules.new.defined_rules
+        # Test if constant exists (doesn't while installing/generating files)
+        if defined? '::Merit::BadgeRules'
+          ::Merit::AppBadgeRules = ::Merit::BadgeRules.new.defined_rules
+        end
+        if defined? '::Merit::PointRules'
+          ::Merit::AppPointRules = ::Merit::PointRules.new.defined_rules
+        end
 
         include Merit::ControllerExtensions
       end
