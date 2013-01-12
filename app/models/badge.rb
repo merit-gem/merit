@@ -31,4 +31,9 @@ class Badge
     end
     badge
   end
+
+  # Last badges granted
+  def self.last_granted_from(from = 1.week.ago, limit = 100)
+    BadgesSash.last_granted_from(from, limit)
+  end
 end

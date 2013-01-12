@@ -1,5 +1,9 @@
 # Upgrading
 
+## to 1.3.0 (unreleased)
+
+* Adds `Badge#last_granted_from(datetime, limit)`.
+
 ## to 1.2.0
 
 * `Badge#grant_to(meritable_object)` no longer exists. Use

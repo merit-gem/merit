@@ -48,6 +48,22 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert badge_sash.notified_user
   end
 
+  test "Badge#last_granted_from returns recently granted badges" do
+    sash = Sash.create
+    badge_id = Badge.create(id: 20, name: 'test-badge-21').id
+    sash.add_badge badge_id
+    BadgesSash.last.update_attribute :created_at, 1.day.ago
+    sash.add_badge badge_id
+    BadgesSash.last.update_attribute :created_at, 8.days.ago
+    sash.add_badge badge_id
+    BadgesSash.last.update_attribute :created_at, 15.days.ago
+
+    assert_equal Badge.last_granted_from(Time.now).count, 0
+    assert_equal Badge.last_granted_from(1.week.ago).count, 1
+    assert_equal Badge.last_granted_from(2.weeks.ago).count, 2
+    assert_equal Badge.last_granted_from(2.weeks.ago, 1).count, 1
+  end
+
   test 'unknown ranking should raise merit exception' do
     class WeirdRankRules
       include Merit::RankRulesMethods
