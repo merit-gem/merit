@@ -1,8 +1,12 @@
 class BadgesSash < ActiveRecord::Base
   belongs_to :sash
 
-  def self.last_granted_from(from = 1.week.ago, limit = 100)
-    where("created_at > '#{from}'").limit(limit).map(&:badge)
+  def self.last_granted(options = {})
+    options[:since_date] ||= 1.month.ago
+    options[:limit]      ||= 10
+    where("created_at > '#{options[:since_date]}'").
+      limit(options[:limit]).
+      map(&:badge)
   end
 
   def badge

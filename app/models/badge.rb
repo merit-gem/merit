@@ -33,7 +33,9 @@ class Badge
   end
 
   # Last badges granted
-  def self.last_granted_from(from = 1.week.ago, limit = 100)
-    BadgesSash.last_granted_from(from, limit)
+  def self.last_granted(options = {})
+    options[:since_date] ||= 1.month.ago
+    options[:limit]      ||= 10
+    BadgesSash.last_granted(options)
   end
 end

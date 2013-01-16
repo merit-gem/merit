@@ -2,7 +2,22 @@
 
 ## to 1.3.0 (unreleased)
 
-* Adds `Badge#last_granted_from(datetime, limit)`.
+Adds two methods meant to display a leaderboard.
+
+* `Badge#last_granted(options = {})`. Accepts options:
+  * `:since_date` (`1.month.ago` by default)
+  * `:limit` (10 by default).
+
+  It lists last 10 badge grants in the last month, unless you change query
+  parameters.
+
+* `Merit::Score.top_scored(options = {})`. Accepts options:
+  * `:table_name` (`users` by default)
+  * `:since_date` (`1.month.ago` by default)
+  * `:limit` (10 by default).
+
+  It lists top 10 scored objects in the last month, unless you change query
+  parameters.
 
 ## to 1.2.0
 
