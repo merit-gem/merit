@@ -143,5 +143,4 @@ end
 
 # To-do list
 
-* Improve model_additions with http://blog.8thlight.com/josh-cheek/2012/02/03/modules-called-they-want-their-integrity-back.html
 * Should namespace Badge, BadgesSash and Sash into Merit module.

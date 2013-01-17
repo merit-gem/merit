@@ -9,21 +9,20 @@ module Merit
       # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
       belongs_to :sash
 
-      merit_orm_specific_config
-
-      merit_delegate_methods_to_sash
-      merit_sash_initializer
+      _merit_orm_specific_config
+      _merit_delegate_methods_to_sash
+      _merit_sash_initializer
     end
 
     # Delegate methods from meritable models to their sash
-    def merit_delegate_methods_to_sash
+    def _merit_delegate_methods_to_sash
       methods = %w(badge_ids badges points
         add_badge rm_badge
         add_points substract_points)
       methods.each { |method| delegate method, to: :_sash }
     end
 
-    def merit_orm_specific_config
+    def _merit_orm_specific_config
       if Merit.orm == :mongo_mapper
         plugin Merit
         key :sash_id, String
@@ -43,7 +42,7 @@ module Merit
     # From Rails 3.2 we can override association methods to do so
     # transparently, but merit supports Rails ~> 3.0.0. See:
     # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
-    def merit_sash_initializer
+    def _merit_sash_initializer
       define_method(:_sash) do
         if sash.nil?
           self.update_attribute :sash_id, Sash.create.id
