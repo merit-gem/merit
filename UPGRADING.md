@@ -1,6 +1,6 @@
 # Upgrading
 
-## to 1.3.0 (unreleased)
+## to 1.3.0
 
 Adds two methods meant to display a leaderboard.
 
