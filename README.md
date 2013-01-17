@@ -61,6 +61,14 @@ current_user.add_badge(badge.id)
 current_user.rm_badge(badge.id)
 ```
 
+```ruby
+# List 10 badge grants in the last month
+Badge.last_granted
+
+# List 20 badge grants in the last week
+Badge.last_granted(since_date: 1.week.ago, limit: 20)
+```
+
 ---
 
 # Defining point rules
@@ -100,6 +108,18 @@ current_user.points # Returns an integer
 # Score manually
 current_user.add_points(20, 'Optional log message')
 current_user.substract_points(10)
+```
+
+```ruby
+# List top 10 scored users in the last month
+Merit::Score.top_scored
+
+# List top 25 scored lists in the last week
+Merit::Score.top_scored(
+  table_name: :lists,
+  since_date: 1.week.ago,
+  limit: 25
+)
 ```
 
 ---

@@ -4,7 +4,7 @@
 
 Adds two methods meant to display a leaderboard.
 
-* `Badge#last_granted(options = {})`. Accepts options:
+* `Badge.last_granted(options = {})`. Accepts options:
   * `:since_date` (`1.month.ago` by default)
   * `:limit` (10 by default).
 
