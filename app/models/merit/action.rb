@@ -30,7 +30,7 @@ module Merit
     end
 
     def log_activity(str)
-      self.update_attribute :log, "#{self.log}#{str}|"
+      self.update_attribute :log, "#{self.log}#{str}|"[0,240]
     end
 
     def target_object(model_name = nil)
