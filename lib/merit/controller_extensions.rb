@@ -45,7 +45,7 @@ module Merit
     def target_id
       target_id = params[:id] || target_object.try(:id)
       # using friendly_id if id is nil or string but an object was found
-      if target_object.present? && (target_id.nil? || !(target_id =~ /^[0-9]+$/))
+      if target_object.present? && (target_id.nil? || !(target_id.to_s =~ /^[0-9]+$/))
         target_id = target_object.id
       end
       target_id
