@@ -1,4 +1,4 @@
-require "merit/models/#{Merit.orm}/merit/action"
+require_dependency "merit/models/#{Merit.orm}/merit/action"
 
 # Merit::Action general schema
 #   ______________________________________________________________

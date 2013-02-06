@@ -164,3 +164,4 @@ end
 # To-do list
 
 * Should namespace Badge, BadgesSash and Sash into Merit module.
+* Move level from meritable model into Sash
