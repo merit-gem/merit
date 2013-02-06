@@ -16,12 +16,12 @@ module Merit
 
     def log_merit_action
       Merit::Action.create(
-        :user_id       => send(Merit.current_user_method).try(:id),
-        :action_method => action_name,
-        :action_value  => params[:value],
-        :had_errors    => had_errors?,
-        :target_model  => controller_path,
-        :target_id     => target_id
+        user_id:       send(Merit.current_user_method).try(:id),
+        action_method: action_name,
+        action_value:  params[:value],
+        had_errors:    had_errors?,
+        target_model:  controller_path,
+        target_id:     target_id
       ).id
     end
 
@@ -44,8 +44,10 @@ module Merit
 
     def target_id
       target_id = params[:id] || target_object.try(:id)
-      # using friendly_id if id is nil or string but an object was found
-      if target_object.present? && (target_id.nil? || !(target_id.to_s =~ /^[0-9]+$/))
+      # If params[:id] is a string (slug, using friendly_id for instance)
+      # then object exists but can't store params[:id] as the foreign key.
+      # Then we grab object's id.
+      if target_object && (target_id.nil? || !(target_id.to_s =~ /^[0-9]+$/))
         target_id = target_object.id
       end
       target_id
