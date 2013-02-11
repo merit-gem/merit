@@ -18,6 +18,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user.add_badge badge.id
     user.add_badge badge.id
     assert_equal [badge, badge], user.badges
+    assert_equal [user], badge.users
 
     user.rm_badge badge.id
     assert_equal [badge], user.reload.badges

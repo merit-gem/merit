@@ -1,5 +1,14 @@
 require 'test_helper'
 
+class MeritableModel < ActiveRecord::Base
+  def self.columns; @columns ||= []; end
+  has_merit
+end
+
+class OtherModels < ActiveRecord::Base
+  def self.columns; @columns ||= []; end
+end
+
 class MeritUnitTest < ActiveSupport::TestCase
   test "Rule#applies? should depend on provided block" do
     rule = Merit::Rule.new
@@ -35,15 +44,12 @@ class MeritUnitTest < ActiveSupport::TestCase
   end
 
   test "Extends only meritable ActiveRecord models" do
-    class MeritableModel < ActiveRecord::Base
-      def self.columns; @columns ||= []; end
-      has_merit
-    end
-    class OtherModels < ActiveRecord::Base
-      def self.columns; @columns ||= []; end
-    end
     assert MeritableModel.method_defined?(:points), 'Meritable model should respond to merit methods'
     assert !OtherModels.method_defined?(:points), 'Other models shouldn\'t respond to merit methods'
+  end
+
+  test "Badges get 'related_models' method" do
+    assert Badge.method_defined?(:meritable_models), 'Badge#meritable_models should be defined'
   end
 
   # Do we need this non-documented attribute?
@@ -87,8 +93,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     class WeirdRankRules
       include Merit::RankRulesMethods
       def initialize
-        set_rank :level => 1, :to => User, :level_name => :clown do |user|
-        end
+        set_rank level: 1, to: User, level_name: :clown
       end
     end
     assert_raises Merit::RankAttributeNotDefined do

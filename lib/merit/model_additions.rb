@@ -11,6 +11,7 @@ module Merit
 
       _merit_orm_specific_config
       _merit_delegate_methods_to_sash
+      _merit_define_badge_related_entries_method
       _merit_sash_initializer
     end
 
@@ -36,6 +37,11 @@ module Merit
           where(:_id => id).first
         end
       end
+    end
+
+    def _merit_define_badge_related_entries_method
+      meritable_class_name = caller[1][/`.*'/][8..-3]
+      Badge._define_related_entries_method(meritable_class_name)
     end
 
     # _sash initializes a sash if doesn't have one yet.
