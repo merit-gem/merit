@@ -61,14 +61,6 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert Badge.method_defined?(:players), 'Badge#players should be defined'
   end
 
-  # Do we need this non-documented attribute?
-  test "BadgesSash#set_notified! sets boolean attribute" do
-    badge_sash = BadgesSash.new
-    assert !badge_sash.notified_user
-    badge_sash.set_notified!
-    assert badge_sash.notified_user
-  end
-
   test "Badge#last_granted returns recently granted badges" do
     # Create sashes, badges and badges_sashes
     sash = Sash.create

@@ -1,5 +1,9 @@
 # Upgrading
 
+## unreleased
+
+* Removed `BadgesSash#set_notified!` undocumented method from code base.
+
 ## to 1.3.0
 
 Adds two methods meant to display a leaderboard.
