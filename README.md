@@ -1,8 +1,9 @@
 # Merit Gem: Reputation rules (badges, points and rankings) for Rails applications
 
-![Merit](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
+![Merit gem](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
 
 [![Build Status](https://travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
+[![Code Climate](https://codeclimate.com/github/tute/merit.png)](https://codeclimate.com/github/tute/merit)
 
 # Installation
 
