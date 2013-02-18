@@ -1,16 +1,7 @@
 require 'test_helper'
 
-class MeritableModel < ActiveRecord::Base
-  def self.columns; @columns ||= []; end
-  has_merit
-end
-
-class OtherModels < ActiveRecord::Base
-  def self.columns; @columns ||= []; end
-end
-
 class MeritUnitTest < ActiveSupport::TestCase
-  test "Rule#applies? should depend on provided block" do
+  test "Rule#applies? depends on provided block" do
     rule = Merit::Rule.new
     assert rule.applies?, 'empty conditions should make rule apply'
 
@@ -22,34 +13,52 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert rule.applies?(str), 'block should make rule apply'
 
     rule.block = lambda{|obj| true }
-    assert !rule.applies?, 'block which expects object should return false if no argument'
+    assert !rule.applies?, 'block needs parameter for rule to pass'
   end
 
-  test "Rule#badge should get related badge or raise Merit::BadgeNotFound" do
+  test "Rule#badge gets related badge or raises exception" do
     rule = Merit::Rule.new
     rule.badge_name = 'inexistent'
-    assert_raise Merit::BadgeNotFound do
-      rule.badge
-    end
+    assert_raise(Merit::BadgeNotFound) { rule.badge }
 
-    badge = Badge.create(:id => 98, :name => 'test-badge-98')
+    badge = Badge.create(id: 98, name: 'test-badge-98')
     rule.badge_name = badge.name
     assert_equal Badge.find(98), rule.badge
   end
 
   test "Merit::Action#log_activity doesn't grow larger than 240 chars" do
+    msg = 'a' * 250
     m = Merit::Action.create
-    m.log_activity('a' * 250)
-    assert m.log.length <= 240, 'Log shouldn\'t grow larger than 240 chars'
+    m.log_activity(msg)
+
+    valid_lengths = msg.length > 240 && m.log.length <= 240
+    assert valid_lengths, 'Log shouldn\'t grow larger than 240 chars'
   end
 
-  test "Extends only meritable ActiveRecord models" do
-    assert MeritableModel.method_defined?(:points), 'Meritable model should respond to merit methods'
-    assert !OtherModels.method_defined?(:points), 'Other models shouldn\'t respond to merit methods'
+  test "extends only meritable ActiveRecord models" do
+    class User < ActiveRecord::Base
+      def self.columns; @columns ||= []; end
+      has_merit
+    end
+    class Fruit < ActiveRecord::Base
+      def self.columns; @columns ||= []; end
+    end
+
+    assert User.method_defined?(:points), 'has_merit adds methods'
+    assert !Fruit.method_defined?(:points), 'other models aren\'t extended'
   end
 
-  test "Badges get 'related_models' method" do
-    assert Badge.method_defined?(:meritable_models), 'Badge#meritable_models should be defined'
+  test "Badges get 'related_models' methods" do
+    class Soldier < ActiveRecord::Base
+      def self.columns; @columns ||= []; end
+      has_merit
+    end
+    class Player < ActiveRecord::Base
+      def self.columns; @columns ||= []; end
+      has_merit
+    end
+    assert Badge.method_defined?(:soldiers), 'Badge#soldiers should be defined'
+    assert Badge.method_defined?(:players), 'Badge#players should be defined'
   end
 
   # Do we need this non-documented attribute?
@@ -61,6 +70,7 @@ class MeritUnitTest < ActiveSupport::TestCase
   end
 
   test "Badge#last_granted returns recently granted badges" do
+    # Create sashes, badges and badges_sashes
     sash = Sash.create
     badge = Badge.create(id: 20, name: 'test-badge-21')
     sash.add_badge badge.id
@@ -70,6 +80,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     sash.add_badge badge.id
     BadgesSash.last.update_attribute :created_at, 15.days.ago
 
+    # Test method options
     assert_equal Badge.last_granted(since_date: Time.now), []
     assert_equal Badge.last_granted(since_date: 1.week.ago), [badge]
     assert_equal Badge.last_granted(since_date: 2.weeks.ago).count, 2
@@ -77,11 +88,13 @@ class MeritUnitTest < ActiveSupport::TestCase
   end
 
   test "Merit::Score.top_scored returns scores leaderboard" do
+    # Create sashes and add points
     sash_1 = Sash.create
     sash_1.add_points(10); sash_1.add_points(10)
     sash_2 = Sash.create
     sash_2.add_points(5); sash_2.add_points(5)
 
+    # Test method options
     assert_equal Merit::Score.top_scored(table_name: :sashes),
       [{"sash_id"=>1, "sum_points"=>20, 0=>1, 1=>20},
        {"sash_id"=>2, "sum_points"=>10, 0=>2, 1=>10}]
@@ -89,7 +102,7 @@ class MeritUnitTest < ActiveSupport::TestCase
       [{"sash_id"=>1, "sum_points"=>20, 0=>1, 1=>20}]
   end
 
-  test 'unknown ranking should raise merit exception' do
+  test 'unknown ranking raises exception' do
     class WeirdRankRules
       include Merit::RankRulesMethods
       def initialize

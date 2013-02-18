@@ -1,3 +1,7 @@
+# run tests
+rake
+
+# Or spin up self contained testing Rails application
 cd test/dummy
 rails g merit:install # n's for not overriding already defined badges & rules
 n
@@ -5,12 +9,7 @@ n
 n
 n
 rails g merit user
-rake db:migrate ; rake db:seed
+rake db:migrate db:seed
 
 # see it in the browser
 rails server
-
-# or run tests
-cd ../..
-rake
-ORM=mongoid rake test
