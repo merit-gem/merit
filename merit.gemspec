@@ -7,6 +7,9 @@ Gem::Specification.new do |s|
   s.version     = '1.3.1'
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
+
+  s.required_ruby_version = '>= 1.9.2'
+
   s.add_dependency 'ambry',  '~> 0.3.0'
   s.add_development_dependency 'rails', '~> 3.2.3'
   s.add_development_dependency 'sqlite3'
