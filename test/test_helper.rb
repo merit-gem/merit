@@ -30,6 +30,11 @@ require "capybara/rails"
 Capybara.default_driver   = :rack_test
 Capybara.default_selector = :css
 
+require 'minitest/spec'
+require 'minitest/autorun'
+require 'minitest/mock'
+require "mocha/setup"
+
 if ENV["ORM"] == "mongoid"
   class ActiveSupport::TestCase
     def teardown
