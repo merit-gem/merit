@@ -9,6 +9,10 @@ module Merit
     def initialize
       # Thanks for voting point
       score 1, :on => 'comments#vote'
+
+      # User's comments all becomes more credible
+      score 2, :to => :user_comments, :on => 'comments#vote'
+
       # Points to voted user
       score 5, :to => :user, :on => 'comments#vote'
 
