@@ -16,6 +16,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'haml'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'minitest-spec'
+  s.add_development_dependency 'mocha', '0.13.3'
   # Testing with Mongoid
   s.add_development_dependency 'bson_ext'
   s.add_development_dependency 'mongoid', '~> 2.0.0'

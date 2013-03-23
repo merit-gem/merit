@@ -63,7 +63,13 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    metaclass (0.0.1)
     mime-types (1.18)
+    minitest (4.7.0)
+    minitest-spec (0.0.2.1)
+      minitest (>= 3.0)
+    mocha (0.13.3)
+      metaclass (~> 0.0.1)
     mongo (1.6.2)
       bson (~> 1.6.2)
     mongoid (2.0.2)
@@ -131,6 +137,9 @@ DEPENDENCIES
   capybara
   haml
   merit!
+  minitest
+  minitest-spec
+  mocha (= 0.13.3)
   mongoid (~> 2.0.0)
   rails (~> 3.2.3)
   simplecov

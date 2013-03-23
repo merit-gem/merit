@@ -191,4 +191,16 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user.reload
     assert_equal 5, user.level, "User level should be 5."
   end
+
+  test 'assigning points to a group of records' do
+    commenter = User.create(:name => 'commenter')
+    comment_1 = commenter.comments.create(:name => 'comment_1', :comment => 'a')
+    comment_2 = commenter.comments.create(:name => 'comment_2', :comment => 'b')
+
+    visit comments_path
+    vote_comment comment_2, :points => 1
+
+    comment_1.reload.points.must_be :==, 2
+    comment_2.reload.points.must_be :==, 2
+  end
 end
