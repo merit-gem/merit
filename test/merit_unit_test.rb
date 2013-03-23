@@ -88,10 +88,10 @@ class MeritUnitTest < ActiveSupport::TestCase
 
     # Test method options
     assert_equal Merit::Score.top_scored(table_name: :sashes),
-      [{"sash_id"=>1, "sum_points"=>20, 0=>1, 1=>20},
-       {"sash_id"=>2, "sum_points"=>10, 0=>2, 1=>10}]
+      [{"sash_id"=>sash_1.id, "sum_points"=>20, 0=>1, 1=>20},
+       {"sash_id"=>sash_2.id, "sum_points"=>10, 0=>2, 1=>10}]
     assert_equal Merit::Score.top_scored(table_name: :sashes, limit: 1),
-      [{"sash_id"=>1, "sum_points"=>20, 0=>1, 1=>20}]
+      [{"sash_id"=>sash_1.id, "sum_points"=>20, 0=>1, 1=>20}]
   end
 
   test 'unknown ranking raises exception' do

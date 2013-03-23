@@ -200,7 +200,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit comments_path
     vote_comment comment_2, :points => 1
 
-    comment_1.points.should == 2
-    comment_2.points.should == 2
+    comment_1.reload.points.must_be :==, 2
+    comment_2.reload.points.must_be :==, 2
   end
 end
