@@ -11,13 +11,15 @@ module Merit
     end
 
     def find
-      target.try(:_sash)
+      targets.map do |target|
+        target.try(:_sash)
+      end.compact
     end
 
     private
 
-    def target
-      @target ||= TargetFinder.find(@rule, @action)
+    def targets
+      @targets ||= TargetFinder.find(@rule, @action)
     end
 
   end
