@@ -16,13 +16,7 @@ module Merit
                when :action_user; action_user
                else; other_target
                end
-      if target.nil?
-        []
-      elsif !target.is_a?(Array)
-        [target]
-      else
-        target
-      end
+      Array.wrap target
     end
 
     private
