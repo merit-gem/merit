@@ -1,24 +1,7 @@
 module Merit
-  class SashFinder
-
+  class SashFinder < Struct.new(:rule, :action)
     def self.find(*args)
-      self.new(*args).find
+      TargetFinder.find(*args).try(:_sash)
     end
-
-    def initialize(rule, action)
-      @rule = rule
-      @action = action
-    end
-
-    def find
-      target.try(:_sash)
-    end
-
-    private
-
-    def target
-      @target ||= TargetFinder.find(@rule, @action)
-    end
-
   end
 end
