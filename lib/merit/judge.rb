@@ -41,9 +41,20 @@ module Merit
       !@sash.badge_ids.include?(badge.id) || @rule.multiple
     end
 
-    # FIXME: Too tightly coupled three objects
     def rule_applies?
-      @rule.applies? @action.target_object(@rule.model_name)
+      @rule.applies? target
+    end
+
+    # FIXME: Why must we have two places that look for targets?
+    # Can't this just use the TargetFinder (as of now, if we do, tests fail)
+    # The following code is just like what the TargetFinder will return if
+    # :itself is the target. This code completely ignores the value of @rule#to
+    def target
+      klass_name = @rule.model_name || @action.target_model
+      klass = klass_name.singularize.camelize.constantize
+      klass.find_by_id(@action.target_id)
+    rescue => e
+      Rails.logger.warn "[merit] no target found: #{e}. #{caller.first}"
     end
 
     def badge

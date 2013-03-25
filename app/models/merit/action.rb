@@ -33,14 +33,6 @@ module Merit
       self.update_attribute :log, "#{self.log}#{str}|"[0,240]
     end
 
-    def target_object(model_name = nil)
-      # Grab custom model_name from Rule, or target_model from Merit::Action triggered
-      klass = model_name || target_model
-      klass.singularize.camelize.constantize.find_by_id(target_id)
-    rescue => e
-      Rails.logger.warn "[merit] no target_obj found: #{e}"
-    end
-
     private
 
     def check_rules(rules_array, badges_or_points)
@@ -52,38 +44,11 @@ module Merit
 
     # Subject to badge: source_user or target.user?
     def sash_to_badge(rule)
-      if rule.to == :itself
-        target = target_object(rule.model_name)
-      else
-        target = target(rule.to)
-      end
-      target.try(:_sash)
-    end
-
-    def target(to)
-      (to == :action_user) ? action_user : other_target(to)
+      SashFinder.find(rule, self)
     end
 
     def action_str
       "#{target_model}\##{action_method}"
-    end
-
-    def action_user
-      begin
-        Merit.user_model.find(user_id)
-      rescue ActiveRecord::RecordNotFound
-        Rails.logger.warn "[merit] no #{Merit.user_model} found with id #{user_id}"
-        return
-      end
-    end
-
-    def other_target(to)
-      begin
-        target_object.send(to)
-      rescue NoMethodError
-        Rails.logger.warn "[merit] NoMethodError on '#{target_object.inspect}.#{to}' (called from Merit::Action#other_target)"
-        return
-      end
     end
 
     # Mark merit_action as processed
