@@ -8,14 +8,8 @@ module Merit
       @action = options[:action]
     end
 
-    # Grant badge if rule applies. If it doesn't, and the badge is temporary,
-    # then remove it.
     def apply_badges
-      if rule_applies?
-        grant_badge if new_or_multiple?
-      else
-        remove_badge if @rule.temporary
-      end
+      @sashes.each { |sash| apply_badge_to sash }
     end
 
     def apply_points
@@ -28,23 +22,8 @@ module Merit
 
     private
 
-    def grant_badge
-      @sashes.each do |sash|
-        sash.add_badge(badge.id)
-      end
-      to_action_user = (@rule.to.to_sym == :action_user ? '_to_action_user' : '')
-      @action.log_activity "badge_granted#{to_action_user}:#{badge.id}"
-    end
-
-    def remove_badge
-      @sashes.each do |sash|
-        sash.rm_badge(badge.id)
-      end
-      @action.log_activity "badge_removed:#{badge.id}"
-    end
-
-    def new_or_multiple?
-      !@sashes.map(&:badge_ids).include?(badge.id) || @rule.multiple
+    def apply_badge_to(sash)
+      BadgeJudge.judge sash, @rule, @action
     end
 
     def rule_applies?
@@ -55,8 +34,5 @@ module Merit
       @target ||= BaseTargetFinder.find(@rule, @action)
     end
 
-    def badge
-      @rule.badge
-    end
   end
 end

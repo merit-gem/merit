@@ -8,6 +8,9 @@ require 'merit/judge'
 require 'merit/sash_finder'
 require 'merit/base_target_finder'
 require 'merit/target_finder'
+require 'merit/badge_judge'
+require 'merit/badge_awarder'
+require 'merit/badge_revoker'
 
 module Merit
   # Check rules on each request
