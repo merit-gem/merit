@@ -20,17 +20,17 @@ module Merit
     end
 
     def action_user
-      if (user = Merit.user_model.find_by_id(action.user_id))
-        return user
-      else
+      user = Merit.user_model.find_by_id action.user_id
+      if user.nil?
         user_model = Merit.user_model
         message = "[merit] no #{user_model} found with id #{action.user_id}"
         Rails.logger.warn message
       end
+      user
     end
 
     def other_target
-      base_target.send(rule.to)
+      base_target.send rule.to
     rescue NoMethodError
       message = "[merit] NoMethodError on"
       message << " `#{base_target.class.name}##{rule.to}`"

@@ -3,7 +3,7 @@ module Merit
     def initialize(sashes, rule, options = {})
       @sashes = sashes
       @rule = rule
-      # FIXME: Too much context:
+      # FIXME: Too much context?
       # A Judge should apply reputation independently of the action
       @action = options[:action]
     end
@@ -12,9 +12,9 @@ module Merit
     # then remove it.
     def apply_badges
       if rule_applies?
-        grant_badge if new_or_multiple?
+        grant_badges if new_or_multiple?
       else
-        remove_badge if @rule.temporary
+        remove_badges if @rule.temporary
       end
     end
 
@@ -28,18 +28,14 @@ module Merit
 
     private
 
-    def grant_badge
-      @sashes.each do |sash|
-        sash.add_badge(badge.id)
-      end
+    def grant_badges
+      @sashes.each { |sash| sash.add_badge badge.id }
       to_action_user = (@rule.to.to_sym == :action_user ? '_to_action_user' : '')
       @action.log_activity "badge_granted#{to_action_user}:#{badge.id}"
     end
 
-    def remove_badge
-      @sashes.each do |sash|
-        sash.rm_badge(badge.id)
-      end
+    def remove_badges
+      @sashes.each { |sash| sash.rm_badge badge.id }
       @action.log_activity "badge_removed:#{badge.id}"
     end
 
@@ -48,11 +44,8 @@ module Merit
     end
 
     def rule_applies?
-      @rule.applies? target
-    end
-
-    def target
-      @target ||= BaseTargetFinder.find(@rule, @action)
+      rule_object = BaseTargetFinder.find(@rule, @action)
+      @rule.applies? rule_object
     end
 
     def badge
