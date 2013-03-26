@@ -1,5 +1,10 @@
 # Upgrading
 
+## 1.5.0 (unreleased)
+
+* Namespaces `Badge`, `Sash` and `BadgesSash` into `Merit` module. If your app
+  uses any of those class names, you should add a `Merit::` prefix.
+
 ## 1.4.0
 
 * Removed `BadgesSash#set_notified!` undocumented method from code base.

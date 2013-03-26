@@ -3,11 +3,11 @@ require 'test_helper'
 describe Merit::SashFinder do
 
   it 'should return an array of sashes of the target objects' do
-    sash_1 = Sash.new
+    sash_1 = Merit::Sash.new
     user_1 = User.new(:_sash => sash_1)
     user_1.stubs(:_sash).returns(sash_1)
 
-    sash_2 = Sash.new
+    sash_2 = Merit::Sash.new
     user_2 = User.new
     user_2.stubs(:_sash).returns(sash_2)
 

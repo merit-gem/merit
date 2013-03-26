@@ -7,7 +7,7 @@ module Merit
       # That's why MeritableModel belongs_to Sash. Can't use
       # :dependent => destroy as it may raise FK constraint exceptions. See:
       # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
-      belongs_to :sash
+      belongs_to :sash, class_name: 'Merit::Sash'
 
       _merit_orm_specific_config
       _merit_delegate_methods_to_sash

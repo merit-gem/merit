@@ -2,7 +2,7 @@ module Merit
   class Score < ActiveRecord::Base
     self.table_name = :merit_scores
     belongs_to :sash
-    has_many :score_points, :dependent => :destroy, :class_name => 'Merit::Score::Point'
+    has_many :score_points, :dependent => :destroy, class_name: 'Merit::Score::Point'
 
     # Meant to display a leaderboard. Accepts options :table_name (users by
     # default), :since_date (1.month.ago by default) and :limit (10 by

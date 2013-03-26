@@ -63,14 +63,14 @@ class MeritUnitTest < ActiveSupport::TestCase
 
   test "Badge#last_granted returns recently granted badges" do
     # Create sashes, badges and badges_sashes
-    sash = Sash.create
+    sash = Merit::Sash.create
     badge = Merit::Badge.create(id: 20, name: 'test-badge-21')
     sash.add_badge badge.id
-    BadgesSash.last.update_attribute :created_at, 1.day.ago
+    Merit::BadgesSash.last.update_attribute :created_at, 1.day.ago
     sash.add_badge badge.id
-    BadgesSash.last.update_attribute :created_at, 8.days.ago
+    Merit::BadgesSash.last.update_attribute :created_at, 8.days.ago
     sash.add_badge badge.id
-    BadgesSash.last.update_attribute :created_at, 15.days.ago
+    Merit::BadgesSash.last.update_attribute :created_at, 15.days.ago
 
     # Test method options
     assert_equal Merit::Badge.last_granted(since_date: Time.now), []
@@ -81,9 +81,9 @@ class MeritUnitTest < ActiveSupport::TestCase
 
   test "Merit::Score.top_scored returns scores leaderboard" do
     # Create sashes and add points
-    sash_1 = Sash.create
+    sash_1 = Merit::Sash.create
     sash_1.add_points(10); sash_1.add_points(10)
-    sash_2 = Sash.create
+    sash_2 = Merit::Sash.create
     sash_2.add_points(5); sash_2.add_points(5)
 
     # Test method options
