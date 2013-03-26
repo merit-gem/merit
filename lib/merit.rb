@@ -6,6 +6,7 @@ require 'merit/controller_extensions'
 require 'merit/model_additions'
 require 'merit/judge'
 require 'merit/sash_finder'
+require 'merit/base_target_finder'
 require 'merit/target_finder'
 
 module Merit

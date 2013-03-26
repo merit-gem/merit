@@ -4,38 +4,26 @@ describe Merit::TargetFinder do
 
   describe '#find' do
     describe 'rule#to is :itself' do
-      describe 'rule has a model_name' do
-        it "should prioritize the rule's model name" do
-          rule = Merit::Rule.new
-          rule.to = :itself
-          rule.model_name = 'comment'
-          action = Merit::Action.new(target_model: 'users', target_id: 2)
-          comment = Comment.new
+      it 'should return the base target' do
+        rule = Merit::Rule.new
+        rule.to = :itself
+        action = Merit::Action.new
 
-          Comment.stubs(:find_by_id).with(2).returns(comment)
+        comment = Comment.new
 
-          finder = Merit::TargetFinder.new(rule, action)
-          finder.find.must_be_same_as comment
-        end
-      end
+        Merit::BaseTargetFinder.
+          stubs(:find).with(rule, action).
+          returns(comment)
 
-      describe 'rule has no model_name' do
-        it "should fall back to the action#target_model" do
-          rule = Merit::Rule.new
-          rule.to = :itself
-          action = Merit::Action.new(target_model: 'users', target_id: 3)
-          user = Comment.new(id: 3)
-
-          User.stubs(:find_by_id).with(3).returns(user)
-
-          finder = Merit::TargetFinder.new(rule, action)
-          finder.find.must_be_same_as user
-        end
+        finder = Merit::TargetFinder.new(rule, action)
+        collection = finder.find
+        collection.size.must_be :==, 1
+        collection.must_include comment
       end
     end
 
     describe 'rule#to is :action_user' do
-      it 'should return the user that executed the action' do
+      it 'should return an array including user that executed the action' do
         Merit.user_model_name = 'User'
         rule = Merit::Rule.new
         rule.to = :action_user
@@ -45,11 +33,13 @@ describe Merit::TargetFinder do
         User.stubs(:find_by_id).with(22).returns(user)
 
         finder = Merit::TargetFinder.new(rule, action)
-        finder.find.must_be_same_as user
+        collection = finder.find
+        collection.size.must_be :==, 1
+        collection.must_include user
       end
 
       describe 'when user does not exist' do
-        it 'should return warn and return nil' do
+        it 'should return warn and return an empty array' do
           Merit.user_model_name = 'User'
           rule = Merit::Rule.new
           rule.to = :action_user
@@ -57,7 +47,7 @@ describe Merit::TargetFinder do
 
           Rails.logger.expects(:warn).with("[merit] no User found with id 22")
           finder = Merit::TargetFinder.new(rule, action)
-          finder.find.must_be_nil
+          finder.find.must_be_empty
         end
       end
     end
@@ -75,11 +65,13 @@ describe Merit::TargetFinder do
         Comment.stubs(:find_by_id).with(40).returns(comment)
 
         finder = Merit::TargetFinder.new(rule, action)
-        finder.find.must_be_same_as user
+        collection = finder.find
+        collection.size.must_be :==, 1
+        collection.must_include user
       end
 
       describe 'the rule#to does not exist as a method on the original target' do
-        it 'should warn and return nil' do
+        it 'should warn and return an empty array' do
           rule = Merit::Rule.new
           rule.to = :non_existent
           rule.model_name = 'comments'
@@ -93,7 +85,7 @@ describe Merit::TargetFinder do
 
           Rails.logger.expects(:warn).with(message)
           finder = Merit::TargetFinder.new(rule, action)
-          finder.find.must_be_nil
+          finder.find.must_be_empty
         end
       end
     end
