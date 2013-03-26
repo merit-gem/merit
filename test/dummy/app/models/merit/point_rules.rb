@@ -10,7 +10,7 @@ module Merit
       # Thanks for voting point
       score 1, :on => 'comments#vote'
 
-      # User's comments all becomes more credible
+      # All user's comments earn points
       score 2, :to => :user_comments, :on => 'comments#vote'
 
       # Points to voted user

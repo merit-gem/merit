@@ -198,7 +198,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
     comment_2 = commenter.comments.create(:name => 'comment_2', :comment => 'b')
 
     visit comments_path
-    vote_comment comment_2, :points => 1
+    within "tr#c_#{comment_2.id}" do
+      click_link '1'
+    end
 
     comment_1.reload.points.must_be :==, 2
     comment_2.reload.points.must_be :==, 2

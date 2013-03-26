@@ -1,8 +1,14 @@
 # Upgrading
 
-## unreleased
+## 1.4.0
 
 * Removed `BadgesSash#set_notified!` undocumented method from code base.
+* `:to` option for points and badges granting may now return an array of
+  objects. For instance:
+  ```ruby
+  # All user's comments earn points
+  score 2, to: :user_comments, on: 'comments#vote'
+  ```
 
 ## to 1.3.0
 
