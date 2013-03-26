@@ -7,14 +7,14 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Create User')
 
     user = User.where(:name => 'Jack').first
-    assert_equal [Badge.by_name('just-registered').first], user.badges
+    assert_equal [Merit::Badge.by_name('just-registered').first], user.badges
   end
 
   test 'User#add_badge should add one badge, #rm_badge should delete one' do
     user = User.create(:name => 'test-user')
     assert_equal [], user.badges
 
-    badge = Badge.first
+    badge = Merit::Badge.first
     user.add_badge badge.id
     user.add_badge badge.id
     assert_equal [badge, badge], user.badges
@@ -36,13 +36,13 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit '/users'
     visit '/users'
     visit '/users'
-    gossip = Badge.by_name('gossip').first
+    gossip = Merit::Badge.by_name('gossip').first
     assert_equal 3, User.first.badges.count
     assert_equal [gossip, gossip, gossip], User.first.badges
 
     # Testing with namespaced controllers
     visit '/admin/users'
-    visited_admin = Badge.by_name('visited_admin').first
+    visited_admin = Merit::Badge.by_name('visited_admin').first
     assert_equal 4, User.first.badges.count
     assert User.first.badges.include?(visited_admin)
   end
@@ -78,8 +78,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
     fill_in 'User', :with => user.id
     click_button('Create Comment')
 
-    assert_equal [Badge.by_name('commenter').by_level(10).first], user.reload.badges
-    assert_equal [Badge.by_name('has_commenter_friend').first], friend.reload.badges
+    assert_equal [Merit::Badge.by_name('commenter').by_level(10).first], user.reload.badges
+    assert_equal [Merit::Badge.by_name('has_commenter_friend').first], friend.reload.badges
 
     # Vote (to 5) a user's comment, assert relevant-commenter badge granted
     relevant_comment = user.comments.where(:votes => 8).first
@@ -88,7 +88,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
       click_link '2'
     end
 
-    relevant_badge = Badge.by_name('relevant-commenter').first
+    relevant_badge = Merit::Badge.by_name('relevant-commenter').first
     user_badges    = User.where(:name => 'test-user').first.badges
     assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
 
@@ -102,7 +102,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Update User')
 
     user = User.where(:name => 'long_name!').first
-    autobiographer_badge = Badge.by_name('autobiographer').first
+    autobiographer_badge = Merit::Badge.by_name('autobiographer').first
     assert user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain autobiographer badge."
 
     # Edit user's name by short name

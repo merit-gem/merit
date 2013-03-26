@@ -21,9 +21,9 @@ class MeritUnitTest < ActiveSupport::TestCase
     rule.badge_name = 'inexistent'
     assert_raise(Merit::BadgeNotFound) { rule.badge }
 
-    badge = Badge.create(id: 98, name: 'test-badge-98')
+    badge = Merit::Badge.create(id: 98, name: 'test-badge-98')
     rule.badge_name = badge.name
-    assert_equal Badge.find(98), rule.badge
+    assert_equal Merit::Badge.find(98), rule.badge
   end
 
   test "Merit::Action#log_activity doesn't grow larger than 240 chars" do
@@ -57,14 +57,14 @@ class MeritUnitTest < ActiveSupport::TestCase
       def self.columns; @columns ||= []; end
       has_merit
     end
-    assert Badge.method_defined?(:soldiers), 'Badge#soldiers should be defined'
-    assert Badge.method_defined?(:players), 'Badge#players should be defined'
+    assert Merit::Badge.method_defined?(:soldiers), 'Badge#soldiers should be defined'
+    assert Merit::Badge.method_defined?(:players), 'Badge#players should be defined'
   end
 
   test "Badge#last_granted returns recently granted badges" do
     # Create sashes, badges and badges_sashes
     sash = Sash.create
-    badge = Badge.create(id: 20, name: 'test-badge-21')
+    badge = Merit::Badge.create(id: 20, name: 'test-badge-21')
     sash.add_badge badge.id
     BadgesSash.last.update_attribute :created_at, 1.day.ago
     sash.add_badge badge.id
@@ -73,10 +73,10 @@ class MeritUnitTest < ActiveSupport::TestCase
     BadgesSash.last.update_attribute :created_at, 15.days.ago
 
     # Test method options
-    assert_equal Badge.last_granted(since_date: Time.now), []
-    assert_equal Badge.last_granted(since_date: 1.week.ago), [badge]
-    assert_equal Badge.last_granted(since_date: 2.weeks.ago).count, 2
-    assert_equal Badge.last_granted(since_date: 2.weeks.ago, limit: 1), [badge]
+    assert_equal Merit::Badge.last_granted(since_date: Time.now), []
+    assert_equal Merit::Badge.last_granted(since_date: 1.week.ago), [badge]
+    assert_equal Merit::Badge.last_granted(since_date: 2.weeks.ago).count, 2
+    assert_equal Merit::Badge.last_granted(since_date: 2.weeks.ago, limit: 1), [badge]
   end
 
   test "Merit::Score.top_scored returns scores leaderboard" do
