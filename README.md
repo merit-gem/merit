@@ -27,7 +27,7 @@ holds. Badges may have levels, and may be temporary. Define rules on
 * `'controller#action'` string (similar to Rails routes)
 * `:badge` for badge name
 * `:level` for badge level
-* `:to` method name over target_object which obtains object to badge
+* `:to` method name over target_object which obtains object(s) to badge
 * `:model_name` (string) define controller's name if it differs from
   the model (like `RegistrationsController` for `User` model).
 * `:multiple` (boolean) badge may be granted multiple times
@@ -171,3 +171,4 @@ end
 * Move level from meritable model into Sash
 * Could have a Merit::Action - Activity - {BadgesSash|Merit::Score::Point}
   join model with datetimes to serve as "log"
+* FIXMES and TODOS.
