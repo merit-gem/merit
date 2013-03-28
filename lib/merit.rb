@@ -12,6 +12,7 @@ require 'merit/target_finder'
 require 'merit/badge_judge'
 require 'merit/badge_awarder'
 require 'merit/badge_revoker'
+require 'merit/point_judge'
 
 module Merit
   # Check rules on each request

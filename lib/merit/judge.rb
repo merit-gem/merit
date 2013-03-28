@@ -13,11 +13,7 @@ module Merit
     end
 
     def apply_points
-      return unless rule_applies?
-      @sashes.each do |sash|
-        sash.add_points @rule.score, @action.inspect[0..240]
-      end
-      @action.log_activity "points_granted:#{@rule.score}"
+      @sashes.each { |sash| apply_points_to sash }
     end
 
     private
@@ -26,12 +22,8 @@ module Merit
       BadgeJudge.judge sash, @rule, @action
     end
 
-    def rule_applies?
-      @rule.applies? target
-    end
-
-    def target
-      @target ||= BaseTargetFinder.find(@rule, @action)
+    def apply_points_to(sash)
+      PointJudge.judge sash, @rule, @action
     end
 
   end
