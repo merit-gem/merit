@@ -1,5 +1,6 @@
 module Merit
   class BadgeJudge
+    include RuleEvaluator
 
     def self.judge(*args)
       self.new(*args).judge
@@ -31,14 +32,6 @@ module Merit
 
     def sash_can_get_badge?
       !@sash.badge_ids.include?(badge.id) || @rule.multiple
-    end
-
-    def rule_applies?
-      @rule.applies? target
-    end
-
-    def target
-      @target ||= BaseTargetFinder.find(@rule, @action)
     end
 
     def badge
