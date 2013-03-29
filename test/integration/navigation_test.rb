@@ -4,7 +4,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
   test 'user sign up should grant badge to itself' do
     visit '/users/new'
     fill_in 'Name', :with => 'Jack'
-    click_button('Create User')
+    assert_difference('Merit::ActivityLog.count') do
+      click_button('Create User')
+    end
 
     user = User.where(:name => 'Jack').first
     assert_equal [Merit::Badge.by_name('just-registered').first], user.badges
@@ -76,7 +78,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
     fill_in 'Name', :with => 'Hi!'
     fill_in 'Comment', :with => 'Hi bro!'
     fill_in 'User', :with => user.id
-    click_button('Create Comment')
+    assert_difference('Merit::ActivityLog.count', 2) do
+      click_button('Create Comment')
+    end
 
     assert_equal [Merit::Badge.by_name('commenter').by_level(10).first], user.reload.badges
     assert_equal [Merit::Badge.by_name('has_commenter_friend').first], friend.reload.badges
@@ -109,7 +113,11 @@ class NavigationTest < ActiveSupport::IntegrationCase
     # tests ruby code in grant_on is being executed, and removes badge
     visit "/users/#{user.id}/edit"
     fill_in 'Name', :with => 'abc'
-    click_button('Update User')
+    assert_difference('Merit::ActivityLog.count', 2) do
+      click_button('Update User')
+    end
+    # Last one is point granting, previous one is badge removing
+    assert_equal 'removed', Merit::ActivityLog.all[-2].description
 
     user = User.where(:name => 'abc').first
     assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
@@ -122,7 +130,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     visit "/users/#{user.id}/edit"
     fill_in 'Name', :with => 'a'
-    click_button('Update User')
+    assert_difference('Merit::ActivityLog.count', 2) do
+      click_button('Update User')
+    end
 
     user = User.where(:name => 'a').first
     assert_equal 20, user.points, 'Updating info should grant 20 points'
@@ -198,8 +208,11 @@ class NavigationTest < ActiveSupport::IntegrationCase
     comment_2 = commenter.comments.create(:name => 'comment_2', :comment => 'b')
 
     visit comments_path
-    within "tr#c_#{comment_2.id}" do
-      click_link '1'
+    # Thanks for voting point, to voted user and it's comments
+    assert_difference('Merit::ActivityLog.count', 4) do
+      within "tr#c_#{comment_2.id}" do
+        click_link '1'
+      end
     end
 
     comment_1.reload.points.must_be :==, 2

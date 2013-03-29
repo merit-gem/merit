@@ -29,10 +29,6 @@ module Merit
       check_rules point_rules, :points
     end
 
-    def log_activity(str)
-      self.update_attribute :log, "#{self.log}#{str}|"[0,240]
-    end
-
     private
 
     def check_rules(rules_array, badges_or_points)

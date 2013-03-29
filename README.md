@@ -168,6 +168,5 @@ end
 # To-do list
 
 * Move level from meritable model into Sash
-* Could have a Merit::Action - Activity - {BadgesSash|Merit::Score::Point}
-  join model with datetimes to serve as "log"
+* `ActivityLog` should replace `add_points` `log` parameter
 * FIXMES and TODOS.

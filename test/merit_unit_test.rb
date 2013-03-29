@@ -26,15 +26,6 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert_equal Merit::Badge.find(98), rule.badge
   end
 
-  test "Merit::Action#log_activity doesn't grow larger than 240 chars" do
-    msg = 'a' * 250
-    m = Merit::Action.create
-    m.log_activity(msg)
-
-    valid_lengths = msg.length > 240 && m.log.length <= 240
-    assert valid_lengths, 'Log shouldn\'t grow larger than 240 chars'
-  end
-
   test "extends only meritable ActiveRecord models" do
     class User < ActiveRecord::Base
       def self.columns; @columns ||= []; end

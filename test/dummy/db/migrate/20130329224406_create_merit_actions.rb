@@ -4,11 +4,10 @@ class CreateMeritActions < ActiveRecord::Migration
       t.integer :user_id # source
       t.string  :action_method
       t.integer :action_value
-      t.boolean :had_errors
+      t.boolean :had_errors, :default => false
       t.string  :target_model
       t.integer :target_id
       t.boolean :processed, :default => false
-      t.string  :log, :default => nil
       t.timestamps
     end
   end

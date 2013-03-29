@@ -2,8 +2,30 @@
 
 ## 1.5.0 (unreleased)
 
+* Adds `Merit::ActivityLog` join model between `Merit::Action` and
+  `Merit::BadgesSash` and `Merit::Score::Point` for logging purposes. Every
+  time a badge is granted or removed, or points are changed, a new
+  `ActivityLog` object gets created.
 * Namespaces `Badge`, `Sash` and `BadgesSash` into `Merit` module. If your app
   uses any of those class names, you should add a `Merit::` prefix.
+* Removes undocumented `log:string` column from `merit_actions`.
+
+Run the following migration to upgrade from 1.4.0:
+
+```ruby
+class UpgradeMeritTo150 < ActiveRecord::Migration
+  def self.up
+    remove_column :merit_actions, :log
+    create_table "merit_activity_logs", :force => true do |t|
+      t.integer  "action_id"
+      t.string   "related_change_type"
+      t.integer  "related_change_id"
+      t.string   "description"
+      t.datetime "created_at"
+    end
+  end
+end
+```
 
 ## 1.4.0
 

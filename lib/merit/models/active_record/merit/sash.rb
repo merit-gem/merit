@@ -20,9 +20,9 @@ module Merit
     end
 
     def add_badge(badge_id)
-      bs = BadgesSash.new
-      bs.badge_id = badge_id
+      bs = BadgesSash.new(badge_id: badge_id)
       self.badges_sashes << bs
+      bs
     end
 
     def rm_badge(badge_id)
@@ -39,6 +39,7 @@ module Merit
       point.log = log
       point.num_points = num_points
       self.scores.where(:category => category).first.score_points << point
+      point
     end
 
     def substract_points(num_points, log = 'Manually granted through `add_points`', category = 'default')

@@ -21,22 +21,36 @@ module Merit
     def apply_points
       return unless rule_applies?
       @sashes.each do |sash|
-        sash.add_points @rule.score, @action.inspect[0..240]
+        points = sash.add_points @rule.score
+        ActivityLog.create(
+          action_id: @action.id,
+          related_change: points
+        )
       end
-      @action.log_activity "points_granted:#{@rule.score}"
     end
 
     private
 
     def grant_badges
-      @sashes.each { |sash| sash.add_badge badge.id }
-      to_action_user = (@rule.to.to_sym == :action_user ? '_to_action_user' : '')
-      @action.log_activity "badge_granted#{to_action_user}:#{badge.id}"
+      @sashes.each do |sash|
+        badge_sash = sash.add_badge badge.id
+        ActivityLog.create(
+          action_id: @action.id,
+          related_change: badge_sash,
+          description: 'granted'
+        )
+      end
     end
 
     def remove_badges
-      @sashes.each { |sash| sash.rm_badge badge.id }
-      @action.log_activity "badge_removed:#{badge.id}"
+      @sashes.each do |sash|
+        badge_sash = sash.rm_badge badge.id
+        ActivityLog.create(
+          action_id: @action.id,
+          related_change: badge_sash,
+          description: 'removed'
+        )
+      end
     end
 
     def new_or_multiple?

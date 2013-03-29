@@ -14,6 +14,7 @@ module ActiveRecord
 
       def copy_migrations_and_model
         migration_template 'create_merit_actions.rb', 'db/migrate/create_merit_actions.rb'
+        migration_template 'create_merit_activity_logs.rb', 'db/migrate/create_merit_activity_logs.rb'
         migration_template 'create_sashes.rb', 'db/migrate/create_sashes.rb'
         migration_template 'create_badges_sashes.rb', 'db/migrate/create_badges_sashes.rb'
         migration_template 'create_scores_and_points.rb', 'db/migrate/create_scores_and_points.rb'

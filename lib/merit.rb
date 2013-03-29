@@ -45,6 +45,7 @@ module Merit
 
     initializer 'merit.controller' do |app|
       if Merit.orm == :active_record
+        require 'merit/models/active_record/merit/activity_log'
         require 'merit/models/active_record/merit/badges_sash'
         require 'merit/models/active_record/merit/sash'
         require 'merit/models/active_record/merit/score'

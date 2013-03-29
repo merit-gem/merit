@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
   has_merit
+
   belongs_to :user
 
   attr_accessible :name, :comment, :user_id, :votes
