@@ -1,6 +1,6 @@
 # Upgrading
 
-## 1.5.0 (unreleased)
+## 1.5.0
 
 * Adds `Merit::ActivityLog` join model between `Merit::Action` and
   `Merit::BadgesSash` and `Merit::Score::Point` for logging purposes. Every
