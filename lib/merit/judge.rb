@@ -12,7 +12,7 @@ module Merit
     # then remove it.
     def apply_badges
       if rule_applies?
-        grant_badges if new_or_multiple?
+        grant_badges
       else
         remove_badges if @rule.temporary
       end
@@ -33,6 +33,7 @@ module Merit
 
     def grant_badges
       @sashes.each do |sash|
+        next unless new_or_multiple?(sash)
         badge_sash = sash.add_badge badge.id
         ActivityLog.create(
           action_id: @action.id,
@@ -53,8 +54,8 @@ module Merit
       end
     end
 
-    def new_or_multiple?
-      !@sashes.map(&:badge_ids).include?(badge.id) || @rule.multiple
+    def new_or_multiple?(sash)
+      !sash.badge_ids.include?(badge.id) || @rule.multiple
     end
 
     def rule_applies?
