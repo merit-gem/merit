@@ -4,7 +4,5 @@ module Merit
 
     belongs_to :action, class_name: Merit::Action
     belongs_to :related_change, polymorphic: true
-
-    attr_accessible :action_id, :related_change, :description, :created_at
   end
 end

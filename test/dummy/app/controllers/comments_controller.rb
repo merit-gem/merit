@@ -47,7 +47,7 @@ class CommentsController < ApplicationController
   # POST /comments
   # POST /comments.xml
   def create
-    @comment = Comment.new(params[:comment])
+    @comment = Comment.new(comment_params)
 
     respond_to do |format|
       if @comment.save
@@ -87,4 +87,10 @@ class CommentsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  private
+
+    def comment_params
+      params.require(:comment).permit!
+    end
 end
