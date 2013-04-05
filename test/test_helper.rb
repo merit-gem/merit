@@ -12,11 +12,8 @@ SimpleCov.adapters.define 'rubygem' do
 end
 SimpleCov.start 'rubygem' if ENV["COVERAGE"]
 
-if ENV["ORM"] == "mongoid"
-  require File.expand_path("../dummy-mongoid/config/environment.rb",  __FILE__)
-else
-  require File.expand_path("../dummy/config/environment.rb",  __FILE__)
-end
+require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+
 require "rails/test_help"
 
 ActionMailer::Base.delivery_method = :test
@@ -33,21 +30,9 @@ Capybara.default_selector = :css
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'minitest/mock'
-require "mocha/setup"
+require 'mocha/setup'
 
-if ENV["ORM"] == "mongoid"
-  class ActiveSupport::TestCase
-    def teardown
-      Mongoid.database.collections.each do |collection|
-        collection.remove unless collection.name =~ /^system\./
-      end
-    end
-  end
-else # ActiveRecord
-  # Run any available migration
-  ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
-end
+ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
-
