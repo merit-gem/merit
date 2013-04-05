@@ -1,6 +1,7 @@
 .DS_Store
 .bundle/
 *coverage*
+Gemfile.lock
 log/*.log
 pkg/
 test/dummy/db/*.sqlite3

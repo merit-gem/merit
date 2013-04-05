@@ -3,7 +3,9 @@ module Merit
     belongs_to :sash
     has_many :activity_logs, class_name: Merit::ActivityLog, as: :related_change
 
-    attr_accessible :badge_id
+    if Rails.version < '4'
+      attr_accessible :badge_id
+    end
 
     def self.last_granted(options = {})
       options[:since_date] ||= 1.month.ago
