@@ -3,6 +3,10 @@ class User < ActiveRecord::Base
 
   has_many :comments
 
+  if Rails.version < '4'
+    attr_accessible :name
+  end
+
   def show_badges
     badges_uniq = Badge.find_by_id(badge_ids)
     badges_uniq.collect{|b| "#{b.name.capitalize}#{badge_status(b)}" }.join(', ')
