@@ -3,7 +3,9 @@ class User < ActiveRecord::Base
 
   has_many :comments
 
-  attr_accessible :name
+  if Rails.version < '4'
+    attr_accessible :name
+  end
 
   def show_badges
     badges_uniq = Badge.find_by_id(badge_ids)
