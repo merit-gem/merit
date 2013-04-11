@@ -43,12 +43,11 @@ module Merit
     end
 
     def target_id
-      target_id = params[:id] || target_object.try(:id)
-      # If params[:id] is a string (slug, using friendly_id for instance)
-      # then object exists but can't store params[:id] as the foreign key.
-      # Then we grab object's id.
-      if target_object && (target_id.nil? || !(target_id.to_s =~ /^[0-9]+$/))
-        target_id = target_object.id
+      target_id = target_object.try(:id)
+      # If target_id is nil
+      # then use params[:id].
+      if target_id.nil? && params[:id].to_s =~ /^[0-9]+$/
+        target_id = params[:id]
       end
       target_id
     end
