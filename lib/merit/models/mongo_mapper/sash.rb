@@ -8,6 +8,7 @@ class Sash
     self.badge_ids << badge_id
     self.save
   end
+
   def rm_badge(badge_id)
     self.badge_ids -= [badge_id]
     self.save

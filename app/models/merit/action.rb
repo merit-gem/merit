@@ -15,7 +15,7 @@ require_dependency "merit/models/#{Merit.orm}/merit/action"
 module Merit
   class Action
     def self.check_unprocessed
-      where(:processed => false).map &:check_all_rules
+      where(processed: false).map &:check_all_rules
     end
 
     # Check rules defined for a merit_action
@@ -33,7 +33,7 @@ module Merit
 
     def check_rules(rules_array, badges_or_points)
       rules_array.each do |rule|
-        judge = Judge.new sashes_to_badge(rule), rule, :action => self
+        judge = Judge.new sashes_to_badge(rule), rule, action: self
         judge.send :"apply_#{badges_or_points}"
       end
     end

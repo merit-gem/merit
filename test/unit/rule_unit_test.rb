@@ -7,7 +7,7 @@ describe Merit::Rule do
 
   describe '#applies (with block)' do
     before do
-      @rule.block = lambda{|obj| obj.length < 4 }
+      @rule.block = ->(obj) { obj.length < 4 }
     end
 
     it 'truthy block should make rule apply' do

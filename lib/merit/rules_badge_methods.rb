@@ -1,10 +1,10 @@
 module Merit
   module BadgeRulesMethods
     # Define rule for granting badges
-    def grant_on(action, *args, &block)
+    def grant_on(actions, *args, &block)
       options = args.extract_options!
 
-      actions = Array.wrap(action)
+      actions = Array.wrap(actions)
 
       rule = Rule.new
       rule.badge_name = options[:badge]

@@ -2,7 +2,7 @@ require 'test_helper'
 
 # TODO: Split different objects tests in it's own files
 class MeritUnitTest < ActiveSupport::TestCase
-  test "extends only meritable ActiveRecord models" do
+  test 'extends only meritable ActiveRecord models' do
     class User < ActiveRecord::Base
       def self.columns; @columns ||= []; end
       has_merit
@@ -15,7 +15,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert !Fruit.method_defined?(:points), 'other models aren\'t extended'
   end
 
-  test "Badges get 'related_models' methods" do
+  test 'Badges get "related_models" methods' do
     class Soldier < ActiveRecord::Base
       def self.columns; @columns ||= []; end
       has_merit
@@ -28,7 +28,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert Merit::Badge.method_defined?(:players), 'Badge#players should be defined'
   end
 
-  test "Badge#last_granted returns recently granted badges" do
+  test 'Badge#last_granted returns recently granted badges' do
     # Create sashes, badges and badges_sashes
     sash = Merit::Sash.create
     badge = Merit::Badge.create(id: 20, name: 'test-badge-21')
@@ -46,7 +46,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert_equal Merit::Badge.last_granted(since_date: 2.weeks.ago, limit: 1), [badge]
   end
 
-  test "Merit::Score.top_scored returns scores leaderboard" do
+  test 'Merit::Score.top_scored returns scores leaderboard' do
     # Create sashes and add points
     sash_1 = Merit::Sash.create
     sash_1.add_points(10); sash_1.add_points(10)
@@ -55,10 +55,10 @@ class MeritUnitTest < ActiveSupport::TestCase
 
     # Test method options
     assert_equal Merit::Score.top_scored(table_name: :sashes),
-      [{"sash_id"=>sash_1.id, "sum_points"=>20, 0=>1, 1=>20},
-       {"sash_id"=>sash_2.id, "sum_points"=>10, 0=>2, 1=>10}]
+      [{'sash_id'=>sash_1.id, 'sum_points'=>20, 0=>1, 1=>20},
+       {'sash_id'=>sash_2.id, 'sum_points'=>10, 0=>2, 1=>10}]
     assert_equal Merit::Score.top_scored(table_name: :sashes, limit: 1),
-      [{"sash_id"=>sash_1.id, "sum_points"=>20, 0=>1, 1=>20}]
+      [{'sash_id'=>sash_1.id, 'sum_points'=>20, 0=>1, 1=>20}]
   end
 
   test 'unknown ranking raises exception' do

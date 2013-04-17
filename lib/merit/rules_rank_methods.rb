@@ -1,7 +1,7 @@
 module Merit
   # 5 stars is a common ranking use case. They are not given at specified
-  # actions like badges, you should define a cron job to test if ranks are to be
-  # granted.
+  # actions like badges, you should define a cron job to test if ranks are to
+  # be granted.
   #
   # +set_rank+ accepts:
   # * :+level+ ranking level (greater is better)
@@ -16,7 +16,11 @@ module Merit
 
       rule = Rule.new
       rule.block = block
-      rule.level_name = options[:level_name].present? ? "level_#{options[:level_name]}" : 'level'
+      if options[:level_name].present?
+        rule.level_name = "level_#{options[:level_name]}"
+      else
+        rule.level_name = 'level'
+      end
 
       defined_rules[options[:to]] ||= {}
       defined_rules[options[:to]].merge!({ options[:level] => rule })
@@ -41,12 +45,12 @@ module Merit
 
     def grant_when_applies(scoped_model, rule, level)
       scope_to_promote(scoped_model, rule.level_name, level).each do |object|
-        if rule.applies?(object)
-          object.update_attribute rule.level_name, level
-        end
+        next unless rule.applies?(object)
+        object.update_attribute rule.level_name, level
       end
-    rescue ActiveRecord::StatementInvalid => msg
-      raise RankAttributeNotDefined, "Add #{rule.level_name} column to #{scoped_model.class.name}\n[#{msg}]"
+    rescue ActiveRecord::StatementInvalid
+      str = "Add #{rule.level_name} column to #{scoped_model.class.name}"
+      raise RankAttributeNotDefined, str
     end
 
     def scope_to_promote(scope, level_name, level)

@@ -8,7 +8,7 @@ module Merit
     key :had_errors, Boolean
     key :target_model, String
     key :target_id, String
-    key :processed, Boolean, :default => false
+    key :processed, Boolean, default: false
     key :log, String
     timestamps!
   end

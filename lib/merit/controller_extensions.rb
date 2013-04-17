@@ -37,7 +37,10 @@ module Merit
     def target_object
       target_obj = instance_variable_get(:"@#{controller_name.singularize}")
       if target_obj.nil?
-        Rails.logger.warn("[merit] No object found, maybe you need a '@#{controller_name.singularize}' variable in '#{controller_path}_controller'?")
+        str = '[merit] No object found, maybe you need a ' +
+          "'@#{controller_name.singularize}' variable in " +
+          "'#{controller_path}_controller'?"
+        Rails.logger.warn str
       end
       target_obj
     end

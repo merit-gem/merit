@@ -14,13 +14,15 @@ module Merit
     filters do
       def find_by_id(ids)
         ids = Array.wrap(ids)
-        find{|b| ids.include? b[:id] }
+        find { |b| ids.include? b[:id] }
       end
+
       def by_name(name)
-        find{|b| b.name == name.to_s }
+        find { |b| b.name == name.to_s }
       end
+
       def by_level(level)
-        find{|b| b.level.to_s == level.to_s }
+        find { |b| b.level.to_s == level.to_s }
       end
     end
 
@@ -28,8 +30,9 @@ module Merit
       def find_by_name_and_level(name, level)
         badges = Badge.by_name(name)
         badges = badges.by_level(level) unless level.nil?
-        if !(badge = badges.first)
-          raise ::Merit::BadgeNotFound, "No badge '#{name}'#{level.nil? ? '' : " with level #{level}"} found. Define it in 'config/initializers/merit.rb'."
+        if (badge = badges.first).nil?
+          str = "No badge '#{name}' found. Define it in initializers/merit.rb"
+          raise ::Merit::BadgeNotFound, str
         end
         badge
       end

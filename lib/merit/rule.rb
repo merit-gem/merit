@@ -15,7 +15,7 @@ module Merit
         if target_obj.present?
           block.call(target_obj)
         else
-          Rails.logger.warn "[merit] no target_obj found on Rule#applies?"
+          Rails.logger.warn '[merit] no target_obj found on Rule#applies?'
           false
         end
       when 0

@@ -45,7 +45,7 @@ describe Merit::TargetFinder do
           rule.to = :action_user
           action = Merit::Action.new(user_id: 22)
 
-          Rails.logger.expects(:warn).with("[merit] no User found with id 22")
+          Rails.logger.expects(:warn).with('[merit] no User found with id 22')
           finder = Merit::TargetFinder.new(rule, action)
           finder.find.must_be_empty
         end
@@ -70,7 +70,7 @@ describe Merit::TargetFinder do
         collection.must_include user
       end
 
-      describe 'the rule#to does not exist as a method on the original target' do
+      describe 'rule#to does not exist as a method on the original target' do
         it 'should warn and return an empty array' do
           rule = Merit::Rule.new
           rule.to = :non_existent
@@ -80,10 +80,10 @@ describe Merit::TargetFinder do
           comment = Comment.new
           Comment.stubs(:find_by_id).with(40).returns(comment)
 
-          message = "[merit] NoMethodError on `Comment#non_existent`"
-          message << " (called from Merit::TargetFinder#other_target)"
+          str = '[merit] NoMethodError on `Comment#non_existent`'
+          str << ' (called from Merit::TargetFinder#other_target)'
 
-          Rails.logger.expects(:warn).with(message)
+          Rails.logger.expects(:warn).with(str)
           finder = Merit::TargetFinder.new(rule, action)
           finder.find.must_be_empty
         end

@@ -20,7 +20,7 @@ module Merit
 
   # Define user_model_name
   mattr_accessor :user_model_name
-  @@user_model_name = "User"
+  @@user_model_name = 'User'
   def self.user_model
     @@user_model_name.constantize
   end
@@ -50,7 +50,7 @@ module Merit
         require 'merit/models/active_record/merit/sash'
         require 'merit/models/active_record/merit/score'
       elsif Merit.orm == :mongoid
-        require "merit/models/mongoid/sash"
+        require 'merit/models/mongoid/sash'
       end
 
       ActiveSupport.on_load(:action_controller) do

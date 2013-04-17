@@ -1,7 +1,9 @@
 module Merit
   class BadgesSash < ActiveRecord::Base
     belongs_to :sash
-    has_many :activity_logs, class_name: Merit::ActivityLog, as: :related_change
+    has_many :activity_logs,
+      class_name: Merit::ActivityLog,
+      as: :related_change
 
     if Rails.version < '4'
       attr_accessible :badge_id

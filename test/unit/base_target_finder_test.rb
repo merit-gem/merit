@@ -20,7 +20,7 @@ describe Merit::BaseTargetFinder do
     end
 
     describe 'rule has no model_name' do
-      it "should fall back to the action#target_model" do
+      it 'should fall back to the action#target_model' do
         rule = Merit::Rule.new
         rule.to = :itself
         action = Merit::Action.new(target_model: 'users', target_id: 3)

@@ -5,11 +5,11 @@ module Merit
 
     belongs_to :user
     field :action_method
-    field :action_value, :type => Integer
-    field :had_errors, :type => Boolean
+    field :action_value, type: Integer
+    field :had_errors, type: Boolean
 
-    belongs_to :target, :polymorphic => true
-    field :processed, :type => Boolean, :default => false
+    belongs_to :target, polymorphic: true
+    field :processed, type: Boolean, default: false
     field :log
   end
 end

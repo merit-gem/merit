@@ -167,7 +167,6 @@ end
 
 # To-do list
 
-* Run rubocop
 * Move level from meritable model into Sash
 * `ActivityLog` should replace `add_points` `log` parameter
 * Extract logging from `Judge` to an Observer. See http://www.rubytapas.com/episodes/21-Domain-Model-Events
