@@ -1,31 +1,7 @@
 require 'test_helper'
 
+# TODO: Split different objects tests in it's own files
 class MeritUnitTest < ActiveSupport::TestCase
-  test "Rule#applies? depends on provided block" do
-    rule = Merit::Rule.new
-    assert rule.applies?, 'empty conditions should make rule apply'
-
-    str = "string"
-    rule.block = lambda{|obj| obj.length < 4 }
-    assert !rule.applies?(str), 'block should make rule fail'
-
-    rule.block = lambda{|obj| obj.length >= 4 }
-    assert rule.applies?(str), 'block should make rule apply'
-
-    rule.block = lambda{|obj| true }
-    assert !rule.applies?, 'block needs parameter for rule to pass'
-  end
-
-  test "Rule#badge gets related badge or raises exception" do
-    rule = Merit::Rule.new
-    rule.badge_name = 'inexistent'
-    assert_raise(Merit::BadgeNotFound) { rule.badge }
-
-    badge = Merit::Badge.create(id: 98, name: 'test-badge-98')
-    rule.badge_name = badge.name
-    assert_equal Merit::Badge.find(98), rule.badge
-  end
-
   test "extends only meritable ActiveRecord models" do
     class User < ActiveRecord::Base
       def self.columns; @columns ||= []; end
