@@ -26,8 +26,7 @@ module Merit
     end
 
     def rules_defined?
-      action = "#{controller_path}\##{action_name}"
-      AppBadgeRules[action].present? || AppPointRules[action].present?
+      RulesMatcher.new(controller_path, action_name).any_matching?
     end
 
     def had_errors?

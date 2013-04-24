@@ -39,6 +39,9 @@ badge_id = 0
   :name => 'just-registered'
 }, {
   :id => (badge_id = badge_id+1),
+  :name => 'wildcard_badge'
+}, {
+  :id => (badge_id = badge_id+1),
   :name => 'gossip'
 }].each do |badge|
   Merit::Badge.create! badge

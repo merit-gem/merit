@@ -35,18 +35,26 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
   test 'users#index should grant badge multiple times' do
     user = User.create(:name => 'test-user')
-    visit '/users'
-    visit '/users'
-    visit '/users'
-    gossip = Merit::Badge.by_name('gossip').first
-    assert_equal 3, User.first.badges.count
-    assert_equal [gossip, gossip, gossip], User.first.badges
 
-    # Testing with namespaced controllers
-    visit '/admin/users'
-    visited_admin = Merit::Badge.by_name('visited_admin').first
-    assert_equal 4, User.first.badges.count
-    assert User.first.badges.include?(visited_admin)
+    # Multiple rule
+    assert_difference 'badges_by_name(user, "gossip").count', 3 do
+      3.times { visit '/users' }
+    end
+
+    # Namespaced controller
+    assert_no_difference 'badges_by_name(user, "visited_admin").count' do
+      visit '/users'
+    end
+    assert_difference 'badges_by_name(user, "visited_admin").count' do
+      visit '/admin/users'
+    end
+
+    # Wildcard controllers
+    assert_difference 'badges_by_name(user, "wildcard_badge").count', 3 do
+      visit '/admin/users'
+      visit '/api/users'
+      visit '/users'
+    end
   end
 
   test 'user workflow should grant some badges at some times' do
@@ -217,5 +225,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     comment_1.reload.points.must_be :==, 2
     comment_2.reload.points.must_be :==, 2
+  end
+
+  def badges_by_name(user, name)
+    user.reload.badges.select{|b| b.name == name }
   end
 end

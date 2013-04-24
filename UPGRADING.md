@@ -1,5 +1,12 @@
 # Upgrading
 
+## 1.6.0 (unreleased)
+
+* Adds ability to wildcard controllers like:
+```ruby
+grant_on '.*search#index', :badge => 'searcher', :multiple => true
+```
+
 ## 1.5.0
 
 * Adds `Merit::ActivityLog` join model between `Merit::Action` and

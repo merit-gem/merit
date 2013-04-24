@@ -23,10 +23,8 @@ module Merit
       processed!
       return if had_errors
 
-      badge_rules = ::Merit::AppBadgeRules[action_str] || []
-      point_rules = ::Merit::AppPointRules[action_str] || []
-      check_rules badge_rules, :badges
-      check_rules point_rules, :points
+      check_rules rules_matcher.select_from(AppBadgeRules), :badges
+      check_rules rules_matcher.select_from(AppPointRules), :points
     end
 
     private
@@ -43,14 +41,15 @@ module Merit
       SashFinder.find(rule, self)
     end
 
-    def action_str
-      "#{target_model}\##{action_method}"
-    end
-
     # Mark merit_action as processed
     def processed!
       self.processed = true
       self.save
     end
+
+    def rules_matcher
+      @rules_matcher ||= ::Merit::RulesMatcher.new(target_model, action_method)
+    end
+
   end
 end
