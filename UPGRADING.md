@@ -4,7 +4,7 @@
 
 * Adds ability to wildcard controllers like:
 ```ruby
-grant_on '.*search#index', :badge => 'searcher', :multiple => true
+grant_on '.*search#index', badge: 'searcher', multiple: true
 ```
 
 ## 1.5.0

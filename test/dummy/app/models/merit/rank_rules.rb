@@ -15,7 +15,7 @@ module Merit
     def initialize
       # i stars for i chars name
       (1..5).each do |i|
-        set_rank :level => i, :to => User do |user|
+        set_rank level: i, to: User do |user|
           user.name.length == i
         end
       end

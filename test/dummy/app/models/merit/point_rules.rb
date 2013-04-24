@@ -8,15 +8,15 @@ module Merit
 
     def initialize
       # Thanks for voting point
-      score 1, :on => 'comments#vote'
+      score 1, on: 'comments#vote'
 
       # All user's comments earn points
-      score 2, :to => :user_comments, :on => 'comments#vote'
+      score 2, to: :user_comments, on: 'comments#vote'
 
       # Points to voted user
-      score 5, :to => :user, :on => 'comments#vote'
+      score 5, to: :user, on: 'comments#vote'
 
-      score 20, :on => [
+      score 20, on: [
         'comments#create',
         'registrations#update'
       ] do |object|
