@@ -155,12 +155,12 @@ end
 ## Examples
 
 ```ruby
-set_rank :level => 2, :to => Commiter.active do |commiter|
-  commiter.branches > 1 && commiter.followers >= 10
+set_rank :level => 2, :to => Committer.active do |committer|
+  committer.branches > 1 && committer.followers >= 10
 end
 
-set_rank :level => 3, :to => Commiter.active do |commiter|
-  commiter.branches > 2 && commiter.followers >= 20
+set_rank :level => 3, :to => Committer.active do |committer|
+  committer.branches > 2 && committer.followers >= 20
 end
 ```
 
