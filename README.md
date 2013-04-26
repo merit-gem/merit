@@ -44,11 +44,11 @@ holds. Badges may have levels, and may be temporary. Define rules on
 
 ```ruby
 # app/models/merit/badge_rules.rb
-grant_on 'comments#vote', :badge => 'relevant-commenter', :to => :user do |comment|
+grant_on 'comments#vote', badge: 'relevant-commenter', to: :user do |comment|
   comment.votes.count == 5
 end
 
-grant_on ['users#create', 'users#update'], :badge => 'autobiographer', :temporary => true do |user|
+grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: true do |user|
   user.name.present? && user.address.present?
 end
 ```
@@ -93,16 +93,16 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 
 ```ruby
 # app/models/merit/point_rules.rb
-score 10, :to => :post_creator, :on => 'comments#create' do |comment|
+score 10, to: :post_creator, on: 'comments#create' do |comment|
   comment.title.present?
 end
 
-score 20, :on => [
+score 20, on: [
   'comments#create',
   'photos#create'
 ]
 
-score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
+score 15, on: 'reviews#create', to: [:reviewer, :reviewed]
 ```
 
 ```ruby
@@ -146,7 +146,7 @@ Define rules on `app/models/merit/rank_rules.rb`:
 Check for rules on a rake task executed in background like:
 
 ```ruby
-task :cron => :environment do
+task cron: :environment do
   Merit::RankRules.new.check_rank_rules
 end
 ```
@@ -155,11 +155,11 @@ end
 ## Examples
 
 ```ruby
-set_rank :level => 2, :to => Committer.active do |committer|
+set_rank level: 2, to: Committer.active do |committer|
   committer.branches > 1 && committer.followers >= 10
 end
 
-set_rank :level => 3, :to => Committer.active do |committer|
+set_rank level: 3, to: Committer.active do |committer|
   committer.branches > 2 && committer.followers >= 20
 end
 ```
