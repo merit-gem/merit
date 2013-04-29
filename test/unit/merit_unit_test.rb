@@ -76,7 +76,7 @@ class MeritUnitTest < ActiveSupport::TestCase
   test 'Badge#custom_fields_hash saves correctly' do
     # Create sashes, badges and badges_sashes
     sash = Merit::Sash.create
-    badge = Merit::Badge.create(:id=>99, :name=>'test-badge-99', :custom_fields => {:hash_field=>"field"})
+    badge = Merit::Badge.create(id: 99, name: 'test-badge-99', custom_fields: {hash_field: "field"})
     #
     assert_equal("field",Merit::Badge.find(99).custom_fields[:hash_field])
   end  
