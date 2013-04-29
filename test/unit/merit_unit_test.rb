@@ -78,6 +78,6 @@ class MeritUnitTest < ActiveSupport::TestCase
     sash = Merit::Sash.create
     badge = Merit::Badge.create(:id=>99, :name=>'test-badge-99', :custom_fields => {:hash_field=>"field"})
     #
-    assert_equal Merit::Badge.find(99).custom_fields[:hash_field] "field"
+    assert_equal("field",Merit::Badge.find(99).custom_fields[:hash_field])
   end  
 end
