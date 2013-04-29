@@ -72,4 +72,10 @@ class MeritUnitTest < ActiveSupport::TestCase
       WeirdRankRules.new.check_rank_rules
     end
   end
+
+  test 'Badge#custom_fields_hash saves correctly' do
+    Merit::Badge.create(id: 99, name: 'test-badge',
+      custom_fields: { key_1: 'value1' })
+    assert_equal 'value1', Merit::Badge.find(99).custom_fields[:key_1]
+  end
 end

@@ -6,7 +6,7 @@ module Merit
     extend Ambry::Model
     extend Ambry::ActiveModel
 
-    field :id, :name, :level, :image, :description
+    field :id, :name, :level, :image, :description, :custom_fields
 
     validates_presence_of :id, :name
     validates_uniqueness_of :id
