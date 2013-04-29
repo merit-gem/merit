@@ -73,7 +73,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     end
   end
   
-  test 'Badge#last_granted returns recently granted badges' do
+  test 'Badge#custom_fields_hash saves correctly' do
     # Create sashes, badges and badges_sashes
     sash = Merit::Sash.create
     badge = Merit::Badge.create(:id=>99, :name=>'test-badge-99', :custom_fields_hash => {:hash_field=>"field"})
