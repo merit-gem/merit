@@ -1,6 +1,6 @@
 # Upgrading
 
-## 1.6.0 (unreleased)
+## 1.6.0
 
 * Rails 4 ready.
 * Adds ability to wildcard controllers like:
