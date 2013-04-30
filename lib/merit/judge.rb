@@ -1,5 +1,10 @@
+require_relative 'observer'
+
 module Merit
   class Judge
+
+    include Observer
+
     def initialize(sashes, rule, options = {})
       @sashes = sashes
       @rule = rule
@@ -21,11 +26,8 @@ module Merit
     def apply_points
       return unless rule_applies?
       @sashes.each do |sash|
-        points = sash.add_points @rule.score
-        ActivityLog.create(
-          action_id: @action.id,
-          related_change: points
-        )
+        point = sash.add_points @rule.score
+        notify_observers(@action.id, point)
       end
     end
 
@@ -35,22 +37,14 @@ module Merit
       @sashes.each do |sash|
         next unless new_or_multiple?(sash)
         badge_sash = sash.add_badge badge.id
-        ActivityLog.create(
-          action_id: @action.id,
-          related_change: badge_sash,
-          description: 'granted'
-        )
+        notify_observers(@action.id, badge_sash, 'granted')
       end
     end
 
     def remove_badges
       @sashes.each do |sash|
         badge_sash = sash.rm_badge badge.id
-        ActivityLog.create(
-          action_id: @action.id,
-          related_change: badge_sash,
-          description: 'removed'
-        )
+        notify_observers(@action.id, badge_sash, 'removed')
       end
     end
 
