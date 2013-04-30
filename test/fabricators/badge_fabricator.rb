@@ -1,5 +1,5 @@
 Fabricator(:badge, from: "Merit::Badge") do
-  id           { (rand * 100).to_i + 1 }
+  id           { SecureRandom.random_number(100_0000_000) }
   name         { Faker::Lorem.word }
   description  { Faker::Lorem.sentence }
 end
