@@ -1,5 +1,6 @@
 module Merit
-  #Observer is a misleading name here.
+  # TODO: Observer is a misleading name, there's no way to register other
+  # observers yet
   module Observer
     def notify_observers(action_id, related_change, description = '')
       ActivityLog.create(
