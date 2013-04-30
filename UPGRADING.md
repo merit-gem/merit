@@ -2,10 +2,17 @@
 
 ## 1.6.0 (unreleased)
 
+* Rails 4 ready.
 * Adds ability to wildcard controllers like:
 ```ruby
 grant_on '.*search#index', badge: 'searcher', multiple: true
 ```
+* Allows custom fields to be defined on badges [97c998f]. Example:
+  Merit::Badge.create!({
+    id: 1,
+    name: 'best-unicorn',
+    custom_fields: { category: 'fantasy' }
+  })
 
 ## 1.5.0
 
