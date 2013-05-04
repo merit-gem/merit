@@ -33,7 +33,7 @@ FROM #{options[:table_name]}
   LEFT JOIN merit_scores ON merit_scores.sash_id = #{sash_id_column}
   LEFT JOIN merit_score_points ON merit_score_points.score_id = merit_scores.id
 WHERE merit_score_points.created_at > '#{options[:since_date]}'
-GROUP BY merit_scores.sash_id
+GROUP BY #{options[:table_name]}.id, merit_scores.sash_id
 ORDER BY sum_points DESC
 LIMIT #{options[:limit]}
 SQL
