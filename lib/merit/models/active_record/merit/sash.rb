@@ -30,11 +30,11 @@ module Merit
     end
 
 
-    def points(category = :default)
+    def points(category = 'default')
       scores.where(category: category).first.points
     end
 
-    def add_points(num_points, log = 'Manually granted', category = :default)
+    def add_points(num_points, log = 'Manually granted', category = 'default')
       point = Merit::Score::Point.new
       point.log = log
       point.num_points = num_points
@@ -42,7 +42,7 @@ module Merit
       point
     end
 
-    def substract_points(num_points, log = 'Manually granted', category = :default)
+    def substract_points(num_points, log = 'Manually granted', category = 'default')
       add_points -num_points, log, category
     end
 
