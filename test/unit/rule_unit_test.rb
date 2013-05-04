@@ -36,9 +36,9 @@ describe Merit::Rule do
     end
 
     it 'finds related badge' do
-      badge = Merit::Badge.create(id: 98, name: 'test-badge-98')
+      badge = Fabricate(:badge)
       @rule.badge_name = badge.name
-      @rule.badge.must_be :==, Merit::Badge.find(98)
+      @rule.badge.must_be :==, Merit::Badge.find(badge.id)
     end
   end
 end

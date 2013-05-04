@@ -31,6 +31,14 @@ require 'minitest/spec'
 require 'minitest/autorun'
 require 'minitest/mock'
 require 'mocha/setup'
+require 'fabrication'
+require 'faker'
+
+Fabrication.configure do |config|
+  config.fabricator_path = 'test/fabricators'
+  config.path_prefix = '.'
+  config.sequence_start = 10000
+end
 
 ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
 

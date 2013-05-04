@@ -19,4 +19,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'minitest'
   s.add_development_dependency 'minitest-spec'
   s.add_development_dependency 'mocha', '0.13.3'
+  s.add_development_dependency 'fabrication'
+  s.add_development_dependency 'faker'
 end
