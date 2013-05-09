@@ -69,7 +69,7 @@ Badge.last_granted
 # List 20 badge grants in the last week
 Badge.last_granted(since_date: 1.week.ago, limit: 20)
 
-# Get related entries of a given badge (unreleased)
+# Get related entries of a given badge
 Badge.find(1).users
 ```
 
