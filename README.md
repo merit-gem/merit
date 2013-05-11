@@ -1,4 +1,6 @@
-# Merit Gem: Reputation rules (badges, points and rankings) for Rails applications
+# Merit
+## Reputation Gem (Badges, Points, and Rankings) for Rails Applications
+
 
 ![Merit gem](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
 
@@ -11,36 +13,57 @@
 2. Run `rails g merit:install`
 3. Run `rails g merit MODEL_NAME` (e.g. `user`)
 4. Run `rake db:migrate`
-5. Define badges you will use in `config/initializers/merit.rb`
+5. Define badges in `config/initializers/merit.rb`
 6. Configure reputation rules for your application in `app/models/merit/*`
 
 ---
 
-# Defining badge rules
+# Badges
+## Creating Badges
+Create badges in `config/initializers/merit.rb`
 
-You may give badges to any resource on your application if some condition
-holds. Badges may have levels, and may be temporary. Define rules on
-`app/models/merit/badge_rules.rb`:
+`Merit::Badge.create!` takes a hash describing the badge:
+* `:id` integer (reqired)
+* `:name` this is how you reference the badge (required)
+* `:level` (optional)
+* `:image` (optional)
+* `:description` (optional)
+* `:custom_fields` hash of anything else you want associated with the badge (optional)
 
-`grant_on` accepts:
+### Example
+```ruby
+Merit::Badge.create! ({
+  id: 1,
+  name: "Yearling",
+  description: "Active member for a year",
+  custom_fields: { dificulty: :silver }
+})
+```
 
-* `'controller#action'` string (similar to Rails routes)
-* `:badge` for badge name
-* `:level` for badge level
-* `:to` method name over target_object which obtains object(s) to badge
-* `:model_name` (string) define controller's name if it differs from
-  the model (like `RegistrationsController` for `User` model).
-* `:multiple` (boolean) badge may be granted multiple times
-* `:temporary` (boolean) if the receiver had the badge but the condition
-  doesn't hold anymore, remove it. `false` by default (badges are kept
-  forever).
+## Defining Badge Rules
+Badges can be automatically given to any resource in your application based on rules and conditions you create.
+Badges can also have levels, and be temporary. 
+
+Badge rules / conditions are defined in `app/models/merit/badge_rules.rb` `initialize` block by calling `grant_on` with the following parameters:
+
+* `'controller#action'` a string similar to Rails routes
+* `:badge` corresponds to the `:name` of the badge
+* `:level` corresponds to the `:level` of the badge
+* `:to` the object's field to give the badge to
+  * if you are putting badges on to users then this field is probably `:user`
+  * Important: this requires a variable named `@model` in the associated conroller action. e.g. `@post` or `@comment`
+    * how Merit finds which object you're looking for: `target_obj = instance_variable_get(:"@#{controller_name.singularize}")`
+* `:model_name` define the controller's name if it's different from
+  the model's (e.g. `RegistrationsController` for the `User` model). (string)
+* `:multiple` whether or not the badge may be granted multiple times. `false` by default. (boolean)
+* `:temporary` whether or not the badge should be revoked if the condition no longer holds. `false` (badges are kept for ever) by default. (boolean)
 * `&block`
-  * empty (always grants)
-  * a block which evaluates to boolean (recieves target object as parameter)
+  * empty / not included (always grant the badge)
+  * a block which evaluates to a boolean. It recieves the target object as the parameter (e.g. `@post` if you're working with a PostsController action).
   * a block with a hash composed of methods to run on the target object with
-    expected values
+    expected resultant values
 
-## Examples
+### Examples
 
 ```ruby
 # app/models/merit/badge_rules.rb
@@ -49,17 +72,19 @@ grant_on 'comments#vote', badge: 'relevant-commenter', to: :user do |comment|
 end
 
 grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: true do |user|
-  user.name.present? && user.address.present?
+  user.name.present? && user.email.present?
 end
 ```
+
+## Other Badge Actions
 
 ```ruby
 # Check granted badges
 current_user.badges # Returns an array of badges
 
 # Grant or remove manually
-current_user.add_badge(badge.id)
-current_user.rm_badge(badge.id)
+current_user.add_badge(badge.id) # badge's id
+current_user.rm_badge(badge.id) # badge's id
 ```
 
 ```ruby
