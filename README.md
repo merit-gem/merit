@@ -1,5 +1,5 @@
 # Merit
-## Reputation Gem (Badges, Points, and Rankings) for Rails Applications
+Merit is a reputation Gem that supports Badges, Points, and Rankings
 
 
 ![Merit gem](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
@@ -36,13 +36,13 @@ Merit::Badge.create! ({
   id: 1,
   name: "Yearling",
   description: "Active member for a year",
-  custom_fields: { dificulty: :silver }
+  custom_fields: { difficulty: :silver }
 })
 ```
 
 ## Defining Badge Rules
 Badges can be automatically given to any resource in your application based on rules and conditions you create.
-Badges can also have levels, and be temporary. 
+Badges can also have levels, and be permanent or temporary (A temporary badge is revoked when the conditions of the badge are no longer met).
 
 Badge rules / conditions are defined in `app/models/merit/badge_rules.rb` `initialize` block by calling `grant_on` with the following parameters:
 
@@ -52,16 +52,16 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb` `initi
 * `:to` the object's field to give the badge to
   * if you are putting badges on to users then this field is probably `:user`
   * Important: this requires a variable named `@model` in the associated conroller action. e.g. `@post` or `@comment`
-    * how Merit finds which object you're looking for: `target_obj = instance_variable_get(:"@#{controller_name.singularize}")`
+  * how Merit finds which object you're looking for: `target_obj = instance_variable_get(:"@#{controller_name.singularize}")`
 * `:model_name` define the controller's name if it's different from
   the model's (e.g. `RegistrationsController` for the `User` model). (string)
 * `:multiple` whether or not the badge may be granted multiple times. `false` by default. (boolean)
-* `:temporary` whether or not the badge should be revoked if the condition no longer holds. `false` (badges are kept for ever) by default. (boolean)
-* `&block`
-  * empty / not included (always grant the badge)
+* `:temporary` whether or not the badge should be revoked if the condition no longer holds. `false` - badges are kept for ever - by default. (boolean)
+* `&block` can be one of the following:
+  * empty / not included: always grant the badge
   * a block which evaluates to a boolean. It recieves the target object as the parameter (e.g. `@post` if you're working with a PostsController action).
-  * a block with a hash composed of methods to run on the target object with
-    expected resultant values
+  * a block with a hash composed of methods to run on the target object and
+    expected method return values
 
 ### Examples
 
