@@ -51,7 +51,7 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb` `initi
 * `:level` corresponds to the `:level` of the badge
 * `:to` the object's field to give the badge to
   * if you are putting badges on to users then this field is probably `:user`
-  * Important: this requires a variable named `@model` in the associated conroller action. e.g. `@post` or `@comment`
+  * Important: this requires a variable named `@model` in the associated conroller action. e.g. `@post` for `posts_controller.rb` or `@comment` for `comments_controller.rb`
   * how Merit finds which object you're looking for: `target_obj = instance_variable_get(:"@#{controller_name.singularize}")`
 * `:model_name` define the controller's name if it's different from
   the model's (e.g. `RegistrationsController` for the `User` model). (string)
