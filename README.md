@@ -1,5 +1,5 @@
 # Merit
-Merit is a reputation Gem that supports Badges, Points, and Rankings
+Merit is a reputation Ruby gem that supports Badges, Points, and Rankings.
 
 
 ![Merit gem](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
@@ -26,7 +26,6 @@ Create badges in `config/initializers/merit.rb`
 * `:id` integer (reqired)
 * `:name` this is how you reference the badge (required)
 * `:level` (optional)
-* `:image` (optional)
 * `:description` (optional)
 * `:custom_fields` hash of anything else you want associated with the badge (optional)
 
@@ -50,16 +49,21 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb` `initi
 * `:badge` corresponds to the `:name` of the badge
 * `:level` corresponds to the `:level` of the badge
 * `:to` the object's field to give the badge to
-  * if you are putting badges on to users then this field is probably `:user`
-  * Important: this requires a variable named `@model` in the associated conroller action. e.g. `@post` for `posts_controller.rb` or `@comment` for `comments_controller.rb`
-  * how Merit finds which object you're looking for: `target_obj = instance_variable_get(:"@#{controller_name.singularize}")`
+  * If you are putting badges on the related user then this field is probably
+    `:user`.
+  * Needs a variable named `@model` in the associated controller action, like
+    `@post` for `posts_controller.rb` or `@comment` for `comments_controller.rb`.
+    Implementation note: Merit finds the object with following snippet:
+    `instance_variable_get(:"@#{controller_name.singularize}")`.
 * `:model_name` define the controller's name if it's different from
-  the model's (e.g. `RegistrationsController` for the `User` model). (string)
-* `:multiple` whether or not the badge may be granted multiple times. `false` by default. (boolean)
-* `:temporary` whether or not the badge should be revoked if the condition no longer holds. `false` - badges are kept for ever - by default. (boolean)
+  the model's (e.g. `RegistrationsController` for the `User` model).
+* `:multiple` whether or not the badge may be granted multiple times. `false` by default.
+* `:temporary` whether or not the badge should be revoked if the condition no
+  longer holds. `false` -badges are kept for ever- by default.
 * `&block` can be one of the following:
   * empty / not included: always grant the badge
-  * a block which evaluates to a boolean. It recieves the target object as the parameter (e.g. `@post` if you're working with a PostsController action).
+  * a block which evaluates to boolean. It recieves the target object as
+    parameter (e.g. `@post` if you're working with a PostsController action).
   * a block with a hash composed of methods to run on the target object and
     expected method return values
 
@@ -83,8 +87,8 @@ end
 current_user.badges # Returns an array of badges
 
 # Grant or remove manually
-current_user.add_badge(badge.id) # badge's id
-current_user.rm_badge(badge.id) # badge's id
+current_user.add_badge(badge.id)
+current_user.rm_badge(badge.id)
 ```
 
 ```ruby
@@ -192,6 +196,7 @@ end
 
 # To-do list
 
+* Finish Observer implementation for `Judge`.
 * Move level from meritable model into Sash
 * `ActivityLog` should replace `add_points` `log` parameter
 * FIXMES and TODOS.
