@@ -17,7 +17,7 @@ module Merit
         map(&:badge)
     end
 
-    def self.last_granted_to_sash(options = {})
+    def self.last_granted_by_sash(options = {})
       options[:limit]      ||= 10
       where("`sash_id` = '#{options[:sash_id]}'").
         limit(options[:limit]).
