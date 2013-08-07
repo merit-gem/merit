@@ -44,6 +44,11 @@ module Merit
         BadgesSash.last_granted(options)
       end
 
+      def last_granted_by_sash(options = {})
+        options[:limit]      ||= 10
+        BadgesSash.last_granted(options)
+      end
+
       # Defines Badge#meritable_models method, to get related
       # entries with certain badge. For instance, Badge.find(3).users
       def _define_related_entries_method(meritable_class_name)
