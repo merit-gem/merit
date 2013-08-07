@@ -23,8 +23,8 @@ module Merit
       processed!
       return if had_errors
 
-      check_rules rules_matcher.select_from(AppBadgeRules), :badges
       check_rules rules_matcher.select_from(AppPointRules), :points
+      check_rules rules_matcher.select_from(AppBadgeRules), :badges
     end
 
     private
