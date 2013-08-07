@@ -46,7 +46,7 @@ module Merit
 
       def last_granted_by_sash(options = {})
         options[:limit]      ||= 10
-        BadgesSash.last_granted(options)
+        BadgesSash.last_granted_by_sash(options)
       end
 
       # Defines Badge#meritable_models method, to get related
