@@ -12,7 +12,7 @@ module Merit
 
     def find
       
-      abort(@rule.inspect)
+      abort(@action.inspect)
       
       klass_name = (@rule.model_name || @action.target_model).singularize
       klass = klass_name.camelize.constantize
