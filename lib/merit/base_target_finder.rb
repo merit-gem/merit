@@ -11,6 +11,9 @@ module Merit
     end
 
     def find
+      
+      abort(@rule.inspect)
+      
       klass_name = (@rule.model_name || @action.target_model).singularize
       klass = klass_name.camelize.constantize
       klass.find_by_id @action.target_id
