@@ -18,7 +18,7 @@ module Merit
         klass_name = 'user'
       end
       klass = klass_name.camelize.constantize
-      klass.find_by_id @action.target_id
+      klass.find(@action.target_id)
     rescue => e
       Rails.logger.warn "[merit] no target found: #{e}. #{caller.first}"
     end
