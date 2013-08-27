@@ -45,9 +45,6 @@ module Merit
     end
 
     def target_id
-      
-      abort(target_object.inspect)
-      
       target_id = target_object.try(:id)
       # If target_id is nil
       # then use params[:id].
