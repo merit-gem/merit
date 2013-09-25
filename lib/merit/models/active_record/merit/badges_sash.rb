@@ -5,7 +5,7 @@ module Merit
       class_name: Merit::ActivityLog,
       as: :related_change
 
-    if Rails.version < '4'
+    unless defined?(ActionController::StrongParameters)
       attr_accessible :badge_id
     end
 
