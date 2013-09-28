@@ -7,6 +7,7 @@ module Merit
     def score(points, *args, &block)
       options = args.extract_options!
       options[:to] ||= :action_user
+      options[:log] ||= 'Automatically granted'
 
       actions = Array.wrap(options[:on])
 
@@ -15,6 +16,7 @@ module Merit
         rule.score = points
         rule.to    = to
         rule.block = block
+        rule.log = options[:log]
 
         actions.each do |action|
           defined_rules[action] ||= []

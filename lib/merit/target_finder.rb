@@ -23,7 +23,8 @@ module Merit
     end
 
     def action_user
-      user = Merit.user_model.find_by_id action.user_id
+      #user = Merit.user_model.find_by_id action.user_id
+      user = Merit.user_model.find(action.user_id)
       if user.nil?
         user_model = Merit.user_model
         str = "[merit] no #{user_model} found with id #{action.user_id}"

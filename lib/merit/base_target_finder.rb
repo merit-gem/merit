@@ -11,9 +11,14 @@ module Merit
     end
 
     def find
-      klass_name = (@rule.model_name || @action.target_model).singularize
+      
+      if(@action.target_model != 'registrations') 
+        klass_name = (@rule.model_name || @action.target_model).singularize
+      else
+        klass_name = 'user'
+      end
       klass = klass_name.camelize.constantize
-      klass.find_by_id @action.target_id
+      klass.find(@action.target_id)
     rescue => e
       Rails.logger.warn "[merit] no target found: #{e}. #{caller.first}"
     end
