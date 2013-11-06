@@ -227,6 +227,15 @@ class NavigationTest < ActiveSupport::IntegrationCase
     comment_2.reload.points.must_be :==, 2
   end
 
+  test 'api/comments#show should grant 1 point to user' do
+    user = User.create(name: 'test-user')
+    assert_equal 0, user.points
+    comment = user.comments.create!(name: 'test-comment', comment: 'comment body')
+
+    visit "/api/comments/#{comment.id}"
+    assert_equal 1, user.points
+  end
+
   def badges_by_name(user, name)
     user.reload.badges.select{|b| b.name == name }
   end

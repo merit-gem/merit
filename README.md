@@ -114,6 +114,9 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 
 * `:on` action as string or array of strings (similar to Rails routes)
 * `:to` method(s) to send to the target_object (who should be scored?)
+* `:model_name` (optional) to specify the model name if it cannot be guessed from the controller.
+  (e.g. `model_name: 'User'` for `RegistrationsController`, or
+        `model_name: 'Comment'` for `Api::CommentsController`)
 * `&block`
   * empty (always scores)
   * a block which evaluates to boolean (recieves target object as parameter)

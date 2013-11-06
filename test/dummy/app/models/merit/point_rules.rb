@@ -16,6 +16,9 @@ module Merit
       # Points to voted user
       score 5, to: :user, on: 'comments#vote'
 
+      # Example rule for using model_name in the case of namespaced controllers
+      score 1, to: :user, model_name: 'Comment', on: 'api/comments#show'
+
       score 20, on: [
         'comments#create',
         'registrations#update'
