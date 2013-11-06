@@ -7,7 +7,9 @@ module Merit
     end
 
     def select_from(rules)
-      rules.select { |glob, _| entire_path =~ Regexp.new(glob) }.values.flatten
+      rules.select do |glob, _|
+        entire_path =~ /^#{Regexp.new(glob)}$/
+      end.values.flatten
     end
 
     def any_matching?
