@@ -129,6 +129,17 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user = User.where(name: 'abc').first
     assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
+
+
+    user = User.where(name: 'abc').first
+    only_certain_users_badge = Merit::Badge.by_name('only_certain_users').first
+    visit "/comments/#{Comment.last.id}/vote/4"
+    assert !user.badges.include?(only_certain_users_badge), "User badges: #{user.badges.collect(&:name).inspect} shouldn't contain only_certain_users."
+
+    user.update_attribute :name, 'Grant only me'
+    user.reload
+    visit "/comments/#{Comment.last.id}/vote/4"
+    assert user.badges.include?(only_certain_users_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain only_certain_users."
   end
 
   test 'user workflow should add up points at some times' do
@@ -172,6 +183,11 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first
     assert_equal 46, user.points, 'Voting comments should grant 5 points for voted, and 1 point for voting'
+
+    user = User.first
+    user.update_attribute :name, 'Grant only me'
+    visit "/comments/#{Comment.last.id}/vote/4"
+    assert_equal 152, user.points, 'Voting comments should grant 105 points to the special user'
   end
 
   test 'user workflow should grant levels at some times' do

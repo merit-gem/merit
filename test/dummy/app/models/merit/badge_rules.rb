@@ -35,6 +35,10 @@ module Merit
       # Example rule for testing badge granting in differently namespaced controllers.
       grant_on '.*users#index', badge: 'wildcard_badge', multiple: true
 
+      grant_on 'comments#vote', badge: 'only_certain_users' do |_, current_user|
+        current_user.name == 'Grant only me'
+      end
+
       # If it has 10 comments, grant commenter-10 badge
       grant_on 'comments#create', badge: 'commenter', level: 10 do |comment|
         comment.user.comments.count >= 10

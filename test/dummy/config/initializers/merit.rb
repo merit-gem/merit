@@ -43,6 +43,9 @@ badge_id = 0
 }, {
   id: (badge_id = badge_id+1),
   name: 'gossip'
+}, {
+  id: (badge_id = badge_id+1),
+  name: 'only_certain_users'
 }].each do |badge|
   Merit::Badge.create! badge
 end

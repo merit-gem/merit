@@ -54,7 +54,11 @@ module Merit
 
     def rule_applies?
       rule_object = BaseTargetFinder.find(@rule, @action)
-      @rule.applies? rule_object
+      @rule.applies? rule_object, current_user
+    end
+
+    def current_user
+      Merit.user_model.find_by_id @action.user_id
     end
 
     def badge
