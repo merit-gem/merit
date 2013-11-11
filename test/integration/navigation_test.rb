@@ -172,6 +172,15 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first
     assert_equal 46, user.points, 'Voting comments should grant 5 points for voted, and 1 point for voting'
+
+    visit '/comments/new'
+    fill_in 'Name', with: 'Hi'
+    fill_in 'Comment', with: '4'
+    fill_in 'User', with: user.id
+    click_button('Create Comment')
+
+    user = User.where(name: 'a').first
+    assert_equal 50, user.points, 'Commenting should grant the integer in comment points if comment is an integer'
   end
 
   test 'user workflow should grant levels at some times' do

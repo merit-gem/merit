@@ -112,6 +112,9 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 
 `score` accepts:
 
+* `score`
+  * `Integer`
+  * `Proc`, or any object that accepts `call` which takes one argument, where the target_object is passed in and the return value is used as the score.
 * `:on` action as string or array of strings (similar to Rails routes)
 * `:to` method(s) to send to the target_object (who should be scored?)
 * `:model_name` (optional) to specify the model name if it cannot be guessed from the controller.
@@ -135,6 +138,9 @@ score 20, on: [
 ]
 
 score 15, on: 'reviews#create', to: [:reviewer, :reviewed]
+
+calculate = lambda { |photo| PhotoPointsCalculator.calculate_score_for(photo) }
+score calculate, on: 'photos#create'
 ```
 
 ```ruby
