@@ -26,7 +26,7 @@ module Merit
     def apply_points
       return unless rule_applies?
       @sashes.each do |sash|
-        point = sash.add_points @rule.score
+        point = sash.add_points points
         notify_observers(@action.id, point)
       end
     end
@@ -52,9 +52,20 @@ module Merit
       !sash.badge_ids.include?(badge.id) || @rule.multiple
     end
 
+    def rule_object
+      BaseTargetFinder.find(@rule, @action)
+    end
+
     def rule_applies?
-      rule_object = BaseTargetFinder.find(@rule, @action)
       @rule.applies? rule_object
+    end
+
+    def points
+      if @rule.score.is_a?(Proc)
+        @rule.score.call(rule_object)
+      else
+        @rule.score
+      end
     end
 
     def badge
