@@ -139,7 +139,8 @@ score 20, on: [
 
 score 15, on: 'reviews#create', to: [:reviewer, :reviewed]
 
-score -> (photo) { PhotoPointsCalculator.calculate_score_for(photo) }, on: 'photos#create'
+calculate = lambda { |photo| PhotoPointsCalculator.calculate_score_for(photo) }
+score calculate, on: 'photos#create'
 ```
 
 ```ruby
