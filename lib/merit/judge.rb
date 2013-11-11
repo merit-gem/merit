@@ -61,7 +61,7 @@ module Merit
     end
 
     def points
-      if @rule.score.is_a?(Proc)
+      if @rule.score.respond_to?(:call)
         @rule.score.call(rule_object)
       else
         @rule.score
