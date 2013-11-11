@@ -29,6 +29,10 @@ module Merit
           true
         end
       end
+
+      score -> (comment) { comment.comment.to_i }, to: :user, on: 'comments#create' do |object|
+        object.comment.to_i > 0
+      end
     end
   end
 end
