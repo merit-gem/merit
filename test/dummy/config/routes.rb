@@ -4,6 +4,7 @@ Dummy::Application.routes.draw do
   end
   namespace :api do
     get '/users' => 'users#index'
+    resources :comments, only: [:show]
   end
   resources :users, :except => :update
   resources :registrations, :only => :update, :as => :registrations_user

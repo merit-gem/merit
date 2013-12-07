@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :comments
 
-  if Rails.version < '4'
+  unless defined?(ActionController::StrongParameters)
     attr_accessible :name
   end
 

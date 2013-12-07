@@ -15,6 +15,7 @@ module Merit
         rule.score = points
         rule.to    = to
         rule.block = block
+        rule.model_name = options[:model_name] if options[:model_name]
 
         actions.each do |action|
           defined_rules[action] ||= []
