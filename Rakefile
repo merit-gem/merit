@@ -7,7 +7,6 @@ rescue LoadError
 end
 
 require 'rake'
-require 'rdoc/task'
 
 require 'rake/testtask'
 
@@ -20,10 +19,16 @@ end
 
 task :default => :test
 
-Rake::RDocTask.new(:rdoc) do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Merit'
-  rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README.md')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+begin
+  require 'rdoc/task'
+
+  Rake::RDocTask.new(:rdoc) do |rdoc|
+    rdoc.rdoc_dir = 'rdoc'
+    rdoc.title    = 'Merit'
+    rdoc.options << '--line-numbers' << '--inline-source'
+    rdoc.rdoc_files.include('README.md')
+    rdoc.rdoc_files.include('lib/**/*.rb')
+  end
+rescue LoadError
+  puts 'This platform does not support RDocTask'
 end

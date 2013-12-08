@@ -14,3 +14,15 @@ when '3.2'
 end
 
 gem 'rails', rails
+
+group :development, :test do
+  gem 'activerecord-jdbcsqlite3-adapter', :platforms => [:jruby]
+  gem 'sqlite3', :platforms => [:ruby, :mswin, :mingw]
+end
+
+platforms :rbx do
+  gem 'rubysl', '~> 2.0'
+  gem 'racc'
+  gem 'rubysl-test-unit'
+  gem 'rubinius-developer_tools'
+end
