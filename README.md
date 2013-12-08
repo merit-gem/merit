@@ -149,7 +149,7 @@ current_user.points # Returns an integer
 
 # Score manually
 current_user.add_points(20, 'Optional log message')
-current_user.substract_points(10)
+current_user.subtract_points(10)
 ```
 
 ```ruby
