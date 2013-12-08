@@ -77,7 +77,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal 0, Merit::Score::Point.count
     user.add_points 15
     assert_equal 15, user.points
-    user.substract_points 15
+    user.subtract_points 15
     assert_equal 0, user.points
     assert_equal 2, Merit::Score::Point.count
 

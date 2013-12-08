@@ -42,7 +42,7 @@ module Merit
       point
     end
 
-    def substract_points(num_points, log = 'Manually granted', category = 'default')
+    def subtract_points(num_points, log = 'Manually granted', category = 'default')
       add_points -num_points, log, category
     end
 
