@@ -37,7 +37,11 @@ GROUP BY #{options[:table_name]}.id, merit_scores.sash_id
 ORDER BY sum_points DESC
 LIMIT #{options[:limit]}
 SQL
-      ActiveRecord::Base.connection.execute(sql_query)
+      results = ActiveRecord::Base.connection.execute(sql_query)
+      results.map do |h|
+        h.keep_if { |k, v| (k == alias_id_column) || (k == 'sum_points') }
+      end
+      results
     end
 
     def points

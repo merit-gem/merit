@@ -54,10 +54,10 @@ class MeritUnitTest < ActiveSupport::TestCase
     sash_2.add_points(5); sash_2.add_points(5)
 
     # Test method options
-    assert_equal [{'sash_id'=>sash_1.id, 'sum_points'=>20, 0=>1, 1=>20},
-      {'sash_id'=>sash_2.id, 'sum_points'=>10, 0=>2, 1=>10}],
+    assert_equal [{'sash_id'=>sash_1.id, 'sum_points'=>20},
+      {'sash_id'=>sash_2.id, 'sum_points'=>10}],
       Merit::Score.top_scored(table_name: :sashes)
-    assert_equal  [{'sash_id'=>sash_1.id, 'sum_points'=>20, 0=>1, 1=>20}],
+    assert_equal  [{'sash_id'=>sash_1.id, 'sum_points'=>20}],
       Merit::Score.top_scored(table_name: :sashes, limit: 1)
   end
 

@@ -40,7 +40,7 @@ module Merit
     end
 
     def _merit_define_badge_related_entries_method
-      meritable_class_name = caller[1][/`.*'/][8..-3]
+      meritable_class_name = name.demodulize
       Badge._define_related_entries_method(meritable_class_name)
     end
 
