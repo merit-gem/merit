@@ -42,6 +42,12 @@ module Merit
       point
     end
 
+    # DEPRECATED: Please use <tt>subtract_points</tt> instead.
+    def substract_points(num_points, log = 'Manually granted', category = 'default')
+      warn "[DEPRECATION] `substract_points` is deprecated.  Please use `subtract_points` instead."
+      subtract_points num_points, log, category
+    end
+
     def subtract_points(num_points, log = 'Manually granted', category = 'default')
       add_points -num_points, log, category
     end
