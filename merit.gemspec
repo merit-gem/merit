@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://github.com/tute/merit"
   s.files       = `git ls-files`.split("\n").reject{|f| f =~ /^\./ }
   s.license     = 'MIT'
-  s.version     = '1.6.2'
+  s.version     = '1.7.0'
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
 

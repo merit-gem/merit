@@ -1,5 +1,12 @@
 # Upgrading
 
+## 1.7.0
+
+* Adds support for dynamic scoring
+* `substract_points` is deprecated in favor of `subtract_points`. Careless
+  computers didn't mind my misspellings. ;-)
+* JRuby and Rubinius compatibility
+
 ## 1.6.0
 
 * Rails 4 ready.
