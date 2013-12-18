@@ -6,6 +6,8 @@ version = ENV['RAILS_VERSION'] || '3.2'
 rails = case version
 when 'master'
   { github: 'rails/rails' }
+when '4.1'
+  "~> #{version}.0.beta1"
 when '4.0'
   "~> #{version}.0"
 when '3.2'
