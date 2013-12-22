@@ -39,6 +39,18 @@ Merit::Badge.create! ({
 })
 ```
 
+Set a level on the Badge.
+
+```ruby
+Merit::Badge.create! ({
+  id: 2,
+  name: 'debut',
+  level: 1,
+  description: "Added your first post",
+  custom_fields: { difficulty: :bronze }
+})
+```
+
 ## Defining Badge Rules
 Badges can be automatically given to any resource in your application based on rules and conditions you create.
 Badges can also have levels, and be permanent or temporary (A temporary badge is revoked when the conditions of the badge are no longer met).
@@ -78,6 +90,12 @@ end
 grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: true do |user|
   user.name.present? && user.email.present?
 end
+
+# Using a level
+grant_on 'posts#create', badge: 'debut', to: :user, level: 1 do |post|
+  post.user.posts.count == 1
+end
+
 ```
 
 ## Other Badge Actions
