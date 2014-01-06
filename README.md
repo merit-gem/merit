@@ -201,13 +201,16 @@ set_rank level: 3, to: Committer.active do |committer|
   committer.branches > 2 && committer.followers >= 20
 end
 ```
+
+
 # Uninstalling Merit
 
 1. Run `rails d merit:install`
 2. Run `rails d merit MODEL_NAME` (e.g. `user`)
 3. Run `rails g merit:remove MODEL_NAME` (e.g. `user`)
-4. Run `rake db:migrate' 
+4. Run `rake db:migrate`
 5. Remove `merit` from your Gemfile
+
 
 # To-do list
 
