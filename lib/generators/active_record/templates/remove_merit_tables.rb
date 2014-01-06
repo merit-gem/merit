@@ -1,5 +1,6 @@
 class RemoveMeritTables < ActiveRecord::Migration
   def self.up
+    drop_table :merit_actions
     drop_table :merit_activity_logs
     drop_table :badges_sashes
     drop_table :sashes
