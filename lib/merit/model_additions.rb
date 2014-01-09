@@ -45,10 +45,18 @@ module Merit
     # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
     def _merit_sash_initializer
       define_method(:_sash) do
-        if sash.nil?
-          self.update_attribute :sash_id, Sash.create.id
+        if Merit.orm == :active_record
+          if sash.nil?
+            self.update_attribute :sash_id, Sash.create.id
+          end
+          self.sash
+        elsif Merit.orm == :mongoid
+          if self.sash.nil?
+            @sash = Sash.where(user_id: self.id).first_or_create
+            self.update_attribute(:sash_id, @sash.id)
+          end
+          sash
         end
-        self.sash
       end
     end
   end

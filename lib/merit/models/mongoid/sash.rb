@@ -9,9 +9,9 @@
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    belongs_to :user
+    belongs_to :user, class_name: 'User'
     has_many :badges_sashes, class_name: 'BadgesSash', dependent: :destroy
-    has_many :scores, class_name: 'Score', dependent: :destroy
+    has_many :scores, class_name: 'Merit::Score', dependent: :destroy
 
     after_create :create_scores
 
@@ -38,7 +38,7 @@
     end
 
     def add_points(num_points, log = 'Manually granted', category = 'default')
-      point = Score::Point.new
+      point = Merit::Score::Point.new
       point.log = log
       point.num_points = num_points
       self.scores.where(category: category).first.score_points << point
@@ -52,7 +52,7 @@
     private
 
     def create_scores
-      self.scores << Score.create
+      self.scores << Merit::Score.create
     end
   end
 #end
