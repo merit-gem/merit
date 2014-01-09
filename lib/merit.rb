@@ -17,7 +17,11 @@ module Merit
 
   # Define ORM
   mattr_accessor :orm
-  @@orm = :active_record
+  if Merit.orm == :mongoid
+    @@orm = :mongoid
+  else
+    @@orm = :active_record
+  end
 
   # Define user_model_name
   mattr_accessor :user_model_name
@@ -52,6 +56,9 @@ module Merit
         require 'merit/models/active_record/merit/score'
       elsif Merit.orm == :mongoid
         require 'merit/models/mongoid/sash'
+        require 'merit/models/mongoid/score'
+        require 'merit/models/mongoid/badges_sash'
+        require 'merit/models/mongoid/activity_log'
       end
 
       ActiveSupport.on_load(:action_controller) do

@@ -3,13 +3,15 @@ module Merit
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    belongs_to :user
-    field :action_method
-    field :action_value, type: Integer
-    field :had_errors, type: Boolean
+    has_many :activity_logs, class_name: 'ActivityLog', as: :related_change
 
-    belongs_to :target, polymorphic: true
-    field :processed, type: Boolean, default: false
+    field :user_id
+    field :action_method
+    field :action_value,            type: Integer
+    field :had_errors,              type: Boolean
+    field :target_model
+    field :target_id
+    field :processed,               type: Boolean, default: false
     field :log
   end
 end

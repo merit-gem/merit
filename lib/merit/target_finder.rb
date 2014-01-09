@@ -23,7 +23,11 @@ module Merit
     end
 
     def action_user
-      user = Merit.user_model.find_by_id action.user_id
+      if Merit.orm == :active_record
+        user = Merit.user_model.find_by_id action.user_id
+      elsif Merit.orm == :mongoid
+        user = Merit.user_model.find action.user_id
+      end
       if user.nil?
         user_model = Merit.user_model
         str = "[merit] no #{user_model} found with id #{action.user_id}"
