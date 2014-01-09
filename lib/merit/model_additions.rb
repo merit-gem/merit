@@ -7,7 +7,7 @@ module Merit
       # That's why MeritableModel belongs_to Sash. Can't use
       # dependent: destroy as it may raise FK constraint exceptions. See:
       # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
-      belongs_to :sash, class_name: 'Merit::Sash'
+      belongs_to :sash, class_name: (Merit.orm == :active_record ? 'Merit::Sash' : 'Sash')
 
       _merit_orm_specific_config
       _merit_delegate_methods_to_sash
@@ -23,13 +23,13 @@ module Merit
     end
 
     def _merit_orm_specific_config
-      if Merit.orm == :mongoid
-        field :sash_id
-        field :points, type: Integer, default: 0
+      if Merit.orm == :mongo_mapper
+        plugin Merit
+        key :sash_id, String
+        key :points, Integer, default: 0
+        key :level, Integer, default: 0
+      elsif Merit.orm == :mongoid
         field :level, type: Integer, default: 0
-        def find_by_id(id)
-          where(_id: id).first
-        end
       end
     end
 

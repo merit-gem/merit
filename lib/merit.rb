@@ -79,6 +79,9 @@ module Merit
         require 'merit/models/active_record/merit/score'
       elsif Merit.orm == :mongoid
         require 'merit/models/mongoid/sash'
+        require 'merit/models/mongoid/score'
+        require 'merit/models/mongoid/badges_sash'
+        require 'merit/models/mongoid/activity_log'
       end
 
       ActiveSupport.on_load(:action_controller) do
