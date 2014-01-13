@@ -32,6 +32,10 @@ module Merit
     @@current_user_method || "current_#{@@user_model_name.downcase}".to_sym
   end
 
+  # Using automatic after_filter on controller
+  mattr_accessor :use_automatic_after_filter
+  @@use_automatic_after_filter = true
+
 
   # Load configuration from initializer
   def self.setup
