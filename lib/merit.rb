@@ -72,16 +72,17 @@ module Merit
     config.app_generators.orm Merit.orm
 
     initializer 'merit.controller' do |app|
+      require 'merit/models/base/base/sash'
       if Merit.orm == :active_record
         require 'merit/models/active_record/merit/activity_log'
         require 'merit/models/active_record/merit/badges_sash'
         require 'merit/models/active_record/merit/sash'
         require 'merit/models/active_record/merit/score'
       elsif Merit.orm == :mongoid
-        require 'merit/models/mongoid/sash'
+        require 'merit/models/mongoid/merit/sash'
         require 'merit/models/mongoid/merit/score'
-        require 'merit/models/mongoid/badges_sash'
-        require 'merit/models/mongoid/activity_log'
+        require 'merit/models/mongoid/merit/badges_sash'
+        require 'merit/models/mongoid/merit/activity_log'
       end
 
       ActiveSupport.on_load(:action_controller) do

@@ -3,7 +3,7 @@ module Merit
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    has_many :activity_logs, class_name: 'ActivityLog', as: :related_change
+    has_many :activity_logs, class_name: 'Merit::ActivityLog', as: :related_change
 
     field :user_id
     field :action_method

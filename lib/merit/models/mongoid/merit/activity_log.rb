@@ -1,4 +1,4 @@
-#module Merit
+module Merit
   class ActivityLog
     include Mongoid::Document
     include Mongoid::Timestamps
@@ -10,4 +10,4 @@
     belongs_to :related_change, polymorphic: true
 
   end
-#
+end

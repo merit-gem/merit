@@ -33,5 +33,5 @@ badge_id = 0
   :id => (badge_id = badge_id+1),
   :name => 'gossip'
 }].each do |badge|
-  Merit::Badge.create! badge
+  Badge.create! badge
 end
