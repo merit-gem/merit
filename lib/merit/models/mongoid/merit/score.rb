@@ -39,7 +39,7 @@ module Merit
       field :log,           type: String
 
       belongs_to :score, class_name: 'Merit::Score'
-      has_many :activity_logs, class_name: 'ActivityLog', as: :related_change
+      has_many :activity_logs, class_name: 'Merit::ActivityLog', as: :related_change
     end
   end
 end

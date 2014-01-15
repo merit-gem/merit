@@ -1,4 +1,4 @@
-#module Merit
+module Merit
   class BadgesSash
     include Mongoid::Document
     include Mongoid::Timestamps
@@ -8,7 +8,7 @@
     attr_accessible :badge_id
 
     belongs_to :sash
-    has_many :activity_logs, class_name: 'ActivityLog', as: :related_change
+    has_many :activity_logs, class_name: 'Merit::ActivityLog', as: :related_change
 
     def self.last_granted(options = {})
       options[:since_date] ||= 1.month.ago
@@ -22,4 +22,4 @@
       Badge.find(badge_id)
     end
   end
-#end
+end
