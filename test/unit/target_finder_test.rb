@@ -24,7 +24,9 @@ describe Merit::TargetFinder do
 
     describe 'rule#to is :action_user' do
       it 'should return an array including user that executed the action' do
-        Merit.user_model_name = 'User'
+        Merit.setup do |config|
+          config.user_model_name = 'User'
+        end
         rule = Merit::Rule.new
         rule.to = :action_user
         action = Merit::Action.new(user_id: 22)
@@ -40,7 +42,9 @@ describe Merit::TargetFinder do
 
       describe 'when user does not exist' do
         it 'should return warn and return an empty array' do
-          Merit.user_model_name = 'User'
+          Merit.setup do |config|
+            config.user_model_name = 'User'
+          end
           rule = Merit::Rule.new
           rule.to = :action_user
           action = Merit::Action.new(user_id: 22)

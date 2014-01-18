@@ -11,32 +11,42 @@ require 'merit/base_target_finder'
 require 'merit/target_finder'
 
 module Merit
-  # Check rules on each request
-  mattr_accessor :checks_on_each_request
-  @@checks_on_each_request = true
+  def self.setup
+    @config ||= Configuration.new
+    yield @config if block_given?
+  end
 
-  # Define ORM
-  mattr_accessor :orm
-  @@orm = :active_record
+  # Check rules on each request
+  def self.checks_on_each_request
+    @config.checks_on_each_request
+  end
+
+  # # Define ORM
+  def self.orm
+    @config.orm
+  end
 
   # Define user_model_name
-  mattr_accessor :user_model_name
-  @@user_model_name = 'User'
   def self.user_model
-    @@user_model_name.constantize
+    @config.user_model_name.constantize
   end
 
   # Define current_user_method
-  mattr_accessor :current_user_method
   def self.current_user_method
-    @@current_user_method || "current_#{@@user_model_name.downcase}".to_sym
+    @config.current_user_method || "current_#{@config.user_model_name.downcase}".to_sym
   end
 
-
-  # Load configuration from initializer
-  def self.setup
-    yield self
+  class Configuration
+    attr_accessor :checks_on_each_request,
+      :orm, :user_model_name, :current_user_method
+    def initialize
+      @checks_on_each_request = true
+      @orm = :active_record
+      @user_model_name = 'User'
+    end
   end
+
+  setup
 
   class BadgeNotFound < Exception; end
   class RankAttributeNotDefined < Exception; end
