@@ -3,7 +3,7 @@ Merit.setup do |config|
   # Check rules on each request or in background
   # config.checks_on_each_request = true
 
-  # Define ORM. Could be :active_record (default) and :mongo_mapper and :mongoid
+  # Define ORM. Could be :active_record (default) and :mongoid
   # config.orm = :active_record
 
   # Define :user_model_name. This model will be used to grand badge if no :to option is given. Default is "User".

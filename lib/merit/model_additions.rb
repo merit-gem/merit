@@ -24,12 +24,7 @@ module Merit
     end
 
     def _merit_orm_specific_config
-      if Merit.orm == :mongo_mapper
-        plugin Merit
-        key :sash_id, String
-        key :points, Integer, default: 0
-        key :level, Integer, default: 0
-      elsif Merit.orm == :mongoid
+      if Merit.orm == :mongoid
         field :sash_id
         field :points, type: Integer, default: 0
         field :level, type: Integer, default: 0
@@ -61,9 +56,6 @@ end
 
 if Object.const_defined?('ActiveRecord')
   ActiveRecord::Base.send :include, Merit
-end
-if Object.const_defined?('MongoMapper')
-  MongoMapper::Document.plugin Merit
 end
 if Object.const_defined?('Mongoid')
   Mongoid::Document.send :include, Merit
