@@ -30,6 +30,9 @@ module Merit
         key :level, Integer, default: 0
       elsif Merit.orm == :mongoid
         field :level, type: Integer, default: 0
+        def find_by_id(id)
+          where(_id: id).first
+        end
       end
     end
 
