@@ -17,7 +17,6 @@ module Merit
     # It lists top 10 scored objects in the last month, unless you change
     # query parameters.
     def self.top_scored(options = {})
-      options[:table_name] ||= :users
       options[:since_date] ||= 1.month.ago
       options[:limit]      ||= 10
 
