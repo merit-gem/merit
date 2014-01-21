@@ -278,7 +278,5 @@ end
 
 # To-do List
 
-* Finish Observer implementation for `Judge`.
 * Move level from meritable model into Sash
 * `ActivityLog` should replace `add_points` `log` parameter
-* FIXMES and TODOS.
