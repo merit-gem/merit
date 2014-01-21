@@ -14,11 +14,14 @@ Merit.setup do |config|
 end
 
 # Create application badges (uses https://github.com/norman/ambry)
-# Merit::Badge.create!({
-#   id: 1,
+# badge_id = 0
+# [{
+#   id: (badge_id = badge_id+1),
 #   name: 'just-registered'
 # }, {
-#   id: 2,
+#   id: (badge_id = badge_id+1),
 #   name: 'best-unicorn',
 #   custom_fields: { category: 'fantasy' }
-# })
+# }].each do |attrs|
+#   Merit::Badge.create! attrs
+# end
