@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'minitest-rails'
   s.add_development_dependency 'mocha', '0.13.3'
+  s.add_development_dependency 'database_cleaner'
 end

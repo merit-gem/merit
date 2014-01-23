@@ -16,16 +16,6 @@ module Merit
     yield @config if block_given?
   end
 
-  # Check rules on each request
-  def self.checks_on_each_request
-    @config.checks_on_each_request
-  end
-
-  # # Define ORM
-  def self.orm
-    @config.orm
-  end
-
   # Define user_model_name
   def self.user_model
     @config.user_model_name.constantize
@@ -36,13 +26,20 @@ module Merit
     @config.current_user_method || "current_#{@config.user_model_name.downcase}".to_sym
   end
 
+  def self.method_missing(method_name, *args, &block)
+    @config.respond_to?(method_name) ?
+      @config.send(method_name, *args, &block) : super
+  end
+
   class Configuration
     attr_accessor :checks_on_each_request,
-      :orm, :user_model_name, :current_user_method
+      :orm, :user_model_name, :current_user_method, 
+      :awarding_observers
     def initialize
       @checks_on_each_request = true
       @orm = :active_record
       @user_model_name = 'User'
+      @awarding_observers = []
     end
   end
 

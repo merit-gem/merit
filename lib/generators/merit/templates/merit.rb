@@ -11,6 +11,11 @@ Merit.setup do |config|
 
   # Define :current_user_method. Similar to previous option. It will be used to retrieve :user_model_name object if no :to option is given. Default is "current_#{user_model_name.downcase}".
   # config.current_user_method = "current_user"
+
+  # Define observers(observers) class or module in an Array as String.
+  # The observer must respond to class method `process_award(log)`.
+  # The argument log is the log record for assigning points or badge
+  # config.awarding_observers = ["Foo", "Bar"]
 end
 
 # Create application badges (uses https://github.com/norman/ambry)

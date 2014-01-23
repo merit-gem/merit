@@ -245,6 +245,21 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal 1, user.points
   end
 
+  test "observers get notified after points assigned" do
+    class ::Foo; def process_award(log); end; end
+    Merit.setup {|config| config.awarding_observers = ["::Foo"]}
+    log = Object.new
+    Merit::ActivityLog.stubs(:create).with(any_parameters).returns(log)
+
+    ::Foo.expects(:process_award).with(log).at_least_once
+    user = User.create(name: 'test-user')
+    comment = user.comments.create!(name: 'test-comment', comment: 'comment body')
+    visit "/api/comments/#{comment.id}"
+
+    Merit.setup {|config| config.awarding_observers = []}
+    Object.send(:remove_const, :Foo)
+  end
+
   def badges_by_name(user, name)
     user.reload.badges.select{|b| b.name == name }
   end
