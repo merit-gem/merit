@@ -72,8 +72,8 @@ module Merit
     config.app_generators.orm Merit.orm
 
     initializer 'merit.controller' do |app|
-      require 'merit/models/merit/base/sash'
-      require 'merit/models/merit/base/badges_sash'
+      require 'merit/models/base/merit/sash'
+      require 'merit/models/base/merit/badges_sash'
       require "merit/models/#{Merit.orm}/merit/activity_log"
       require "merit/models/#{Merit.orm}/merit/badges_sash"
       require "merit/models/#{Merit.orm}/merit/sash"

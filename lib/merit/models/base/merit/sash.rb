@@ -1,8 +1,6 @@
-module Base
-  module Sash
-    extend ActiveSupport::Concern
-    included do
-
+module Merit
+  module Base
+    module Sash
       # Methods that are common between both the active_record and mongoid sash model
       def badges
         badge_ids.map { |id| Merit::Badge.find id }
@@ -39,7 +37,6 @@ module Base
       def create_scores
         self.scores << Merit::Score.create
       end
-
     end
   end
 end
