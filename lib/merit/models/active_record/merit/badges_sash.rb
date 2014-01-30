@@ -5,7 +5,7 @@ module Merit
       class_name: Merit::ActivityLog,
       as: :related_change
 
-    unless defined?(ActionController::StrongParameters)
+    if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
       attr_accessible :badge_id
     end
 
