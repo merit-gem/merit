@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :comments
 
-  unless defined?(ActionController::StrongParameters)
+  if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
     attr_accessible :name
   end
 
