@@ -50,6 +50,7 @@ SQL
 
     class Point < ActiveRecord::Base
       belongs_to :score, class_name: 'Merit::Score'
+      has_one :sash, through: :score
       has_many :activity_logs,
         class_name: Merit::ActivityLog,
         as: :related_change

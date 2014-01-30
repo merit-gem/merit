@@ -30,7 +30,11 @@ module Merit
       return unless rule_applies?
       @sashes.each do |sash|
         point = sash.add_points points
-        notify_observers @action.id, point
+        notify_observers(
+          description: "granted #{points} points",
+          merit_object: point,
+          merit_action_id: @action.id
+        )
       end
     end
 
@@ -40,14 +44,22 @@ module Merit
       @sashes.each do |sash|
         next unless new_or_multiple?(sash)
         badge_sash = sash.add_badge badge.id
-        notify_observers @action.id, badge_sash, 'granted'
+        notify_observers(
+          description: "granted #{badge.name} badge",
+          merit_object: badge_sash,
+          merit_action_id: @action.id
+        )
       end
     end
 
     def remove_badges
       @sashes.each do |sash|
         badge_sash = sash.rm_badge badge.id
-        notify_observers @action.id, badge_sash, 'removed'
+        notify_observers(
+          description: "removed #{badge.name} badge",
+          merit_object: badge_sash,
+          merit_action_id: @action.id
+        )
       end
     end
 
@@ -75,7 +87,7 @@ module Merit
       @rule.badge
     end
 
-    def notify_observers(action_id, related_change, description = '')
+    def notify_observers(changed_data)
       changed
       super
     end

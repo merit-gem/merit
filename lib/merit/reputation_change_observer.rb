@@ -1,10 +1,10 @@
 module Merit
   class ReputationChangeObserver
-    def update(action_id, related_change, description = '')
+    def update(changed_data)
       ActivityLog.create(
-        action_id: action_id,
-        related_change: related_change,
-        description: description
+        description:    changed_data[:description],
+        related_change: changed_data[:merit_object],
+        action_id:      changed_data[:merit_action_id]
       )
     end
   end

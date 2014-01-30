@@ -28,6 +28,7 @@ and Rankings.
     - [Defining Rules](#defining-rules-2)
         - [Examples](#examples-2)
     - [Displaying Rankings](#displaying-rankings)
+- [Getting notified when Reputation Changes](#getting-notified-when-reputation-changes)
 - [Uninstalling Merit](#uninstalling-merit)
 - [To-do List](#to-do-list)
 
@@ -266,6 +267,36 @@ end
 <%= current_user.level %>
 ```
 
+
+# Getting notified when Reputation Changes
+
+You can get observers notified any time merit changes reputation in your
+application.
+
+To do so, add your observer (to `app/models` or `app/observers`, for example):
+
+```ruby
+# reputation_change_observer.rb
+class ReputationChangeObserver
+  def update(changed_data)
+    # `changed_data[:description]` holds information on what changed
+    # badges granted or removed, points changed.
+
+    # `changed_data[:merit_object]` reputation related object created by merit.
+    # It responds to `sash_id` and `sash`. From there you can get to your
+    # application object that had it's reputation changed, for example:
+    # sash_id = changed_data[:merit_object].sash_id
+    # User.where(sash_id: sash_id).first
+
+    # You may use this to fill a timeline with notifications for users, send
+    # emails, etc.
+  end
+end
+```
+```ruby
+# In `config/initializers/merit.rb`
+config.add_observer 'ReputationChangeObserver'
+```
 
 # Uninstalling Merit
 

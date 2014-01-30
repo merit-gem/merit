@@ -1,5 +1,10 @@
 # Changelog
 
+## master
+
+- [#128] Finishes Observer implementation so client applications can be
+  notified when reputation changes.
+
 ## 1.7.1
 
 - [#121] Adds "Uninstall Merit" rake task.
