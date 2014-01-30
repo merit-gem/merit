@@ -28,7 +28,7 @@ and Rankings.
     - [Defining Rules](#defining-rules-2)
         - [Examples](#examples-2)
     - [Displaying Rankings](#displaying-rankings)
-- [Getting notified when Reputation Changes](#getting-notified-when-reputation-changes)
+- [Getting Notifications](#getting-notifications)
 - [Uninstalling Merit](#uninstalling-merit)
 - [To-do List](#to-do-list)
 
@@ -268,7 +268,7 @@ end
 ```
 
 
-# Getting notified when Reputation Changes
+# Getting Notifications
 
 You can get observers notified any time merit changes reputation in your
 application.

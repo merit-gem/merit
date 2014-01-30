@@ -1,7 +1,7 @@
 module Merit
   class TargetFinder < Struct.new(:rule, :action)
     def self.find(*args)
-      self.new(*args).find
+      new(*args).find
     end
 
     def find
@@ -40,6 +40,5 @@ module Merit
       str << ' (called from Merit::TargetFinder#other_target)'
       Rails.logger.warn str
     end
-
   end
 end

@@ -32,7 +32,7 @@ module Merit
         badges = badges.by_level(level) unless level.nil?
         if (badge = badges.first).nil?
           str = "No badge '#{name}' found. Define it in initializers/merit.rb"
-          raise ::Merit::BadgeNotFound, str
+          fail ::Merit::BadgeNotFound, str
         end
         badge
       end
@@ -48,7 +48,7 @@ module Merit
       # entries with certain badge. For instance, Badge.find(3).users
       def _define_related_entries_method(meritable_class_name)
         define_method(:"#{meritable_class_name.underscore.pluralize}") do
-          sashes = BadgesSash.where(badge_id: self.id).pluck(:sash_id)
+          sashes = BadgesSash.where(badge_id: id).pluck(:sash_id)
           meritable_class_name.constantize.where(sash_id: sashes)
         end
       end

@@ -17,9 +17,8 @@ module Merit
 
     # Delegate methods from meritable models to their sash
     def _merit_delegate_methods_to_sash
-      methods = %w(badge_ids badges points
-        add_badge rm_badge
-        add_points substract_points subtract_points)
+      methods = %w(badge_ids badges points add_badge rm_badge
+                   add_points substract_points subtract_points)
       methods.each { |method| delegate method, to: :_sash }
     end
 
@@ -45,10 +44,8 @@ module Merit
     # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
     def _merit_sash_initializer
       define_method(:_sash) do
-        if sash.nil?
-          self.update_attribute :sash_id, Sash.create.id
-        end
-        self.sash
+        sash || update_attribute(:sash_id, Sash.create.id)
+        sash
       end
     end
   end

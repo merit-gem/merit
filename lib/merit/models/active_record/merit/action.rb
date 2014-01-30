@@ -6,7 +6,7 @@ module Merit
 
     if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
       attr_accessible :user_id, :action_method, :action_value, :had_errors,
-        :target_model, :target_id, :processed, :log
+                      :target_model, :target_id, :processed, :log
     end
   end
 end

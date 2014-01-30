@@ -15,7 +15,7 @@ require_dependency "merit/models/#{Merit.orm}/merit/action"
 module Merit
   class Action
     def self.check_unprocessed
-      where(processed: false).map &:check_all_rules
+      where(processed: false).map(&:check_all_rules)
     end
 
     # Check rules defined for a merit_action
@@ -44,12 +44,11 @@ module Merit
     # Mark merit_action as processed
     def processed!
       self.processed = true
-      self.save
+      save
     end
 
     def rules_matcher
       @rules_matcher ||= ::Merit::RulesMatcher.new(target_model, action_method)
     end
-
   end
 end

@@ -21,7 +21,7 @@ module Merit
 
     def add_badge(badge_id)
       bs = BadgesSash.new(badge_id: badge_id)
-      self.badges_sashes << bs
+      badges_sashes << bs
       bs
     end
 
@@ -38,24 +38,24 @@ module Merit
       point = Merit::Score::Point.new
       point.log = log
       point.num_points = num_points
-      self.scores.where(category: category).first.score_points << point
+      scores.where(category: category).first.score_points << point
       point
     end
 
     # DEPRECATED: Please use <tt>subtract_points</tt> instead.
     def substract_points(num_points, log = 'Manually granted', category = 'default')
-      warn "[DEPRECATION] `substract_points` is deprecated.  Please use `subtract_points` instead."
+      warn '[DEPRECATION] `substract_points` is deprecated.  Please use `subtract_points` instead.'
       subtract_points num_points, log, category
     end
 
     def subtract_points(num_points, log = 'Manually granted', category = 'default')
-      add_points -num_points, log, category
+      add_points(-num_points, log, category)
     end
 
     private
 
     def create_scores
-      self.scores << Merit::Score.create
+      scores << Merit::Score.create
     end
   end
 end

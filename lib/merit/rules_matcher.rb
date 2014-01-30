@@ -1,6 +1,5 @@
 module Merit
   class RulesMatcher
-
     def initialize(path, action_name)
       @path = path
       @action_name = action_name
@@ -21,6 +20,5 @@ module Merit
     def entire_path
       @entire_path ||= [@path, @action_name].join('#')
     end
-
   end
 end

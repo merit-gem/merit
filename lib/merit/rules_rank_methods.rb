@@ -23,7 +23,7 @@ module Merit
       end
 
       defined_rules[options[:to]] ||= {}
-      defined_rules[options[:to]].merge!({ options[:level] => rule })
+      defined_rules[options[:to]].merge!(options[:level] => rule)
     end
 
     # Not part of merit after_filter. To be called asynchronously:

@@ -1,8 +1,7 @@
 module Merit
   class BaseTargetFinder
-
     def self.find(*args)
-      self.new(*args).find
+      new(*args).find
     end
 
     def initialize(rule, action)
@@ -17,6 +16,5 @@ module Merit
     rescue => e
       Rails.logger.warn "[merit] no target found: #{e}. #{caller.first}"
     end
-
   end
 end

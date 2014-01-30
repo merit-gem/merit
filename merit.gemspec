@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rails', '>= 3.2.0'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'rubocop'
   s.add_development_dependency 'minitest-rails'
   s.add_development_dependency 'mocha', '0.13.3'
 end

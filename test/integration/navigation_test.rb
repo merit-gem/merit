@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class NavigationTest < ActiveSupport::IntegrationCase
-
   def tear_down
     DummyObserver.unstub(:update)
   end
@@ -135,7 +134,10 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_difference('Merit::ActivityLog.count', 2) do
       click_button('Update User')
     end
-    # Last one is point granting, previous one is badge removing
+
+    # Check created Merit::ActivityLogs
+    assert_equal 'granted commenter badge', Merit::ActivityLog.all[0].description
+    assert_equal 'granted 20 points', Merit::ActivityLog.all[-1].description
     assert_equal 'removed autobiographer badge', Merit::ActivityLog.all[-2].description
 
     user = User.where(name: 'abc').first

@@ -4,7 +4,7 @@ module Merit
   # Could split this class between badges and rankings functionality
   class Rule
     attr_accessor :badge_name, :level, :to, :model_name, :level_name,
-      :multiple, :temporary, :score, :block
+                  :multiple, :temporary, :score, :block
 
     # Does this rule's condition block apply?
     def applies?(target_obj = nil)

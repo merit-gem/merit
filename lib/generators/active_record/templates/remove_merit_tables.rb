@@ -6,5 +6,5 @@ class RemoveMeritTables < ActiveRecord::Migration
     drop_table :sashes
     drop_table :merit_scores
     drop_table :merit_score_points
-  end 
+  end
 end

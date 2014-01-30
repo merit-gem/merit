@@ -3,8 +3,8 @@ module Merit
     self.table_name = :merit_scores
     belongs_to :sash
     has_many :score_points,
-      dependent: :destroy,
-      class_name: 'Merit::Score::Point'
+             dependent: :destroy,
+             class_name: 'Merit::Score::Point'
 
     # Meant to display a leaderboard. Accepts options :table_name (users by
     # default), :since_date (1.month.ago by default) and :limit (10 by
@@ -24,7 +24,7 @@ module Merit
         sash_id_column = "#{options[:table_name]}.sash_id"
       end
 
-      # MeritableModel – Sash –< Scores –< ScorePoints
+      # MeritableModel - Sash -< Scores -< ScorePoints
       sql_query = <<SQL
 SELECT
   #{options[:table_name]}.id AS #{alias_id_column},
@@ -52,8 +52,8 @@ SQL
       belongs_to :score, class_name: 'Merit::Score'
       has_one :sash, through: :score
       has_many :activity_logs,
-        class_name: Merit::ActivityLog,
-        as: :related_change
+               class_name: Merit::ActivityLog,
+               as: :related_change
     end
   end
 end

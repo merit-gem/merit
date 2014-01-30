@@ -47,17 +47,14 @@ module Merit
   end
 
   class Configuration
-    attr_accessor :checks_on_each_request,
-      :orm, :user_model_name, :current_user_method
+    attr_accessor :checks_on_each_request, :orm, :user_model_name, :observers,
+                  :current_user_method
+
     def initialize
       @checks_on_each_request = true
       @orm = :active_record
       @user_model_name = 'User'
       @observers = []
-    end
-
-    def observers
-      @observers
     end
 
     def add_observer(class_name)

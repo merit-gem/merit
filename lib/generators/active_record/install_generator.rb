@@ -6,7 +6,7 @@ module ActiveRecord
       include Rails::Generators::Migration
 
       source_root File.expand_path('../templates', __FILE__)
-      desc "add active_record merit migrations for the root objects"
+      desc 'add active_record merit migrations for the root objects'
 
       def self.next_migration_number(path)
         ActiveRecord::Generators::Base.next_migration_number(path)
