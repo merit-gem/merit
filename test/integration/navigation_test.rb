@@ -1,7 +1,13 @@
 require 'test_helper'
 
 class NavigationTest < ActiveSupport::IntegrationCase
+
+  def tear_down
+    DummyObserver.unstub(:update)
+  end
+
   test 'user sign up should grant badge to itself' do
+    DummyObserver.any_instance.expects(:update).times 1
     visit '/users/new'
     fill_in 'Name', with: 'Jack'
     assert_difference('Merit::ActivityLog.count') do
@@ -13,6 +19,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'User#add_badge should add one badge, #rm_badge should delete one' do
+    DummyObserver.any_instance.expects(:update).times 0
+
     user = User.create(name: 'test-user')
     assert_equal [], user.badges
 
@@ -24,9 +32,11 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user.rm_badge badge.id
     assert_equal [badge], user.reload.badges
+
   end
 
   test 'Remove inexistent badge should do nothing' do
+    DummyObserver.any_instance.expects(:update).times 0
     user = User.create(name: 'test-user')
     assert_equal [], user.badges
     user.rm_badge 1
@@ -34,6 +44,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'users#index should grant badge multiple times' do
+    DummyObserver.any_instance.expects(:update).times 14
     user = User.create(name: 'test-user')
 
     # Multiple rule
@@ -58,6 +69,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should grant some badges at some times' do
+    DummyObserver.any_instance.expects(:update).at_least_once
+
     # Commented 9 times, no badges yet
     user = User.create(name: 'test-user')
     # Create needed friend user object
@@ -132,6 +145,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should add up points at some times' do
+    DummyObserver.any_instance.expects(:update).at_least_once
     User.delete_all
     user = User.create(name: 'test-user')
     assert_equal 0, user.points, 'User should start with 0 points'
@@ -184,6 +198,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should grant levels at some times' do
+    DummyObserver.any_instance.expects(:update).at_least_once
     user = User.create(name: 'test-user')
     assert user.badges.empty?
 
@@ -220,6 +235,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'assigning points to a group of records' do
+    DummyObserver.any_instance.expects(:update).times 4
     commenter = User.create(name: 'commenter')
     comment_1 = commenter.comments.create(name: 'comment_1', comment: 'a')
     comment_2 = commenter.comments.create(name: 'comment_2', comment: 'b')
@@ -237,6 +253,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'api/comments#show should grant 1 point to user' do
+    DummyObserver.any_instance.expects(:update).times 1
     user = User.create(name: 'test-user')
     assert_equal 0, user.points
     comment = user.comments.create!(name: 'test-comment', comment: 'comment body')

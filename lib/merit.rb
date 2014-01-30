@@ -6,7 +6,7 @@ require 'merit/rules_matcher'
 require 'merit/controller_extensions'
 require 'merit/model_additions'
 require 'merit/judge'
-require 'merit/log_reputation_change'
+require 'merit/reputation_change_observer'
 require 'merit/sash_finder'
 require 'merit/base_target_finder'
 require 'merit/target_finder'
@@ -37,17 +37,36 @@ module Merit
     @config.current_user_method || "current_#{@config.user_model_name.downcase}".to_sym
   end
 
+  def self.observers
+    @config.observers
+  end
+
+  # @param class_name [String] The string version of observer class
+  def self.add_observer(class_name)
+    @config.add_observer(class_name)
+  end
+
   class Configuration
     attr_accessor :checks_on_each_request,
-      :orm, :user_model_name, :current_user_method
+                  :orm, :user_model_name, :current_user_method
     def initialize
       @checks_on_each_request = true
       @orm = :active_record
       @user_model_name = 'User'
+      @observers = []
+    end
+
+    def observers
+      @observers
+    end
+
+    def add_observer(class_name)
+      @observers << class_name
     end
   end
 
   setup
+  add_observer('Merit::ReputationChangeObserver')
 
   class BadgeNotFound < Exception; end
   class RankAttributeNotDefined < Exception; end

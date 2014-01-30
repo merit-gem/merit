@@ -10,6 +10,10 @@ module Merit
       # FIXME: Too much context?
       # A Judge should apply reputation independently of the action
       @action = options[:action]
+
+      Merit.observers.each do |class_name|
+        add_observer class_name.constantize.new
+      end
     end
 
     # Grant badge if rule applies. If it doesn't, and the badge is temporary,

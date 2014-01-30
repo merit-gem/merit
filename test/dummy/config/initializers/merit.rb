@@ -5,6 +5,7 @@ Merit.setup do |config|
 
   # Define ORM. Could be:active_record (default) and :mongoid
   # config.orm = :active_record
+  config.add_observer 'DummyObserver'
 end
 
 # Create application badges (uses https://github.com/norman/ambry)
