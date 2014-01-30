@@ -78,5 +78,4 @@ class MeritUnitTest < ActiveSupport::TestCase
       custom_fields: { key_1: 'value1' })
     assert_equal 'value1', Merit::Badge.find(99).custom_fields[:key_1]
   end
-
 end

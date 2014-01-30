@@ -48,7 +48,7 @@ module Merit
 
   class Configuration
     attr_accessor :checks_on_each_request,
-                  :orm, :user_model_name, :current_user_method
+      :orm, :user_model_name, :current_user_method
     def initialize
       @checks_on_each_request = true
       @orm = :active_record

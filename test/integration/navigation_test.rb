@@ -32,7 +32,6 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user.rm_badge badge.id
     assert_equal [badge], user.reload.badges
-
   end
 
   test 'Remove inexistent badge should do nothing' do
@@ -70,7 +69,6 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
   test 'user workflow should grant some badges at some times' do
     DummyObserver.any_instance.expects(:update).at_least_once
-
     # Commented 9 times, no badges yet
     user = User.create(name: 'test-user')
     # Create needed friend user object

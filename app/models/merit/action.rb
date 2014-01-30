@@ -32,7 +32,7 @@ module Merit
     def check_rules(rules_array, badges_or_points)
       rules_array.each do |rule|
         judge = Judge.new sashes_to_badge(rule), rule, action: self
-        judge.add_observer LogReputationChange.new
+        judge.add_observer ReputationChangeObserver.new
         judge.send :"apply_#{badges_or_points}"
       end
     end
