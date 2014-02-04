@@ -3,7 +3,7 @@ Merit.setup do |config|
   # Add application observers to get notifications any time merit changes reputation.
   config.add_observer 'DummyObserver'
 
-  config.orm = ENV['ORM'].to_sym
+  config.orm = ENV['ORM'].try(:to_sym)
 end
 
 # Create application badges (uses https://github.com/norman/ambry)

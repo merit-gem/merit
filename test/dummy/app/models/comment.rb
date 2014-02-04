@@ -1,8 +1,8 @@
-case ENV['ORM']
-when 'active_record'
+case Merit.orm
+when :active_record
   class Comment < ActiveRecord::Base
   end
-when 'mongoid'
+when :mongoid
   class Comment
     include Mongoid::Document
     include Mongoid::Timestamps

@@ -24,7 +24,7 @@ module Merit
 
   # # Define ORM
   def self.orm
-    @config.orm
+    @config.orm || :active_record
   end
 
   # Define user_model_name
