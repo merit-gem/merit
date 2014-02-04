@@ -72,30 +72,36 @@ module Merit
     config.app_generators.orm Merit.orm
 
     initializer 'merit.controller' do |app|
-      if Object.const_defined?('ActiveRecord')
-        ActiveRecord::Base.send :include, Merit
+      require_models
+      extend_orm_with_has_merit
+      ActiveSupport.on_load(:action_controller) do
+        begin
+          # Load app rules on boot up
+          Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
+          Merit::AppPointRules = Merit::PointRules.new.defined_rules
+          include Merit::ControllerExtensions
+        rescue NameError => e
+          # Trap NameError if installing/generating files
+          raise e unless e.to_s =~ /uninitialized constant Merit::BadgeRules/
+        end
       end
-      if Object.const_defined?('Mongoid')
-        Mongoid::Document.send :include, Merit
-      end
+    end
 
+    def require_models
       require 'merit/models/base/merit/sash'
       require 'merit/models/base/merit/badges_sash'
       require "merit/models/#{Merit.orm}/merit/activity_log"
       require "merit/models/#{Merit.orm}/merit/badges_sash"
       require "merit/models/#{Merit.orm}/merit/sash"
       require "merit/models/#{Merit.orm}/merit/score"
+    end
 
-      ActiveSupport.on_load(:action_controller) do
-        begin
-          # Load application defined rules on application boot up
-          ::Merit::AppBadgeRules = ::Merit::BadgeRules.new.defined_rules
-          ::Merit::AppPointRules = ::Merit::PointRules.new.defined_rules
-          include Merit::ControllerExtensions
-        rescue NameError => e
-          # Trap NameError if installing/generating files
-          raise e unless e.to_s =~ /uninitialized constant Merit::BadgeRules/
-        end
+    def extend_orm_with_has_merit
+      if Object.const_defined?('ActiveRecord')
+        ActiveRecord::Base.send :include, Merit
+      end
+      if Object.const_defined?('Mongoid')
+        Mongoid::Document.send :include, Merit
       end
     end
   end
