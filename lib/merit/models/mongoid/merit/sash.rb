@@ -17,12 +17,12 @@ module Merit
 
     def add_badge(badge_id)
       bs = Merit::BadgesSash.new(badge_id: badge_id)
-      self.badges_sashes.push(bs)
+      badges_sashes.push(bs)
     end
 
     def rm_badge(badge_id)
       bs = badges_sashes.where(badge_id: badge_id).first
-      self.badges_sashes.delete(bs)
+      badges_sashes.delete(bs)
     end
   end
 end

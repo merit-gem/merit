@@ -11,9 +11,9 @@ module Merit
     def self.last_granted(options = {})
       options[:since_date] ||= 1.month.ago
       options[:limit]      ||= 10
-      where(:created_at.lte => options[:since_date]).
-        limit(options[:limit]).
-        map(&:badge)
+      where(:created_at.lte => options[:since_date])
+        .limit(options[:limit])
+        .map(&:badge)
     end
   end
 end
