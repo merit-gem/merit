@@ -72,6 +72,13 @@ module Merit
     config.app_generators.orm Merit.orm
 
     initializer 'merit.controller' do |app|
+      if Object.const_defined?('ActiveRecord')
+        ActiveRecord::Base.send :include, Merit
+      end
+      if Object.const_defined?('Mongoid')
+        Mongoid::Document.send :include, Merit
+      end
+
       require 'merit/models/base/merit/sash'
       require 'merit/models/base/merit/badges_sash'
       require "merit/models/#{Merit.orm}/merit/activity_log"

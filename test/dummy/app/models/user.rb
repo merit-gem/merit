@@ -1,4 +1,17 @@
-class User < ActiveRecord::Base
+case ENV['ORM']
+when 'active_record'
+  class User < ActiveRecord::Base
+  end
+when 'mongoid'
+  class User
+    include Mongoid::Document
+    include Mongoid::Timestamps
+
+    field :name, :type => String
+  end
+end
+
+class User
   has_merit
 
   has_many :comments

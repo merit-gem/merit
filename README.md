@@ -9,8 +9,6 @@ and Rankings.
 
 # Table of Contents
 
-- [Merit](#merit)
-- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Badges](#badges)
     - [Creating Badges](#creating-badges)

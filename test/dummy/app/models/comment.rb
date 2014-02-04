@@ -1,4 +1,19 @@
-class Comment < ActiveRecord::Base
+case ENV['ORM']
+when 'active_record'
+  class Comment < ActiveRecord::Base
+  end
+when 'mongoid'
+  class Comment
+    include Mongoid::Document
+    include Mongoid::Timestamps
+
+    field :name, :type => String
+    field :comment, :type => String
+    field :votes, :type => Integer
+  end
+end
+
+class Comment
   has_merit
 
   belongs_to :user

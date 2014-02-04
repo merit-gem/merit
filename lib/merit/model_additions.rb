@@ -53,10 +53,3 @@ module Merit
     end
   end
 end
-
-if Object.const_defined?('ActiveRecord')
-  ActiveRecord::Base.send :include, Merit
-end
-if Object.const_defined?('Mongoid')
-  Mongoid::Document.send :include, Merit
-end

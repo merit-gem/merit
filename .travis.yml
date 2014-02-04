@@ -1,11 +1,16 @@
 language: ruby
-
 rvm:
   - 1.9.3
   - 2.0.0
+  - 2.1.0
   - jruby-19mode
   - rbx
 env:
   - RAILS_VERSION=3.2
   - RAILS_VERSION=4.0
   - RAILS_VERSION=4.0-protected-attributes
+  - ORM=active_record
+  - ORM=mongoid
+matrix:
+  allow_failures:
+    - env: ORM=mongoid

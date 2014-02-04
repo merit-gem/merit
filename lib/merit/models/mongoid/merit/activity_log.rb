@@ -3,7 +3,6 @@ module Merit
     include Mongoid::Document
     include Mongoid::Timestamps
 
-    field :related_change
     field :description
 
     belongs_to :action, class_name: 'Merit::Action'

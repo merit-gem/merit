@@ -18,6 +18,13 @@ end
 
 gem 'rails', rails
 
+case ENV['ORM']
+when 'active_record'
+  gem 'activerecord'
+when 'mongoid'
+  gem 'mongoid', '3.0.10'
+end
+
 group :development, :test do
   gem 'activerecord-jdbcsqlite3-adapter', :platforms => [:jruby]
   gem 'sqlite3', :platforms => [:ruby, :mswin, :mingw]
