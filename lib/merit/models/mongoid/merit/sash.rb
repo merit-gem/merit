@@ -10,7 +10,6 @@ module Merit
     include Mongoid::Timestamps
     include Base::Sash
 
-    belongs_to :user, class_name: 'User'
     has_many :badges_sashes, class_name: 'Merit::BadgesSash', dependent: :destroy
     has_many :scores, class_name: 'Merit::Score', dependent: :destroy
 
