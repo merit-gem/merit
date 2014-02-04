@@ -23,9 +23,12 @@ module Merit
     end
 
     def _merit_orm_specific_config
-      if Merit.orm == :mongoid
-        field :sash_id
-        field :points, type: Integer, default: 0
+      if Merit.orm == :mongo_mapper
+        plugin Merit
+        key :sash_id, String
+        key :points, Integer, default: 0
+        key :level, Integer, default: 0
+      elsif Merit.orm == :mongoid
         field :level, type: Integer, default: 0
         def find_by_id(id)
           where(_id: id).first
@@ -44,8 +47,16 @@ module Merit
     # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
     def _merit_sash_initializer
       define_method(:_sash) do
-        sash || update_attribute(:sash_id, Sash.create.id)
-        sash
+        if Merit.orm == :active_record
+          sash || update_attribute(:sash_id, Sash.create.id)
+          sash
+        elsif Merit.orm == :mongoid
+          if self.sash.nil?
+            @sash = Sash.where(user_id: self.id).first_or_create
+            self.update_attribute(:sash_id, @sash.id)
+          end
+          sash
+        end
       end
     end
   end

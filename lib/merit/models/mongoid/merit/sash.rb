@@ -5,21 +5,24 @@ module Merit
   #
   # It's existence make join models like badges_users and scores_users
   # unnecessary. It should be transparent at the application.
-  class Sash < ActiveRecord::Base
+  class Sash
+    include Mongoid::Document
+    include Mongoid::Timestamps
     include Base::Sash
-    has_many :badges_sashes, dependent: :destroy
-    has_many :scores, dependent: :destroy, class_name: 'Merit::Score'
+
+    has_many :badges_sashes, class_name: 'Merit::BadgesSash', dependent: :destroy
+    has_many :scores, class_name: 'Merit::Score', dependent: :destroy
 
     after_create :create_scores
 
     def add_badge(badge_id)
-      bs = BadgesSash.new(badge_id: badge_id)
-      badges_sashes << bs
-      bs
+      bs = Merit::BadgesSash.new(badge_id: badge_id)
+      self.badges_sashes.push(bs)
     end
 
     def rm_badge(badge_id)
-      badges_sashes.find_by_badge_id(badge_id).try(:destroy)
+      bs = badges_sashes.where(badge_id: badge_id).first
+      self.badges_sashes.delete(bs)
     end
   end
 end
