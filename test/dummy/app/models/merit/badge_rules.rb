@@ -26,6 +26,13 @@ module Merit
         true
       end
 
+      # For regression test: if condition doesn't hold, it doesn't check
+      # sashes to badge. Useful for polymorphic relations where not every
+      # model has reputation. See https://github.com/tute/merit/issues/134.
+      grant_on 'users#create', badge: 'just-registered', to: :model_with_no_reputation do |user|
+        user.model_with_no_reputation.respond_to?(:_sash)
+      end
+
       # Example rule for multiple badge granting
       grant_on 'users#index', badge: 'gossip', multiple: true
 

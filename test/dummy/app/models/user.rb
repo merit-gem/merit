@@ -14,10 +14,15 @@ end
 class User
   has_merit
 
+  has_many :addresses
   has_many :comments
 
   if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
     attr_accessible :name
+  end
+
+  def model_with_no_reputation
+    addresses.first || addresses.create
   end
 
   def show_badges

@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329224410) do
+ActiveRecord::Schema.define(:version => 20140211144001) do
+
+  create_table "addresses", :force => true do |t|
+    t.integer "user_id"
+  end
 
   create_table "badges_sashes", :force => true do |t|
     t.integer  "badge_id"
