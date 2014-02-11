@@ -4,13 +4,9 @@ module Merit
   class Judge
     include Observable
 
-    def initialize(sashes, rule, options = {})
-      @sashes = sashes
+    def initialize(rule, options = {})
       @rule = rule
-      # FIXME: Too much context?
-      # A Judge should apply reputation independently of the action
       @action = options[:action]
-
       Merit.observers.each do |class_name|
         add_observer class_name.constantize.new
       end
@@ -28,7 +24,7 @@ module Merit
 
     def apply_points
       return unless rule_applies?
-      @sashes.each do |sash|
+      sashes.each do |sash|
         point = sash.add_points points
         notify_observers(
           description: "granted #{points} points",
@@ -41,7 +37,7 @@ module Merit
     private
 
     def grant_badges
-      @sashes.each do |sash|
+      sashes.each do |sash|
         next unless new_or_multiple?(sash)
         badge_sash = sash.add_badge badge.id
         notify_observers(
@@ -53,7 +49,7 @@ module Merit
     end
 
     def remove_badges
-      @sashes.each do |sash|
+      sashes.each do |sash|
         badge_sash = sash.rm_badge badge.id
         notify_observers(
           description: "removed #{badge.name} badge",
@@ -81,6 +77,10 @@ module Merit
       else
         @rule.score
       end
+    end
+
+    def sashes
+      @sashes ||= SashFinder.find @rule, @action
     end
 
     def badge

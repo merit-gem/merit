@@ -31,14 +31,9 @@ module Merit
 
     def check_rules(rules_array, badges_or_points)
       rules_array.each do |rule|
-        judge = Judge.new sashes_to_badge(rule), rule, action: self
+        judge = Judge.new rule, action: self
         judge.send :"apply_#{badges_or_points}"
       end
-    end
-
-    # Subject to badge: source_user or target.user?
-    def sashes_to_badge(rule)
-      SashFinder.find(rule, self)
     end
 
     # Mark merit_action as processed
