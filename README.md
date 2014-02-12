@@ -57,12 +57,12 @@ Create badges in `config/initializers/merit.rb`
 ### Example
 
 ```ruby
-Merit::Badge.create! ({
+Merit::Badge.create!(
   id: 1,
   name: "Yearling",
   description: "Active member for a year",
   custom_fields: { difficulty: :silver }
-})
+)
 ```
 
 ## Defining Rules
@@ -200,16 +200,6 @@ current_user.subtract_points(10)
 # Query awarded points since a given date
 score_points = current_user.sash.scores.first.score_points
 score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
-
-# List top 10 scored users in the last month
-Merit::Score.top_scored
-
-# List top 25 scored lists in the last week
-Merit::Score.top_scored(
-  table_name: :lists,
-  since_date: 1.week.ago,
-  limit: 25
-)
 ```
 
 ## Displaying Points
