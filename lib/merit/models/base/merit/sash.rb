@@ -13,12 +13,22 @@ module Merit
       def points(category = 'default')
         scores.where(category: category).first.points
       end
+      
+      def all_points
+        total = 0
+        scores.each do |score|
+          total += score.points
+        end
+        total
+      end
 
-      def add_points(num_points, log = 'Manually granted', category = 'default')
+      # Keyword parameter require ruby 2.0
+      # Have to use (options={}) to be backward compatible
+      def add_points(num_points, log: 'Manually granted', category: 'default')
         point = Merit::Score::Point.new
         point.log = log
         point.num_points = num_points
-        scores.where(category: category).first.score_points << point
+        scores.where(category: category).first_or_create.score_points << point
         point
       end
 
