@@ -6,15 +6,16 @@ module Merit
     # Define rules on certaing actions for giving points
     def score(points, *args, &block)
       options = args.extract_options!
-      options[:to] ||= :action_user
+      options_to = options.fetch(:to) {:action_user}
 
       actions = Array.wrap(options[:on])
 
-      Array.wrap(options[:to]).each do |to|
+      Array.wrap(options_to).each do |to|
         rule = Rule.new
         rule.score = points
         rule.to    = to
         rule.block = block
+        rule.category = options.fetch(:category) { :default }
         rule.model_name = options[:model_name] if options[:model_name]
 
         actions.each do |action|

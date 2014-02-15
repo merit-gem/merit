@@ -10,18 +10,29 @@ module Merit
         badges_sashes.map(&:badge_id)
       end
 
+      # Retrieve the number of points from a category
+      # Category 'default' is used by default
+      # Use :all to sum all points
+      # @param category [String] The category or :all
+      # @return [Integer] the number of points
       def points(category = 'default')
-        scores.where(category: category).first.points
+        if category == :all
+          # Note that if category is "all", will go on the else branch
+          scores.inject(0) { |sum, score| sum + score.points }
+        else
+          scores.where(category: category).first.try(:points) || 0
+        end
       end
 
       def add_points(num_points, log = 'Manually granted', category = 'default')
         if log != 'Manually granted'
           warn '[merit] [DEPRECATION] `add_points` `log` parameter is deprecated'
         end
+
         point = Merit::Score::Point.new
         point.log = log
         point.num_points = num_points
-        scores.where(category: category).first.score_points << point
+        scores.where(category: category).first_or_create.score_points << point
         point
       end
 
