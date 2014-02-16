@@ -14,6 +14,7 @@
     <td><%= user.comments.count %></td>
     <td><%= user.show_badges %></td>
     <td><%= user.points %></td>
+    <td><%= user.points(:all) %></td>
     <td><%= link_to 'Show', user %>
     - <%= link_to 'Edit', edit_user_path(user) %>
     - <%= link_to 'Destroy', user, data: { :confirm => 'Are you sure?' }, :method => :delete %></td>
