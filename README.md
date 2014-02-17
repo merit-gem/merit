@@ -165,6 +165,8 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 * `:model_name` (optional) to specify the model name if it cannot be guessed
   from the controller. (e.g. `model_name: 'User'` for `RegistrationsController`,
   or `model_name: 'Comment'` for `Api::CommentsController`)
+* `:category` the score category in which you want to put the points in. `default` by default.
+  category name `:all` cannot be used.
 * `&block`
   * empty (always scores)
   * a block which evaluates to boolean (recieves target object as parameter)
@@ -173,7 +175,7 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 
 ```ruby
 # app/models/merit/point_rules.rb
-score 10, to: :post_creator, on: 'comments#create' do |comment|
+score 10, to: :post_creator, on: 'comments#create', category: 'comment_activity' do |comment|
   comment.title.present?
 end
 
@@ -192,13 +194,13 @@ score proc, on: 'photos#create'
 
 ```ruby
 # Score manually
-current_user.add_points(20, 'Optional log message')
+current_user.add_points(20, 'Optional log message', 'Optional category')
 current_user.subtract_points(10)
 ```
 
 ```ruby
 # Query awarded points since a given date
-score_points = current_user.sash.scores.first.score_points
+score_points = current_user.sash.scores.where(category: 'default').score_points
 score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
 ```
 
@@ -207,9 +209,10 @@ score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
 Meritable models have a `points` method which returns an integer:
 
 ```erb
-<%= current_user.points %>
+<%= current_user.points('Optional category') %>
 ```
 
+Note : Use category `:all` to sum all points through categories.
 
 # Rankings
 
