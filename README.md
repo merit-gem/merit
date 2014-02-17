@@ -122,12 +122,6 @@ current_user.rm_badge(badge.id)
 ```
 
 ```ruby
-# List 10 badge grants in the last month
-Badge.last_granted
-
-# List 20 badge grants in the last week
-Badge.last_granted(since_date: 1.week.ago, limit: 20)
-
 # Get related entries of a given badge
 Badge.find(1).users
 ```
@@ -297,5 +291,8 @@ config.add_observer 'ReputationChangeObserver'
 
 # To-do List
 
+## Pre 2.0.0
+
+* Take out `last_granted` and `top_scored` method into a wiki page
 * Move level from meritable model into Sash
 * `ActivityLog` should replace `add_points` `log` parameter
