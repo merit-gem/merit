@@ -9,7 +9,7 @@ module Merit
     # DEPRECATED: `top_scored` will be removed from merit, please refer to:
     # https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard
     def self.top_scored(options = {})
-      warn '[DEPRECATION] `top_scored` will be removed from merit, please refer to: https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard'
+      warn '[merit] [DEPRECATION] `top_scored` will be removed from merit, please refer to: https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard'
       options[:table_name] ||= :users
       options[:since_date] ||= 1.month.ago
       options[:limit]      ||= 10

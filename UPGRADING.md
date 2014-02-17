@@ -2,10 +2,11 @@
 
 ## 1.9.0 (not released yet)
 
-* Introduces new deprecation warnings for `Merit::Badge.last_granted` and
-  `Merit::Score.top_scored`. Code can be added to client applications following instructions in:
+* Deprecates `Merit::Badge.last_granted` and `Merit::Score.top_scored`.
+  Code can be readded to client applications following instructions in:
   https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard
   https://github.com/tute/merit/wiki/How-to-show-last-granted-badges
+* Deprecates `add_points` `log` parameter.
 
 ## 1.8.0
 

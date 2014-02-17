@@ -188,6 +188,7 @@ score proc, on: 'photos#create'
 ```ruby
 # Score manually
 current_user.add_points(20, 'Optional log message', 'Optional category')
+# Deprecates `add_points` `log` parameter.
 current_user.subtract_points(10)
 ```
 
@@ -298,4 +299,3 @@ config.add_observer 'ReputationChangeObserver'
 ## Pre 2.0.0
 
 * Move level from meritable model into Sash
-* `ActivityLog` should replace `add_points` `log` parameter
