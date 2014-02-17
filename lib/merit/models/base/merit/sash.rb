@@ -10,12 +10,16 @@ module Merit
         badges_sashes.map(&:badge_id)
       end
 
+      # Retrieve the number of points from a category
+      # Category 'default' is used by default
+      # @category [String] The category you want to retrieve points
       def points(category = 'default')
-        if category == :all
-          scores.inject(0) { |sum, score| sum + score.points }
-        else
-          scores.where(category: category).first.points
-        end
+        s = scores.where(category: category).first
+        !s.nil? ? s.points : 0
+      end
+      
+      def all_points
+        return scores.inject(0) { |sum, score| sum + score.points }
       end
 
       def add_points(num_points, log = 'Manually granted', category = 'default')

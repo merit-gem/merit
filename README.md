@@ -165,8 +165,7 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 * `:model_name` (optional) to specify the model name if it cannot be guessed
   from the controller. (e.g. `model_name: 'User'` for `RegistrationsController`,
   or `model_name: 'Comment'` for `Api::CommentsController`)
-* `:category` the score category in which you want to put the points in. `default` category by default.
-  Category `:all` cannot be used.
+* `:category` (optional) to categorize earned points. `default` is used by default.
 * `&block`
   * empty (always scores)
   * a block which evaluates to boolean (recieves target object as parameter)
@@ -206,13 +205,15 @@ score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
 
 ## Displaying Points
 
-Meritable models have a `points` method which returns an integer:
+Meritable models have a `points`, and a `all_points` methods which returns an integer:
 
 ```erb
 <%= current_user.points('Optional category') %>
 ```
 
-Note : Use category `:all` to sum all points through categories.
+```erb
+<%= current_user.all_points %>
+```
 
 # Rankings
 
