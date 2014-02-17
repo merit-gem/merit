@@ -293,6 +293,5 @@ config.add_observer 'ReputationChangeObserver'
 
 ## Pre 2.0.0
 
-* Take out `last_granted` and `top_scored` method into a wiki page
 * Move level from meritable model into Sash
 * `ActivityLog` should replace `add_points` `log` parameter
