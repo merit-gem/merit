@@ -37,8 +37,10 @@ module Merit
         badge
       end
 
-      # Last badges granted
+      # DEPRECATED: `last_granted` will be removed from merit, please refer to:
+      # https://github.com/tute/merit/wiki/How-to-show-last-granted-badges
       def last_granted(options = {})
+        warn '[DEPRECATION] `last_granted` will be removed from merit, please refer to: https://github.com/tute/merit/wiki/How-to-show-last-granted-badges'
         options[:since_date] ||= 1.month.ago
         options[:limit]      ||= 10
         BadgesSash.last_granted(options)

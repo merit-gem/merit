@@ -1,4 +1,18 @@
-# Upgrading
+# Main Changes / Upgrading Notes
+
+## 1.9.0 (not released yet)
+
+* Introduces new deprecation warnings for `Merit::Badge.last_granted` and
+  `Merit::Score.top_scored`. Code can be added to client applications following instructions in:
+  https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard
+  https://github.com/tute/merit/wiki/How-to-show-last-granted-badges
+
+## 1.8.0
+
+* Completes implementation of observer patter for getting reputation grant
+  notifications to the client app. See: https://github.com/tute/merit#getting-
+  notifications.
+* Work on mongoid adapter (not yet ready), and other internals polishing.
 
 ## 1.7.0
 

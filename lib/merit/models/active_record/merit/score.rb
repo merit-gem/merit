@@ -6,13 +6,10 @@ module Merit
              dependent: :destroy,
              class_name: 'Merit::Score::Point'
 
-    # Meant to display a leaderboard. Accepts options :table_name (users by
-    # default), :since_date (1.month.ago by default) and :limit (10 by
-    # default).
-    #
-    # It lists top 10 scored objects in the last month, unless you change
-    # query parameters.
+    # DEPRECATED: `top_scored` will be removed from merit, please refer to:
+    # https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard
     def self.top_scored(options = {})
+      warn '[DEPRECATION] `top_scored` will be removed from merit, please refer to: https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard'
       options[:table_name] ||= :users
       options[:since_date] ||= 1.month.ago
       options[:limit]      ||= 10
