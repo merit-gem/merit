@@ -165,8 +165,8 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 * `:model_name` (optional) to specify the model name if it cannot be guessed
   from the controller. (e.g. `model_name: 'User'` for `RegistrationsController`,
   or `model_name: 'Comment'` for `Api::CommentsController`)
-* `:category` the score category in which you want to put the points in. `default` by default.
-  category name `:all` cannot be used.
+* `:category` the score category in which you want to put the points in. `default` category by default.
+  Category `:all` cannot be used.
 * `&block`
   * empty (always scores)
   * a block which evaluates to boolean (recieves target object as parameter)
