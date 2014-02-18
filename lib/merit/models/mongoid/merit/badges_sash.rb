@@ -5,7 +5,11 @@ module Merit
     include Base::BadgesSash
 
     field :badge_id,      type: Integer
-    attr_accessible :badge_id
+
+    if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
+      attr_accessible :badge_id
+    end
+
     has_many :activity_logs, class_name: 'Merit::ActivityLog', as: :related_change
 
     def self.last_granted(options = {})
