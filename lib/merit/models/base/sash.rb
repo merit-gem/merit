@@ -11,16 +11,14 @@ module Merit
       end
 
       # Retrieve the number of points from a category
-      # Category 'default' is used by default
-      # Use :all to sum all points
-      # @param category [String] The category or :all
-      # @return [Integer] the number of points
-      def points(category = 'default')
-        if category == :all
-          # Note that if category is "all", will go on the else branch
-          scores.inject(0) { |sum, score| sum + score.points }
-        else
+      # By default all points are summed up
+      # @param category [String] The category
+      # @return [Integer] The number of points
+      def points(options={})
+        if (category = options[:category])
           scores.where(category: category).first.try(:points) || 0
+        else
+          scores.inject(0) { |sum, score| sum + score.points }
         end
       end
 

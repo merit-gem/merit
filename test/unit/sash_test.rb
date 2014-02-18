@@ -10,7 +10,7 @@ class SashTest < ActiveSupport::TestCase
 
     describe "when category specified" do
 
-      it "should create a new point, in the score with specified category" do
+      it "should create a new Point with specified category" do
         @sash.add_points 5, 'cat-et-gory'
         s = Merit::Score.last
         p = s.score_points.last
@@ -21,7 +21,7 @@ class SashTest < ActiveSupport::TestCase
 
     end
 
-    it "should create a new point" do
+    it "should create a new Point in category default with specified number of points" do
       assert_difference("Merit::Score::Point.count", 1) { @sash.add_points 5 }
       s = Merit::Score.last
       p = s.score_points.last
@@ -34,36 +34,24 @@ class SashTest < ActiveSupport::TestCase
 
   describe "#points" do
 
+    before do
+      @sash.add_points 5, 'cat-et-gory'
+      @sash.add_points 7
+    end
+
+
     describe "when category specified" do
 
       it "should retrieve the number of points of the category" do
-        @sash.add_points 5, 'cat-et-gory'
-
-        assert_equal 0, @sash.points
-        assert_equal 5, @sash.points('cat-et-gory')
+        assert_equal 5, @sash.points(category: 'cat-et-gory')
       end
 
     end
 
-    it "should retrieve the number of points of category default" do
-      @sash.add_points 5
-
-      assert_equal 5, @sash.points
-    end
-
-  end
-
-  describe "#all_points" do
-
     it "should retrieve the sum of points of all categories" do
-      @sash.add_points 5, 'cat-et-gory'
-      @sash.add_points 7
-
-      assert_equal 12, @sash.points(:all)
+      assert_equal 12, @sash.points
     end
 
   end
 
 end
-
-

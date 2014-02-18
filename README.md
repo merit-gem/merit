@@ -202,13 +202,13 @@ score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
 Meritable models have a `points` method which returns an integer:
 
 ```erb
-<%= current_user.points('Optional category') %>
+<%= current_user.points(category: 'Optional category') %>
 ```
 
-You can also display the sum of points of all categories:
+If `category` left empty, it will return the sum of points for every category.
 
 ```erb
-<%= current_user.points(:all) %>
+<%= current_user.points %>
 ```
 
 # Rankings
