@@ -12,7 +12,7 @@ module Merit
 
       # Retrieve the number of points from a category
       # Category 'default' is used by default
-      # Use :all tu sum all points
+      # Use :all to sum all points
       # @category [String] The category you want to retrieve points
       def points(category = 'default')
         if category == :all
