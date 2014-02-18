@@ -187,9 +187,10 @@ score proc, on: 'photos#create'
 
 ```ruby
 # Score manually
-current_user.add_points(20, 'Optional log message', 'Optional category')
+current_user.add_points(20, 'Manually granted', 'Optional category')
 # Deprecates `add_points` `log` parameter.
 current_user.subtract_points(10)
+
 ```
 
 ```ruby
@@ -200,14 +201,16 @@ score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
 
 ## Displaying Points
 
-Meritable models have a `points`, and a `all_points` methods which returns an integer:
+Meritable models have a `points` method which returns an integer:
 
 ```erb
 <%= current_user.points('Optional category') %>
 ```
 
+You can also display the sum of points of all categories:
+
 ```erb
-<%= current_user.all_points %>
+<%= current_user.points(:all) %>
 ```
 
 # Rankings

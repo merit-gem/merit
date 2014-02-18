@@ -12,14 +12,15 @@ module Merit
 
       # Retrieve the number of points from a category
       # Category 'default' is used by default
+      # Use :all tu sum all points
       # @category [String] The category you want to retrieve points
       def points(category = 'default')
-        s = scores.where(category: category).first
-        !s.nil? ? s.points : 0
-      end
-      
-      def all_points
-        return scores.inject(0) { |sum, score| sum + score.points }
+        if category == :all
+          # Note that if category is "all", will go on the else branch
+          scores.inject(0) { |sum, score| sum + score.points }
+        else
+          s = scores.where(category: category).first.try(:points) || 0
+        end
       end
 
       def add_points(num_points, log = 'Manually granted', category = 'default')
