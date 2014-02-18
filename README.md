@@ -187,8 +187,8 @@ score proc, on: 'photos#create'
 
 ```ruby
 # Score manually
-current_user.add_points(20)
-current_user.subtract_points(10)
+current_user.add_points(20, 'Optional category')
+current_user.subtract_points(10, 'Optional category')
 ```
 
 ```ruby

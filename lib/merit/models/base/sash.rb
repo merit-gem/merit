@@ -24,26 +24,21 @@ module Merit
         end
       end
 
-      def add_points(num_points, log = 'Manually granted', category = 'default')
-        if log != 'Manually granted'
-          warn '[merit] [DEPRECATION] `add_points` `log` parameter is deprecated'
-        end
-
+      def add_points(num_points, category = 'default')
         point = Merit::Score::Point.new
-        point.log = log
         point.num_points = num_points
         scores.where(category: category).first_or_create.score_points << point
         point
       end
 
       # DEPRECATED: Please use <tt>subtract_points</tt> instead.
-      def substract_points(num_points, log = 'Manually granted', category = 'default')
+      def substract_points(num_points, category = 'default')
         warn '[merit] [DEPRECATION] `substract_points` is deprecated.  Please use `subtract_points` instead.'
-        subtract_points num_points, log, category
+        subtract_points num_points, category
       end
 
-      def subtract_points(num_points, log = 'Manually granted', category = 'default')
-        add_points(-num_points, log, category)
+      def subtract_points(num_points, category = 'default')
+        add_points(-num_points, category)
       end
 
       private
