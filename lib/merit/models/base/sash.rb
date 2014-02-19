@@ -29,12 +29,6 @@ module Merit
         point
       end
 
-      # DEPRECATED: Please use <tt>subtract_points</tt> instead.
-      def substract_points(num_points, category = 'default')
-        warn '[merit] [DEPRECATION] `substract_points` is deprecated.  Please use `subtract_points` instead.'
-        subtract_points num_points, category
-      end
-
       def subtract_points(num_points, category = 'default')
         add_points(-num_points, category)
       end

@@ -18,7 +18,7 @@ module Merit
     # Delegate methods from meritable models to their sash
     def _merit_delegate_methods_to_sash
       methods = %w(badge_ids badges points add_badge rm_badge
-                   add_points substract_points subtract_points)
+                   add_points subtract_points)
       methods.each { |method| delegate method, to: :_sash }
     end
 
