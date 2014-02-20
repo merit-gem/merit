@@ -1,3 +1,6 @@
+require File.expand_path("../../../base/merit/sash", __FILE__)
+require File.expand_path("../../../base/merit/badges_sash", __FILE__)
+
 module Merit
   class BadgesSash < ActiveRecord::Base
     include Base::BadgesSash
