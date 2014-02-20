@@ -1,3 +1,6 @@
+require File.expand_path("../../../base/sash", __FILE__)
+require File.expand_path("../../../base/badges_sash", __FILE__)
+
 module Merit
   class BadgesSash
     include Mongoid::Document

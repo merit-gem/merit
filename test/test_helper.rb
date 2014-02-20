@@ -28,5 +28,10 @@ Capybara.default_selector = :css
 
 ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
 
+require "merit/models/#{Merit.orm}/merit/activity_log"
+require "merit/models/#{Merit.orm}/merit/badges_sash"
+require "merit/models/#{Merit.orm}/merit/sash"
+require "merit/models/#{Merit.orm}/merit/score"
+
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
