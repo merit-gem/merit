@@ -80,4 +80,38 @@ class SashTest < ActiveSupport::TestCase
 
   end
 
+  describe "#score_points" do
+
+    before do
+      @point1 = @sash.add_points 5, category: 'cat-et-gory'
+      @point2 = @sash.add_points 7
+    end
+
+    describe "when category specified" do
+
+      it "should return the points of the category" do
+        assert_equal 1, @sash.score_points(category: 'cat-et-gory').size
+        assert @sash.score_points(category: 'cat-et-gory').include? @point1
+        assert(!@sash.score_points(category: 'cat-et-gory').include?(@point2))
+      end
+
+      it "should return no Points if category doesn't exist" do
+        assert_equal 0, @sash.score_points(category: 'cat').size
+      end
+
+    end
+
+    it "should return all points" do
+      assert_equal 2, @sash.score_points.size
+      assert @sash.score_points.include? @point2
+      assert @sash.score_points.include? @point1
+    end
+
+    it "should return no Points if no points found" do
+      @sash1 = Merit::Sash.create
+      assert_equal 0, @sash1.score_points.size
+    end
+
+  end
+
 end

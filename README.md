@@ -193,7 +193,7 @@ current_user.subtract_points(10, category: 'Optional category')
 
 ```ruby
 # Query awarded points since a given date
-score_points = current_user.sash.scores.where(category: 'default').score_points
+score_points = current_user.score_points(category: 'Optional category')
 score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
 ```
 
