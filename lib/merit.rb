@@ -10,6 +10,8 @@ require 'merit/reputation_change_observer'
 require 'merit/sash_finder'
 require 'merit/base_target_finder'
 require 'merit/target_finder'
+require 'merit/models/base/sash'
+require 'merit/models/base/badges_sash'
 
 module Merit
   def self.setup
@@ -70,7 +72,7 @@ module Merit
 
   class Engine < Rails::Engine
     config.app_generators.orm Merit.orm
-    config.autoload_paths << File.expand_path("../lib/merit/models/#{Merit.orm}", __FILE__)
+    config.eager_load_paths << File.expand_path("../merit/models/#{Merit.orm}", __FILE__)
 
     initializer 'merit.controller' do |app|
       extend_orm_with_has_merit
