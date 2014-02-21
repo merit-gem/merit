@@ -22,15 +22,15 @@ module Merit
         end
       end
 
-      def add_points(num_points, category = 'default')
+      def add_points(num_points, options={})
         point = Merit::Score::Point.new
         point.num_points = num_points
-        scores.where(category: category).first_or_create.score_points << point
+        scores.where(category: options.fetch(:category) { 'default' }).first_or_create.score_points << point
         point
       end
 
-      def subtract_points(num_points, category = 'default')
-        add_points(-num_points, category)
+      def subtract_points(num_points, options={})
+        add_points(-num_points, options)
       end
 
       private

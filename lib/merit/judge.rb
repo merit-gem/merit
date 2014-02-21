@@ -25,7 +25,7 @@ module Merit
     def apply_points
       return unless rule_applies?
       sashes.each do |sash|
-        point = sash.add_points points, category
+        point = sash.add_points points, category: category
         notify_observers(
           description: "granted #{points} points",
           merit_object: point,

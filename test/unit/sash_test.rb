@@ -11,7 +11,7 @@ class SashTest < ActiveSupport::TestCase
     describe "when category specified" do
 
       it "should create a new Point with specified category" do
-        @sash.add_points 5, 'cat-et-gory'
+        @sash.add_points 5, category: 'cat-et-gory'
         s = Merit::Score.last
         p = s.score_points.last
 
@@ -32,10 +32,36 @@ class SashTest < ActiveSupport::TestCase
 
   end
 
+  describe "#subtract_points" do
+
+    describe "when category specified" do
+
+      it "should create a new Point with specified category" do
+        @sash.subtract_points 5, category: 'cat-et-gory'
+        s = Merit::Score.last
+        p = s.score_points.last
+
+        assert_equal p.num_points, -5
+        assert_equal s.category, 'cat-et-gory'
+      end
+
+    end
+
+    it "should create a new Point in category default with inverse of specified number of points" do
+      assert_difference("Merit::Score::Point.count", 1) { @sash.subtract_points 5 }
+      s = Merit::Score.last
+      p = s.score_points.last
+
+      assert_equal p.num_points, -5
+      assert_equal s.category, 'default'
+    end
+
+  end
+
   describe "#points" do
 
     before do
-      @sash.add_points 5, 'cat-et-gory'
+      @sash.add_points 5, category: 'cat-et-gory'
       @sash.add_points 7
     end
 
