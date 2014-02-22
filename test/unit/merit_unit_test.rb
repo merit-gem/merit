@@ -28,39 +28,6 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert Merit::Badge.method_defined?(:players), 'Badge#players should be defined'
   end
 
-  test 'Badge#last_granted returns recently granted badges' do
-    # Create sashes, badges and badges_sashes
-    sash = Merit::Sash.create
-    badge = Merit::Badge.create(id: 20, name: 'test-badge-21')
-    sash.add_badge badge.id
-    Merit::BadgesSash.last.update_attribute :created_at, 1.day.ago
-    sash.add_badge badge.id
-    Merit::BadgesSash.last.update_attribute :created_at, 8.days.ago
-    sash.add_badge badge.id
-    Merit::BadgesSash.last.update_attribute :created_at, 15.days.ago
-
-    # Test method options
-    assert_equal Merit::Badge.last_granted(since_date: Time.now), []
-    assert_equal Merit::Badge.last_granted(since_date: 1.week.ago), [badge]
-    assert_equal Merit::Badge.last_granted(since_date: 2.weeks.ago).count, 2
-    assert_equal Merit::Badge.last_granted(since_date: 2.weeks.ago, limit: 1), [badge]
-  end
-
-  test 'Merit::Score.top_scored returns scores leaderboard' do
-    # Create sashes and add points
-    sash_1 = Merit::Sash.create
-    sash_1.add_points(10); sash_1.add_points(10)
-    sash_2 = Merit::Sash.create
-    sash_2.add_points(5); sash_2.add_points(5)
-
-    # Test method options
-    assert_equal [{'sash_id'=>sash_1.id, 'sum_points'=>20},
-      {'sash_id'=>sash_2.id, 'sum_points'=>10}],
-      Merit::Score.top_scored(table_name: :sashes)
-    assert_equal  [{'sash_id'=>sash_1.id, 'sum_points'=>20}],
-      Merit::Score.top_scored(table_name: :sashes, limit: 1)
-  end
-
   test 'unknown ranking raises exception' do
     class WeirdRankRules
       include Merit::RankRulesMethods
