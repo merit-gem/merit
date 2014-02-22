@@ -28,7 +28,6 @@ and Rankings.
     - [Displaying Rankings](#displaying-rankings)
 - [Getting Notifications](#getting-notifications)
 - [Uninstalling Merit](#uninstalling-merit)
-- [To-do List](#to-do-list)
 
 
 # Installation
@@ -293,10 +292,3 @@ config.add_observer 'ReputationChangeObserver'
 3. Run `rails g merit:remove MODEL_NAME` (e.g. `user`)
 4. Run `rake db:migrate`
 5. Remove `merit` from your Gemfile
-
-
-# To-do List
-
-## Pre 2.0.0
-
-* Move level from meritable model into Sash

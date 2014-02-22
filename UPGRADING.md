@@ -1,6 +1,13 @@
 # Main Changes / Upgrading Notes
 
-## 1.9.0 (not released yet)
+## 2.0.0
+
+* Removes deprecated methods: `Merit::Badge.last_granted` and
+  `Merit::Score.top_scored`.
+* Removes `add_points` `log` parameter.
+* Adds points category option.
+
+## 1.9.0
 
 * Deprecates `Merit::Badge.last_granted` and `Merit::Score.top_scored`.
   Code can be readded to client applications following instructions in:

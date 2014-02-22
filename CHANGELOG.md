@@ -1,5 +1,16 @@
 # Changelog
 
+## 2.0.0
+
+- [#146] Fixes loading paths
+- [#140] Points Categories feature
+- Removes deprecated methods
+
+## 1.9.0
+
+- [#134] Bug fix: find sashes only when rules apply.
+- Adds deprecation warnings.
+
 ## 1.8.0
 
 - [#128] Finishes Observer implementation so client applications can be
