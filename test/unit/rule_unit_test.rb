@@ -32,7 +32,7 @@ describe Merit::Rule do
   describe '#badge' do
     it 'raises exception on inexistent badge' do
       @rule.badge_name = 'inexistent'
-      ->{ @rule.badge }.must_raise Merit::BadgeNotFound
+      -> { @rule.badge }.must_raise Merit::BadgeNotFound
     end
 
     it 'finds related badge' do

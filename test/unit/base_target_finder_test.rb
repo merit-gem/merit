@@ -1,7 +1,6 @@
 require 'test_helper'
 
 describe Merit::BaseTargetFinder do
-
   describe '#find' do
     describe 'rule has a model_name' do
       it "should prioritize the rule's model name" do
@@ -39,7 +38,6 @@ describe Merit::BaseTargetFinder do
         rule.to = :itself
         rule.model_name = 'registrations'
         action = Merit::Action.new(target_model: 'users', target_id: 220)
-        comment = Comment.new
 
         finder = Merit::BaseTargetFinder.new(rule, action)
         Rails.logger.expects(:warn)
@@ -47,5 +45,4 @@ describe Merit::BaseTargetFinder do
       end
     end
   end
-
 end

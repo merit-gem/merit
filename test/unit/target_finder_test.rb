@@ -1,7 +1,6 @@
 require 'test_helper'
 
 describe Merit::TargetFinder do
-
   describe '#find' do
     describe 'rule#to is :itself' do
       it 'should return the base target' do
@@ -11,9 +10,10 @@ describe Merit::TargetFinder do
 
         comment = Comment.new
 
-        Merit::BaseTargetFinder.
-          stubs(:find).with(rule, action).
-          returns(comment)
+        Merit::BaseTargetFinder
+          .stubs(:find)
+          .with(rule, action)
+          .returns(comment)
 
         finder = Merit::TargetFinder.new(rule, action)
         collection = finder.find
@@ -94,5 +94,4 @@ describe Merit::TargetFinder do
       end
     end
   end
-
 end

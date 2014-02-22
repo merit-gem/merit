@@ -25,13 +25,6 @@ module Merit
     def _merit_active_record_specific_config
     end
 
-    def _merit_mongo_mapper_specific_config
-      plugin Merit
-      key :sash_id, String
-      key :points, Integer, default: 0
-      key :level, Integer, default: 0
-    end
-
     def _merit_mongoid_specific_config
       field :level, type: Integer, default: 0
       def find_by_id(id)
