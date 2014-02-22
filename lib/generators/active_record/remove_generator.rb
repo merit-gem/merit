@@ -13,8 +13,11 @@ module ActiveRecord
       end
 
       def copy_migrations_and_model
-        migration_template 'remove_merit_tables.rb', 'db/migrate/remove_merit_tables.rb'
-        migration_template 'remove_fields_from_model.rb', "db/migrate/remove_fields_from_#{table_name}"
+        migration_template 'remove_merit_tables.rb',
+                           'db/migrate/remove_merit_tables.rb'
+
+        migration_template 'remove_fields_from_model.rb',
+                           "db/migrate/remove_fields_from_#{table_name}"
       end
     end
   end

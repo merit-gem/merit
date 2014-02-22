@@ -6,7 +6,7 @@ module Merit
     belongs_to :related_change, polymorphic: true
     has_one :sash, through: :related_change
 
-    if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
+    if show_attr_accessible?
       attr_accessible :action_id, :related_change, :description, :created_at
     end
   end

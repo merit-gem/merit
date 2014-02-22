@@ -4,7 +4,7 @@ module Merit
 
     has_many :activity_logs, class_name: 'Merit::ActivityLog'
 
-    if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
+    if show_attr_accessible?
       attr_accessible :user_id, :action_method, :action_value, :had_errors,
                       :target_model, :target_id, :processed, :log
     end

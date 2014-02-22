@@ -18,7 +18,7 @@ class Comment
 
   belongs_to :user
 
-  if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
+  if show_attr_accessible?
     attr_accessible :name, :comment, :user_id, :votes
   end
 

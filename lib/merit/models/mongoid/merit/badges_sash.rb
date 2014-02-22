@@ -6,9 +6,7 @@ module Merit
 
     field :badge_id,      type: Integer
 
-    if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
-      attr_accessible :badge_id
-    end
+    attr_accessible :badge_id if show_attr_accessible?
 
     has_many :activity_logs, class_name: 'Merit::ActivityLog', as: :related_change
 

@@ -9,7 +9,7 @@ module Merit
       # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
       belongs_to :sash, class_name: 'Merit::Sash'
 
-      _merit_orm_specific_config
+      send :"_merit_#{Merit.orm}_specific_config"
       _merit_delegate_methods_to_sash
       _merit_define_badge_related_entries_method
       _merit_sash_initializer
@@ -22,23 +22,31 @@ module Merit
       methods.each { |method| delegate method, to: :_sash }
     end
 
-    def _merit_orm_specific_config
-      if Merit.orm == :mongo_mapper
-        plugin Merit
-        key :sash_id, String
-        key :points, Integer, default: 0
-        key :level, Integer, default: 0
-      elsif Merit.orm == :mongoid
-        field :level, type: Integer, default: 0
-        def find_by_id(id)
-          where(_id: id).first
-        end
+    def _merit_active_record_specific_config
+    end
+
+    def _merit_mongo_mapper_specific_config
+      plugin Merit
+      key :sash_id, String
+      key :points, Integer, default: 0
+      key :level, Integer, default: 0
+    end
+
+    def _merit_mongoid_specific_config
+      field :level, type: Integer, default: 0
+      def find_by_id(id)
+        where(_id: id).first
       end
     end
 
     def _merit_define_badge_related_entries_method
       meritable_class_name = name.demodulize
       Badge._define_related_entries_method(meritable_class_name)
+    end
+
+    def show_attr_accessible?
+      defined?(ProtectedAttributes) ||
+        !defined?(ActionController::StrongParameters)
     end
 
     # _sash initializes a sash if doesn't have one yet.

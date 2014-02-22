@@ -17,7 +17,7 @@ class User
   has_many :addresses
   has_many :comments
 
-  if defined?(ProtectedAttributes) || !defined?(ActionController::StrongParameters)
+  if show_attr_accessible?
     attr_accessible :name
   end
 

@@ -5,7 +5,9 @@ module Merit
       hook_for :orm
 
       def inject_merit_content
-        inject_into_class(model_path, class_name, "  has_merit\n\n") if model_exists?
+        if model_exists?
+          inject_into_class(model_path, class_name, "  has_merit\n\n")
+        end
       end
 
       private
