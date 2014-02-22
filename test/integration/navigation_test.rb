@@ -186,6 +186,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first
     assert_equal 46, user.points, 'Voting comments should grant 5 points for voted, and 1 point for voting'
+    assert_equal 5, user.points(category: 'vote'), 'Voting comments should grant 5 points for voted in vote category'
 
     visit '/comments/new'
     fill_in 'Name', with: 'Hi'
