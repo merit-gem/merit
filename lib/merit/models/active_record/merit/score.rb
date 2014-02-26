@@ -16,6 +16,7 @@ module Merit
       has_many :activity_logs,
                class_name: 'Merit::ActivityLog',
                as: :related_change
+      delegate :sash_id, to: :score
     end
   end
 end
