@@ -266,17 +266,31 @@ To do so, add your observer (to `app/models` or `app/observers`, for example):
 # reputation_change_observer.rb
 class ReputationChangeObserver
   def update(changed_data)
-    # `changed_data[:description]` holds information on what changed
-    # badges granted or removed, points changed.
+    # description will be something like:
+    #   granted 5 points
+    #   granted just-registered badge
+    #   removed autobiographer badge
+    description = changed_data[:description]
 
-    # `changed_data[:merit_object]` reputation related object created by merit.
-    # It responds to `sash_id` and `sash`. From there you can get to your
-    # application object that had it's reputation changed, for example:
-    # sash_id = changed_data[:merit_object].sash_id
-    # User.where(sash_id: sash_id).first
+    # If user is your meritable model, you can grab it like:
+    if changed_data[:merit_object]
+      sash_id = changed_data[:merit_object].sash_id
+      user = User.where(sash_id: sash_id).first
+    end
 
-    # You may use this to fill a timeline with notifications for users, send
-    # emails, etc.
+    # To know where and when it happened:
+    merit_action = Merit::Action.find changed_data[:merit_action_id]
+    controller = merit_action.target_model
+    action = merit_action.action_method
+    when = merit_action.created_at
+
+    # From here on, you can create a new Notification assuming that's an
+    # ActiveRecord Model in your app, send an email, etc. For example:
+    Notification.create(
+      user: user,
+      what: description,
+      where: "#{controller}##{action}",
+      when: when)
   end
 end
 ```
@@ -284,6 +298,10 @@ end
 # In `config/initializers/merit.rb`
 config.add_observer 'ReputationChangeObserver'
 ```
+
+TODO: Improve API sending in `changed_data` concrete data instead of merit
+objects.
+
 
 # Uninstalling Merit
 
