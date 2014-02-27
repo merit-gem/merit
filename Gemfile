@@ -27,7 +27,7 @@ end
 
 group :development, :test do
   gem 'activerecord-jdbcsqlite3-adapter', :platforms => [:jruby]
-  gem 'sqlite3', :platforms => [:ruby, :mswin, :mingw]
+  gem 'sqlite3', '1.3.8', :platforms => [:ruby, :mswin, :mingw]
 end
 
 platforms :rbx do
