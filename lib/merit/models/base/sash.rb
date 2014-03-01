@@ -21,20 +21,6 @@ module Merit
         end
       end
 
-      # Retrieve all points from a category or none if category doesn't exist
-      # By default retrieve all Points
-      # @param category [String] The category
-      # @return [ActiveRecord::Relation] containing the points
-      def score_points(options = {})
-        scope = Merit::Score::Point
-                  .includes(:score)
-                  .where('merit_scores.sash_id = ?', id)
-        if (category = options[:category])
-          scope = scope.where('merit_scores.category = ?', category)
-        end
-        scope
-      end
-
       def add_points(num_points, options = {})
         point = Merit::Score::Point.new
         point.num_points = num_points

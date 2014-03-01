@@ -5,7 +5,7 @@ module Merit
 
     field :category, type: String, default: 'default'
 
-    belongs_to :sash
+    belongs_to :sash, class_name: 'Merit::Sash'
     has_many :score_points, class_name: 'Merit::Score::Point', dependent: :destroy
 
     # Meant to display a leaderboard. Accepts options :table_name (users by
@@ -36,6 +36,10 @@ module Merit
 
       belongs_to :score, class_name: 'Merit::Score'
       has_many :activity_logs, class_name: 'Merit::ActivityLog', as: :related_change
+
+      def sash_id
+        score.sash_id
+      end
     end
   end
 end

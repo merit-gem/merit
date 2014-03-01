@@ -26,7 +26,27 @@ require 'capybara/rails'
 Capybara.default_driver   = :rack_test
 Capybara.default_selector = :css
 
-ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
+Merit.orm = :active_record if Merit.orm.nil?
+
+def active_record_orm?
+  Merit.orm == :active_record
+end
+
+def mongoid_orm?
+  Merit.orm == :mongoid
+end
+
+require "orm/#{Merit.orm}"
+
+# TODO: tests loads active record and mongoid models in one model
+# from lib folder and mix methods from two orms. It is ugly hack,
+# but I can't find another solution. Need advise.
+if mongoid_orm?
+  Merit.send(:remove_const, :ActivityLog)
+  Merit.send(:remove_const, :BadgesSash)
+  Merit.send(:remove_const, :Sash)
+  Merit.send(:remove_const, :Score)
+end
 
 require "merit/models/#{Merit.orm}/merit/activity_log"
 require "merit/models/#{Merit.orm}/merit/badges_sash"

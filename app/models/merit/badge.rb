@@ -48,7 +48,19 @@ module Merit
 
       # Defines Badge#meritable_models method, to get related
       # entries with certain badge. For instance, Badge.find(3).users
+      # orm-specified
       def _define_related_entries_method(meritable_class_name)
+        send "_define_#{Merit.orm}_related", meritable_class_name
+      end
+
+      def _define_mongoid_related(meritable_class_name)
+        define_method(:"#{meritable_class_name.underscore.pluralize}") do
+          sashes = BadgesSash.where(badge_id: id).pluck(:sash_id)
+          meritable_class_name.constantize.where(:sash_id.in => sashes)
+        end
+      end
+
+      def _define_active_record_related(meritable_class_name)
         define_method(:"#{meritable_class_name.underscore.pluralize}") do
           sashes = BadgesSash.where(badge_id: id).pluck(:sash_id)
           meritable_class_name.constantize.where(sash_id: sashes)

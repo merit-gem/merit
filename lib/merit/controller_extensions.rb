@@ -48,10 +48,18 @@ module Merit
       target_id = target_object.try(:id)
       # If target_id is nil
       # then use params[:id].
-      if target_id.nil? && params[:id].to_s =~ /^[0-9]+$/
+      if target_id.nil? && send("check_#{Merit.orm}_id", params[:id])
         target_id = params[:id]
       end
       target_id
+    end
+
+    def check_active_record_id(id)
+      id.to_s =~ /^[0-9]+$/
+    end
+
+    def check_mongoid_id(id)
+      id.to_s =~ /^[0-9a-fA-F]{24}$/
     end
   end
 end
