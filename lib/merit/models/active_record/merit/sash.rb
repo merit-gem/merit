@@ -12,12 +12,6 @@ module Merit
 
     after_create :create_scores
 
-    def add_badge(badge_id)
-      bs = BadgesSash.new(badge_id: badge_id)
-      badges_sashes << bs
-      bs
-    end
-
     def rm_badge(badge_id)
       badges_sashes.find_by_badge_id(badge_id).try(:destroy)
     end

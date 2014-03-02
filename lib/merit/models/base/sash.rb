@@ -9,6 +9,12 @@ module Merit
         badges_sashes.map(&:badge_id)
       end
 
+      def add_badge(badge_id)
+        bs = Merit::BadgesSash.new(badge_id: badge_id)
+        badges_sashes << bs
+        bs
+      end
+
       # Retrieve the number of points from a category
       # By default all points are summed up
       # @param category [String] The category

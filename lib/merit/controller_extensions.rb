@@ -54,6 +54,7 @@ module Merit
       target_id
     end
 
+    # This check avoids trying to set a slug as integer FK
     def check_active_record_id(id)
       id.to_s =~ /^[0-9]+$/
     end

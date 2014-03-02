@@ -15,10 +15,6 @@ module Merit
 
     after_create :create_scores
 
-    def add_badge(badge_id)
-      badges_sashes.create(badge_id: badge_id)
-    end
-
     def rm_badge(badge_id)
       bs = badges_sashes.where(badge_id: badge_id).first
       badges_sashes.delete(bs) unless bs.nil?
@@ -33,7 +29,7 @@ module Merit
       if (category = options[:category])
         scope = scope.where(category: category)
       end
-      scope.map(&:score_points).flatten
+      Merit::Score::Point.where(:score_id.in => scope.map(&:_id))
     end
   end
 end

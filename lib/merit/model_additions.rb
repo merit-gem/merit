@@ -3,10 +3,16 @@ module Merit
 
   module ClassMethods
     def has_merit(options = {})
+      # MeritableModel#sash_id is more stable than Sash#meritable_model_id
+      # That's why MeritableModel belongs_to Sash. Can't use
+      # dependent: destroy as it may raise FK constraint exceptions. See:
+      # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
+      belongs_to :sash, class_name: 'Merit::Sash', inverse_of: nil
+
       send :"_merit_#{Merit.orm}_specific_config"
       _merit_delegate_methods_to_sash
       _merit_define_badge_related_entries_method
-      send :"_merit_#{Merit.orm}_sash_initializer"
+      _merit_sash_initializer
     end
 
     # Delegate methods from meritable models to their sash
@@ -17,16 +23,9 @@ module Merit
     end
 
     def _merit_active_record_specific_config
-      # MeritableModel#sash_id is more stable than Sash#meritable_model_id
-      # That's why MeritableModel belongs_to Sash. Can't use
-      # dependent: destroy as it may raise FK constraint exceptions. See:
-      # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
-      belongs_to :sash, class_name: 'Merit::Sash'
     end
 
     def _merit_mongoid_specific_config
-      belongs_to :sash, class_name: 'Merit::Sash', inverse_of: nil
-
       field :level, type: Integer, default: 0
       def find_by_id(id)
         where(_id: id).first
@@ -47,14 +46,7 @@ module Merit
     # From Rails 3.2 we can override association methods to do so
     # transparently, but merit supports Rails ~> 3.0.0. See:
     # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
-    def _merit_active_record_sash_initializer
-      define_method(:_sash) do
-        sash || update_attribute(:sash_id, Sash.create.id)
-        sash
-      end
-    end
-
-    def _merit_mongoid_sash_initializer
+    def _merit_sash_initializer
       define_method(:_sash) do
         sash || update_attributes(sash: Sash.create)
         sash

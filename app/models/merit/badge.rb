@@ -26,6 +26,14 @@ module Merit
       end
     end
 
+    def _mongoid_sash_in(sashes)
+      {:sash_id.in => sashes}
+    end
+
+    def _active_record_sash_in(sashes)
+      {sash_id: sashes}
+    end
+
     class << self
       def find_by_name_and_level(name, level)
         badges = Badge.by_name(name)
@@ -50,20 +58,9 @@ module Merit
       # entries with certain badge. For instance, Badge.find(3).users
       # orm-specified
       def _define_related_entries_method(meritable_class_name)
-        send "_define_#{Merit.orm}_related", meritable_class_name
-      end
-
-      def _define_mongoid_related(meritable_class_name)
         define_method(:"#{meritable_class_name.underscore.pluralize}") do
           sashes = BadgesSash.where(badge_id: id).pluck(:sash_id)
-          meritable_class_name.constantize.where(:sash_id.in => sashes)
-        end
-      end
-
-      def _define_active_record_related(meritable_class_name)
-        define_method(:"#{meritable_class_name.underscore.pluralize}") do
-          sashes = BadgesSash.where(badge_id: id).pluck(:sash_id)
-          meritable_class_name.constantize.where(sash_id: sashes)
+          meritable_class_name.constantize.where(send "_#{Merit.orm}_sash_in", sashes)
         end
       end
     end
