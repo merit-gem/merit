@@ -8,6 +8,7 @@ module Merit
       # dependent: destroy as it may raise FK constraint exceptions. See:
       # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
       belongs_to :sash, class_name: 'Merit::Sash', inverse_of: nil
+      attr_accessible :sash if show_attr_accessible?
 
       send :"_merit_#{Merit.orm}_specific_config"
       _merit_delegate_methods_to_sash

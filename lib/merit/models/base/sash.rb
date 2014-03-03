@@ -15,6 +15,11 @@ module Merit
         bs
       end
 
+      def rm_badge(badge_id)
+        bs = badges_sashes.where(badge_id: badge_id).first
+        badges_sashes.delete(bs) unless bs.nil?
+      end
+
       # Retrieve the number of points from a category
       # By default all points are summed up
       # @param category [String] The category

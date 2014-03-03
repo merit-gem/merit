@@ -12,18 +12,14 @@ module Merit
 
     after_create :create_scores
 
-    def rm_badge(badge_id)
-      badges_sashes.find_by_badge_id(badge_id).try(:destroy)
-    end
-
     # Retrieve all points from a category or none if category doesn't exist
     # By default retrieve all Points
     # @param category [String] The category
     # @return [ActiveRecord::Relation] containing the points
     def score_points(options = {})
       scope = Merit::Score::Point
-      .includes(:score)
-      .where('merit_scores.sash_id = ?', id)
+                .includes(:score)
+                .where('merit_scores.sash_id = ?', id)
       if (category = options[:category])
         scope = scope.where('merit_scores.category = ?', category)
       end

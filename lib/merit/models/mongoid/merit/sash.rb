@@ -15,11 +15,6 @@ module Merit
 
     after_create :create_scores
 
-    def rm_badge(badge_id)
-      bs = badges_sashes.where(badge_id: badge_id).first
-      badges_sashes.delete(bs) unless bs.nil?
-    end
-
     # Retrieve all points from a category or none if category doesn't exist
     # By default retrieve all Points
     # @param category [String] The category
