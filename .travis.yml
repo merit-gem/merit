@@ -11,8 +11,5 @@ env:
   - RAILS_VERSION=4.0-protected-attributes
   - ORM=active_record
   - ORM=mongoid
-matrix:
-  allow_failures:
-    - env: ORM=mongoid
 services:
   - mongodb

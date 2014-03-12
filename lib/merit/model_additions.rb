@@ -7,7 +7,8 @@ module Merit
       # That's why MeritableModel belongs_to Sash. Can't use
       # dependent: destroy as it may raise FK constraint exceptions. See:
       # https://rails.lighthouseapp.com/projects/8994-ruby-on-rails/tickets/1079-belongs_to-dependent-destroy-should-destroy-self-before-assocation
-      belongs_to :sash, class_name: 'Merit::Sash'
+      belongs_to :sash, class_name: 'Merit::Sash', inverse_of: nil
+      attr_accessible :sash if show_attr_accessible?
 
       send :"_merit_#{Merit.orm}_specific_config"
       _merit_delegate_methods_to_sash
@@ -48,7 +49,7 @@ module Merit
     # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
     def _merit_sash_initializer
       define_method(:_sash) do
-        sash || update_attribute(:sash_id, Sash.create.id)
+        sash || update_attributes(sash: Sash.create)
         sash
       end
     end

@@ -22,7 +22,7 @@ case ENV['ORM']
 when 'active_record'
   gem 'activerecord'
 when 'mongoid'
-  gem 'mongoid', '3.0.10'
+  gem 'mongoid', '3.1.0'
 end
 
 group :development, :test do

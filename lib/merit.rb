@@ -72,10 +72,10 @@ module Merit
 
   class Engine < Rails::Engine
     config.app_generators.orm Merit.orm
-    config.eager_load_paths << File.expand_path("../merit/models/#{Merit.orm}", __FILE__)
 
     initializer 'merit.controller' do |app|
       extend_orm_with_has_merit
+      require_models
       ActiveSupport.on_load(:action_controller) do
         begin
           # Load app rules on boot up
@@ -87,6 +87,15 @@ module Merit
           raise e unless e.to_s =~ /uninitialized constant Merit::BadgeRules/
         end
       end
+    end
+
+    def require_models
+      require 'merit/models/base/sash'
+      require 'merit/models/base/badges_sash'
+      require "merit/models/#{Merit.orm}/merit/activity_log"
+      require "merit/models/#{Merit.orm}/merit/badges_sash"
+      require "merit/models/#{Merit.orm}/merit/sash"
+      require "merit/models/#{Merit.orm}/merit/score"
     end
 
     def extend_orm_with_has_merit

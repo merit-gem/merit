@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class NavigationTest < ActiveSupport::IntegrationCase
+
   def tear_down
     DummyObserver.unstub(:update)
   end

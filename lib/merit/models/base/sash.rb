@@ -9,6 +9,16 @@ module Merit
         badges_sashes.map(&:badge_id)
       end
 
+      def add_badge(badge_id)
+        bs = Merit::BadgesSash.new(badge_id: badge_id)
+        badges_sashes << bs
+        bs
+      end
+
+      def rm_badge(badge_id)
+        badges_sashes.where(badge_id: badge_id).first.try(:destroy)
+      end
+
       # Retrieve the number of points from a category
       # By default all points are summed up
       # @param category [String] The category
@@ -19,20 +29,6 @@ module Merit
         else
           scores.reduce(0) { |sum, score| sum + score.points }
         end
-      end
-
-      # Retrieve all points from a category or none if category doesn't exist
-      # By default retrieve all Points
-      # @param category [String] The category
-      # @return [ActiveRecord::Relation] containing the points
-      def score_points(options = {})
-        scope = Merit::Score::Point
-                  .includes(:score)
-                  .where('merit_scores.sash_id = ?', id)
-        if (category = options[:category])
-          scope = scope.where('merit_scores.category = ?', category)
-        end
-        scope
       end
 
       def add_points(num_points, options = {})

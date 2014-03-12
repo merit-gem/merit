@@ -2,24 +2,14 @@ require 'test_helper'
 
 # TODO: Split different objects tests in it's own files
 class MeritUnitTest < ActiveSupport::TestCase
-  test 'extends only meritable ActiveRecord models' do
-    class User < ActiveRecord::Base
-      has_merit
-    end
-    class Fruit < ActiveRecord::Base
-    end
+  require "orm_models/#{Merit.orm}"
 
+  test 'extends only meritable models' do
     assert User.method_defined?(:points), 'has_merit adds methods'
     assert !Fruit.method_defined?(:points), 'other models aren\'t extended'
   end
 
   test 'Badges get "related_models" methods' do
-    class Soldier < ActiveRecord::Base
-      has_merit
-    end
-    class Player < ActiveRecord::Base
-      has_merit
-    end
     assert Merit::Badge.method_defined?(:soldiers), 'Badge#soldiers should be defined'
     assert Merit::Badge.method_defined?(:players), 'Badge#players should be defined'
   end
@@ -34,7 +24,7 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert_raises Merit::RankAttributeNotDefined do
       WeirdRankRules.new.check_rank_rules
     end
-  end
+  end if active_record_orm?
 
   test 'Badge#custom_fields_hash saves correctly' do
     Merit::Badge.create(id: 99,
