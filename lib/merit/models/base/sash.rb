@@ -16,8 +16,7 @@ module Merit
       end
 
       def rm_badge(badge_id)
-        bs = badges_sashes.where(badge_id: badge_id).first
-        badges_sashes.delete(bs) unless bs.nil?
+        badges_sashes.where(badge_id: badge_id).first.try(:destroy)
       end
 
       # Retrieve the number of points from a category
