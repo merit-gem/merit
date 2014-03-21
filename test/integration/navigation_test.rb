@@ -92,8 +92,17 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal 0, user.points
     assert_equal 2, Merit::Score::Point.count
 
-    # Make tenth comment, assert 10-commenter badge granted
+    # Tenth comment with errors doesn't change reputation
+    badges = user.reload.badges
+    points = user.points
     visit '/comments/new'
+    assert_no_difference('Merit::ActivityLog.count') do
+      click_button('Create Comment')
+    end
+    assert_equal badges, user.reload.badges
+    assert_equal points, user.points
+
+    # Tenth comment without errors, assert 10-commenter badge granted
     fill_in 'Name', with: 'Hi!'
     fill_in 'Comment', with: 'Hi bro!'
     fill_in 'User', with: user.id
