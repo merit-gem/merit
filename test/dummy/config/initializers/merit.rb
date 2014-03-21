@@ -43,9 +43,9 @@ badge_id = 0
   id: (badge_id = badge_id+1),
   name: 'gossip'
 }, {
-  id: (badge_id = badge_id+1),
+  id: (badge_id = badge_id + 1),
   name: 'lottery-winner',
-  description: "You won the lottery and get 10 points!",
+  description: 'You won the lottery and get 10 points!',
   points: 10
 }].each do |badge|
   Merit::Badge.create! badge

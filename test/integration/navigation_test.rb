@@ -40,7 +40,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user = User.create(name: 'test-user')
     assert_equal [], user.badges
 
-    badge = Merit::Badge.by_name("lottery-winner").first
+    badge = Merit::Badge.by_name('lottery-winner').first
     user.add_badge badge.id
     assert_equal badge.points, user.points
   end
@@ -62,7 +62,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     user = User.create(name: 'test-user')
     assert_equal [], user.badges
 
-    badge = Merit::Badge.by_name("lottery-winner").first
+    badge = Merit::Badge.by_name('lottery-winner').first
     user.add_badge badge.id
     user.rm_badge badge.id
     assert_equal 0, user.reload.points
