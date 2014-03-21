@@ -34,6 +34,40 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal [badge], user.reload.badges
   end
 
+  test 'Assigning a badge with a `points` attributes adds points' do
+    DummyObserver.any_instance.expects(:update).times 0
+
+    user = User.create(name: 'test-user')
+    assert_equal [], user.badges
+
+    badge = Merit::Badge.by_name("lottery-winner").first
+    user.add_badge badge.id
+    assert_equal badge.points, user.points
+  end
+
+  test 'Assigning a badge without a `points` attributes adds no points' do
+    DummyObserver.any_instance.expects(:update).times 0
+
+    user = User.create(name: 'test-user')
+    assert_equal [], user.badges
+
+    badge = Merit::Badge.first
+    user.add_badge badge.id
+    assert_equal 0, user.points
+  end
+
+  test 'Removing a badge with a `points` attributes subtracts points' do
+    DummyObserver.any_instance.expects(:update).times 0
+
+    user = User.create(name: 'test-user')
+    assert_equal [], user.badges
+
+    badge = Merit::Badge.by_name("lottery-winner").first
+    user.add_badge badge.id
+    user.rm_badge badge.id
+    assert_equal 0, user.reload.points
+  end
+
   test 'Remove inexistent badge should do nothing' do
     DummyObserver.any_instance.expects(:update).times 0
     user = User.create(name: 'test-user')
