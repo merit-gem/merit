@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'ambry',  '~> 0.3.0'
   s.add_development_dependency 'rails', '>= 3.2.0'
+  s.add_development_dependency 'jquery-rails', '~> 2.1'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'rubocop'
