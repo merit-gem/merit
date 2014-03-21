@@ -52,6 +52,7 @@ Create badges in `config/initializers/merit.rb`
 * `:name` this is how you reference the badge (required)
 * `:level` (optional)
 * `:description` (optional)
+* `:points` automatically add these points to the sash when the badge is granted and subtract these points when the badge is removed (optional)
 * `:custom_fields` hash of anything else you want associated with the badge (optional)
 
 ### Example
@@ -61,6 +62,7 @@ Merit::Badge.create!(
   id: 1,
   name: "Yearling",
   description: "Active member for a year",
+  points: 10,
   custom_fields: { difficulty: :silver }
 )
 ```
