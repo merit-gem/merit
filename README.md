@@ -78,13 +78,15 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb`
 * `'controller#action'` a string similar to Rails routes
 * `:badge` corresponds to the `:name` of the badge
 * `:level` corresponds to the `:level` of the badge
-* `:to` the object's field to give the badge to
-  * If you are putting badges on the related user then this field is probably
-    `:user`.
-  * Needs a variable named `@model` in the associated controller action, like
-    `@post` for `posts_controller.rb` or `@comment` for `comments_controller.rb`.
-    Implementation note: Merit finds the object with following snippet:
-    `instance_variable_get(:"@#{controller_name.singularize}")`.
+* `:to` the object's field to give the badge to. It needs a variable named
+  `@model` in the associated controller action, like `@post` for
+  `posts_controller.rb` or `@comment` for `comments_controller.rb`.
+  * Can be a method name, which called over the target object should retrieve
+    the object to badge. If it's `:user` for example, merit will internally
+    call `@model.user` to find who to badge.
+  * Can be `:itself`, in which case it badges the target object itself
+    (`@model`).
+  * Is `:action_user` by default, which means `current_user`.
 * `:model_name` define the controller's name if it's different from
   the model's (e.g. `RegistrationsController` for the `User` model).
 * `:multiple` whether or not the badge may be granted multiple times. `false` by default.
