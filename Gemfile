@@ -36,3 +36,5 @@ platforms :rbx do
   gem 'rubysl-test-unit'
   gem 'rubinius-developer_tools'
 end
+
+gem 'coveralls', require: false

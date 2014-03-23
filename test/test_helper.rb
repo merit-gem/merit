@@ -2,6 +2,9 @@
 ENV['RAILS_ENV'] = 'test'
 RUBYOPT="-w $RUBYOPT"
 
+require 'coveralls'
+Coveralls.wear!('rails')
+
 if ENV["COVERAGE"]
   require 'simplecov'
   SimpleCov.adapters.define 'rubygem' do

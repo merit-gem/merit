@@ -4,6 +4,8 @@ Merit adds reputation behavior to Rails apps in the form of Badges, Points,
 and Rankings.
 
 [![Build Status](https://travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
+[![Coverage
+Status](https://coveralls.io/repos/tute/merit/badge.png?branch=master)](https://coveralls.io/r/tute/merit?branch=master)
 [![Code Climate](https://codeclimate.com/github/tute/merit.png)](https://codeclimate.com/github/tute/merit)
 
 
