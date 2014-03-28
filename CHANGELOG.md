@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.0
+
+- [#148] Mongoid support
+- Docs, tests, internals polishing.
+
 ## 2.0.0
 
 - [#146] Fixes loading paths
