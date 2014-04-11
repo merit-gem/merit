@@ -36,9 +36,10 @@ module Merit
     def target_object
       target_obj = instance_variable_get(:"@#{controller_name.singularize}")
       if target_obj.nil?
-        str = '[merit] No object found, maybe you need a ' +
+        str = '[merit] No object found, you might need a ' +
           "'@#{controller_name.singularize}' variable in " +
-          "'#{controller_path}_controller'?"
+          "'#{controller_path}_controller' if no reputation is applied. " +
+          'If you are using `model_name` option in the rule this is ok.'
         Rails.logger.warn str
       end
       target_obj
