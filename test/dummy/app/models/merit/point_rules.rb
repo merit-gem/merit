@@ -7,7 +7,9 @@ module Merit
     include Merit::PointRulesMethods
 
     def initialize
-      # Thanks for voting point
+      # Thanks for voting point. Tests that both rules are called when both
+      # apply.
+      score 1, on: 'comments#vote'
       score 1, on: 'comments#vote'
 
       # All user's comments earn points

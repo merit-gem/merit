@@ -195,8 +195,10 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first
-    assert_equal 46, user.points, 'Voting comments should grant 5 points for voted, and 1 point for voting'
-    assert_equal 5, user.points(category: 'vote'), 'Voting comments should grant 5 points for voted in vote category'
+    assert_equal 47, user.points, 'Voting comments should grant 5 points for
+      voted, and 1 point for voting twice (repeated rule)'
+    assert_equal 5, user.points(category: 'vote'), 'Voting comments should
+      grant 5 points for voted in vote category'
 
     visit '/comments/new'
     fill_in 'Name', with: 'Hi'
@@ -205,7 +207,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_button('Create Comment')
 
     user = User.where(name: 'a').first
-    assert_equal 50, user.points, 'Commenting should grant the integer in comment points if comment is an integer'
+    assert_equal 51, user.points, 'Commenting should grant the integer in
+      comment points if comment is an integer'
   end
 
   test 'user workflow should grant levels at some times' do
@@ -246,14 +249,15 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'assigning points to a group of records' do
-    DummyObserver.any_instance.expects(:update).times 4
+    DummyObserver.any_instance.expects(:update).times 5
     commenter = User.create(name: 'commenter')
     comment_1 = commenter.comments.create(name: 'comment_1', comment: 'a')
     comment_2 = commenter.comments.create(name: 'comment_2', comment: 'b')
 
     visit comments_path
     # Thanks for voting point, to voted user and it's comments
-    assert_difference('Merit::ActivityLog.count', 4) do
+    # (repeated rule, called twice)
+    assert_difference('Merit::ActivityLog.count', 5) do
       within "tr#c_#{comment_2.id}" do
         click_link '1'
       end
