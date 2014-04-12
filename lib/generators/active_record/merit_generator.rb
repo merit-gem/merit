@@ -14,7 +14,7 @@ module ActiveRecord
 
       def copy_migrations_and_model
         migration_template 'add_fields_to_model.rb',
-                           "db/migrate/add_fields_to_#{table_name}"
+                           "db/migrate/add_fields_to_#{table_name}.rb"
       end
     end
   end
