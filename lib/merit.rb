@@ -36,7 +36,8 @@ module Merit
 
   # Define current_user_method
   def self.current_user_method
-    @config.current_user_method || "current_#{@config.user_model_name.downcase}".to_sym
+    @config.current_user_method ||
+      "current_#{@config.user_model_name.downcase}".to_sym
   end
 
   def self.observers

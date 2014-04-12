@@ -13,7 +13,7 @@ module Merit
       private
 
       def model_exists?
-        File.exists?(File.join(destination_root, model_path))
+        File.exist? File.join(destination_root, model_path)
       end
 
       def model_path
