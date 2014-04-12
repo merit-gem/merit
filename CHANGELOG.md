@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.1
+
+- [#158] Migrations bug fix.
+
 ## 2.1.0
 
 - [#148] Mongoid support
