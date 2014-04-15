@@ -5,7 +5,7 @@ class MeritUnitTest < ActiveSupport::TestCase
   require "orm_models/#{Merit.orm}"
 
   test 'extends only meritable models' do
-    assert User.method_defined?(:points), 'has_merit adds methods'
+    assert Player.method_defined?(:points), 'has_merit adds methods'
     assert !Fruit.method_defined?(:points), 'other models aren\'t extended'
   end
 
@@ -19,7 +19,7 @@ class MeritUnitTest < ActiveSupport::TestCase
       class WeirdRankRules
         include Merit::RankRulesMethods
         def initialize
-          set_rank level: 1, to: User, level_name: :clown
+          set_rank level: 1, to: Player, level_name: :clown
         end
       end
       assert_raises Merit::RankAttributeNotDefined do

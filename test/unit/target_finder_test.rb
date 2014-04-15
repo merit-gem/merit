@@ -23,16 +23,20 @@ describe Merit::TargetFinder do
     end
 
     describe 'rule#to is :action_user' do
+      before do
+        Merit.setup { |config| config.user_model_name = 'Player' }
+      end
+      after do
+        Merit.setup { |config| config.user_model_name = 'User' }
+      end
+
       it 'should return an array including user that executed the action' do
-        Merit.setup do |config|
-          config.user_model_name = 'User'
-        end
         rule = Merit::Rule.new
         rule.to = :action_user
         action = Merit::Action.new(user_id: 22)
-        user = User.new
+        user = Player.new
 
-        User.stubs(:find_by_id).with(22).returns(user)
+        Player.stubs(:find_by_id).with(22).returns(user)
 
         finder = Merit::TargetFinder.new(rule, action)
         collection = finder.find
@@ -42,14 +46,11 @@ describe Merit::TargetFinder do
 
       describe 'when user does not exist' do
         it 'should return warn and return an empty array' do
-          Merit.setup do |config|
-            config.user_model_name = 'User'
-          end
           rule = Merit::Rule.new
           rule.to = :action_user
           action = Merit::Action.new(user_id: 22)
 
-          Rails.logger.expects(:warn).with('[merit] no User found with id 22')
+          Rails.logger.expects(:warn).with('[merit] no Player found with id 22')
           finder = Merit::TargetFinder.new(rule, action)
           finder.find.must_be_empty
         end
@@ -63,7 +64,7 @@ describe Merit::TargetFinder do
         rule.model_name = 'comments'
         action = Merit::Action.new(target_id: 40)
 
-        user = User.new
+        user = Player.new
         comment = Comment.new
         comment.stubs(:user).returns(user)
         Comment.stubs(:find_by_id).with(40).returns(comment)

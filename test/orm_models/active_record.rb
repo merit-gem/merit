@@ -1,9 +1,5 @@
 require 'test_helper'
 
-class User < ActiveRecord::Base
-  has_merit
-end
-
 class Fruit < ActiveRecord::Base
 end
 
