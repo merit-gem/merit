@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class NavigationTest < ActiveSupport::IntegrationCase
-
   def tear_down
     DummyObserver.unstub(:update)
   end
@@ -10,7 +9,6 @@ class NavigationTest < ActiveSupport::IntegrationCase
     DummyObserver.any_instance.expects(:update).times(1)
       .with do |hash|
         hash[:description] == 'granted just-registered badge' &&
-          hash[:sash_id] == 1 && hash[:merit_action_id] == 1 &&
           hash[:granted_at].to_date == Date.today
       end
 
@@ -50,20 +48,12 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
   test 'users#index should grant badge multiple times' do
     DummyObserver.any_instance.expects(:update).times(1)
-      .with do |hash|
-        hash[:description] == 'granted visited_admin badge' &&
-          hash[:sash_id] == 1 && hash[:merit_action_id] == 5
-      end
+      .with { |hash| hash[:description] == 'granted visited_admin badge' }
     DummyObserver.any_instance.expects(:update).times(5)
-      .with do |hash|
-        hash[:description] == 'granted gossip badge' && hash[:sash_id] == 1
-    end
-    (1..8).each do |merit_action_id|
+      .with { |hash| hash[:description] == 'granted gossip badge' }
+    8.times do |merit_action_id|
       DummyObserver.any_instance.expects(:update).times(1)
-        .with do |hash|
-          hash[:description] == 'granted wildcard_badge badge' &&
-            hash[:sash_id] == 1 && hash[:merit_action_id] == merit_action_id
-      end
+        .with { |hash| hash[:description] == 'granted wildcard_badge badge' }
     end
 
     user = User.create(name: 'test-user')
@@ -272,27 +262,13 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
   test 'assigning points to a group of records' do
     DummyObserver.any_instance.expects(:update).times(2)
-      .with do |hash|
-        hash[:description] == 'granted 1 points' &&
-          hash[:sash_id] == 1 && hash[:merit_action_id] == 1
-      end
+      .with { |hash| hash[:description] == 'granted 1 points' }
     DummyObserver.any_instance.expects(:update).times(1)
-      .with do |hash|
-        hash[:description] == 'granted 2 points' &&
-          hash[:sash_id] == 2 &&
-          hash[:merit_action_id] == 1
-      end
+      .with { |hash| hash[:description] == 'granted 2 points' }
     DummyObserver.any_instance.expects(:update).times(1)
-      .with do |hash|
-        hash[:description] == 'granted 2 points' &&
-          hash[:sash_id] == 3 &&
-          hash[:merit_action_id] == 1
-      end
+      .with { |hash| hash[:description] == 'granted 2 points' }
     DummyObserver.any_instance.expects(:update).times(1)
-      .with do |hash|
-        hash[:description] == 'granted 5 points' &&
-          hash[:sash_id] == 1 && hash[:merit_action_id] == 1
-      end
+      .with { |hash| hash[:description] == 'granted 5 points' }
 
     commenter = User.create(name: 'commenter')
     comment_1 = commenter.comments.create(name: 'comment_1', comment: 'a')
@@ -313,10 +289,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
   test 'api/comments#show should grant 1 point to user' do
     DummyObserver.any_instance.expects(:update).times(1)
-      .with do |hash|
-        hash[:description] == 'granted 1 points' &&
-          hash[:sash_id] == 1 && hash[:merit_action_id] == 1
-      end
+      .with { |hash| hash[:description] == 'granted 1 points' }
 
     user = User.create(name: 'test-user')
     assert_equal 0, user.points

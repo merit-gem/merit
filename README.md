@@ -294,9 +294,6 @@ end
 config.add_observer 'ReputationChangeObserver'
 ```
 
-TODO: Improve API sending in `changed_data` concrete data instead of merit
-objects.
-
 
 # Uninstalling Merit
 
