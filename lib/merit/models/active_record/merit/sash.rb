@@ -18,7 +18,7 @@ module Merit
     # @return [ActiveRecord::Relation] containing the points
     def score_points(options = {})
       scope = Merit::Score::Point
-                .includes(:score)
+                .joins(:score)
                 .where('merit_scores.sash_id = ?', id)
       if (category = options[:category])
         scope = scope.where('merit_scores.category = ?', category)
