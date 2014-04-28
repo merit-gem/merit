@@ -29,7 +29,7 @@ module Merit
         notify_observers(
           description: "granted #{points} points",
           merit_object: point,
-          merit_action_id: @action.id
+          sash_id: point.sash_id
         )
       end
     end
@@ -43,18 +43,17 @@ module Merit
         notify_observers(
           description: "granted #{badge.name} badge",
           merit_object: badge_sash,
-          merit_action_id: @action.id
+          sash_id: badge_sash.sash_id
         )
       end
     end
 
     def remove_badges
       sashes.each do |sash|
-        badge_sash = sash.rm_badge badge.id
+        sash.rm_badge badge.id
         notify_observers(
           description: "removed #{badge.name} badge",
-          merit_object: badge_sash,
-          merit_action_id: @action.id
+          sash_id: sash.id
         )
       end
     end
@@ -91,9 +90,13 @@ module Merit
       @rule.badge
     end
 
-    def notify_observers(changed_data)
+    def notify_observers(changed_data = {})
       changed
-      super
+      hash = {
+        granted_at: @action.created_at,
+        merit_action_id: @action.id
+      }.merge(changed_data)
+      super(hash)
     end
   end
 end

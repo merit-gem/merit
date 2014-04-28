@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.2 (unreleased)
+
+- Improves observer API.
+
 ## 2.1.1
 
 - [#158] Migrations bug fix.
