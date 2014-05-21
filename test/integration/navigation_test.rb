@@ -6,9 +6,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user sign up should grant badge to itself' do
-    DummyObserver.any_instance.expects(:update).times(1)
-      .with do |hash|
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
         hash[:description] == 'granted just-registered badge' &&
+          hash[:sash_id] == user('Jack').sash_id &&
           hash[:granted_at].to_date == Date.today
       end
 
@@ -18,8 +18,8 @@ class NavigationTest < ActiveSupport::IntegrationCase
       click_button('Create User')
     end
 
-    user = User.where(name: 'Jack').first
-    assert_equal [Merit::Badge.by_name('just-registered').first], user.badges
+    just_registered = Merit::Badge.by_name('just-registered').first
+    assert_equal [just_registered], user('Jack').badges
   end
 
   test 'User#add_badge should add one badge, #rm_badge should delete one' do
@@ -47,16 +47,20 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'users#index should grant badge multiple times' do
-    DummyObserver.any_instance.expects(:update).times(1)
-      .with { |hash| hash[:description] == 'granted visited_admin badge' }
-    DummyObserver.any_instance.expects(:update).times(5)
-      .with { |hash| hash[:description] == 'granted gossip badge' }
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+        hash[:description] == 'granted visited_admin badge' &&
+        hash[:sash_id] == user.sash_id
+      end
+    DummyObserver.any_instance.expects(:update).times(5).with do |hash|
+        hash[:description] == 'granted gossip badge' &&
+        hash[:sash_id] == user.sash_id
+      end
     8.times do |merit_action_id|
-      DummyObserver.any_instance.expects(:update).times(1)
-        .with { |hash| hash[:description] == 'granted wildcard_badge badge' }
+      DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+          hash[:description] == 'granted wildcard_badge badge' &&
+          hash[:sash_id] == user.sash_id
+        end
     end
-
-    user = User.create(name: 'test-user')
 
     # Multiple rule
     assert_difference 'badges_by_name(user, "gossip").count', 3 do
@@ -82,7 +86,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   test 'user workflow should grant some badges at some times' do
     DummyObserver.any_instance.expects(:update).at_least_once
     # Commented 9 times, no badges yet
-    user = User.create(name: 'test-user')
+    user # creates user
     # Create needed friend user object
     friend = User.create(name: 'friend')
 
@@ -133,14 +137,10 @@ class NavigationTest < ActiveSupport::IntegrationCase
     end
 
     relevant_badge = Merit::Badge.by_name('relevant-commenter').first
-    user_badges    = User.where(name: 'test-user').first.badges
-    assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
+    assert user.badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
 
     # Edit user's name by long name
     # tests ruby code in grant_on is being executed, and gives badge
-    user = User.where(name: 'test-user').first
-    user_badges = user.badges
-
     visit "/users/#{user.id}/edit"
     fill_in 'Name', with: 'long_name!'
     click_button('Update User')
@@ -261,18 +261,25 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'assigning points to a group of records' do
-    DummyObserver.any_instance.expects(:update).times(2)
-      .with { |hash| hash[:description] == 'granted 1 points' }
-    DummyObserver.any_instance.expects(:update).times(1)
-      .with { |hash| hash[:description] == 'granted 2 points' }
-    DummyObserver.any_instance.expects(:update).times(1)
-      .with { |hash| hash[:description] == 'granted 2 points' }
-    DummyObserver.any_instance.expects(:update).times(1)
-      .with { |hash| hash[:description] == 'granted 5 points' }
+    DummyObserver.any_instance.expects(:update).times(2).with do |hash|
+        hash[:description] == 'granted 1 points' &&
+        hash[:sash_id] == user('commenter').sash_id
+      end
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+        hash[:description] == 'granted 2 points' &&
+        hash[:sash_id] == user('commenter').comments.first.sash_id
+      end
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+        hash[:description] == 'granted 2 points' &&
+        hash[:sash_id] == user('commenter').comments.last.sash_id
+      end
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+        hash[:description] == 'granted 5 points' &&
+        hash[:sash_id] == user('commenter').sash_id
+      end
 
-    commenter = User.create(name: 'commenter')
-    comment_1 = commenter.comments.create(name: 'comment_1', comment: 'a')
-    comment_2 = commenter.comments.create(name: 'comment_2', comment: 'b')
+    comment_1 = user('commenter').comments.create(name: 'a', comment: 'a')
+    comment_2 = user('commenter').comments.create(name: 'b', comment: 'b')
 
     visit comments_path
     # Thanks for voting point, to voted user and it's comments
@@ -288,15 +295,20 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'api/comments#show should grant 1 point to user' do
-    DummyObserver.any_instance.expects(:update).times(1)
-      .with { |hash| hash[:description] == 'granted 1 points' }
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+        hash[:description] == 'granted 1 points' &&
+        hash[:sash_id] == user.sash_id
+      end
 
-    user = User.create(name: 'test-user')
     assert_equal 0, user.points
     comment = user.comments.create!(name: 'test-comment', comment: 'comment body')
 
     visit "/api/comments/#{comment.id}"
     assert_equal 1, user.points
+  end
+
+  def user(name = 'test-user')
+    User.where(name: name).first || User.create(name: name)
   end
 
   def badges_by_name(user, name)
