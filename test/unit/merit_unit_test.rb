@@ -9,6 +9,12 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert !Fruit.method_defined?(:points), 'other models aren\'t extended'
   end
 
+  test 'creats default sash record' do
+    u = NoneAccessibleUser.create
+    u._sash
+    assert u.sash, 'has sash record'
+  end
+
   test 'Badges get "related_models" methods' do
     assert Merit::Badge.method_defined?(:soldiers), 'Badge#soldiers should be defined'
     assert Merit::Badge.method_defined?(:players), 'Badge#players should be defined'
