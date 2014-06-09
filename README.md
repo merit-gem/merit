@@ -3,6 +3,7 @@
 Merit adds reputation behavior to Rails apps in the form of Badges, Points,
 and Rankings.
 
+[![Gem Version](https://badge.fury.io/rb/merit@2x.png)](http://badge.fury.io/rb/merit)
 [![Build Status](https://travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
 [![Coverage
 Status](https://coveralls.io/repos/tute/merit/badge.png?branch=master)](https://coveralls.io/r/tute/merit?branch=master)
