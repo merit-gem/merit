@@ -35,8 +35,8 @@ Status](https://coveralls.io/repos/tute/merit/badge.png?branch=master)](https://
 # Installation
 
 1. Add `gem 'merit'` to your `Gemfile`
-2. Run `rails g merit:install`
-3. Run `rails g merit MODEL_NAME` (e.g. `user`)
+2. Run `rails g merit:install`. This creates several migrations.
+3. Run `rails g merit MODEL_NAME` (e.g. `user`). This creates a migration and adds `has_merit` to MODEL_NAME.
 4. Run `rake db:migrate`
 5. Define badges in `config/initializers/merit.rb`. You can also define ORM:
    `:active_record` (default) or `:mongoid`.
@@ -50,7 +50,7 @@ Status](https://coveralls.io/repos/tute/merit/badge.png?branch=master)](https://
 Create badges in `config/initializers/merit.rb`
 
 `Merit::Badge.create!` takes a hash describing the badge:
-* `:id` integer (reqired)
+* `:id` integer (required)
 * `:name` this is how you reference the badge (required)
 * `:level` (optional)
 * `:description` (optional)
@@ -61,7 +61,7 @@ Create badges in `config/initializers/merit.rb`
 ```ruby
 Merit::Badge.create!(
   id: 1,
-  name: "Yearling",
+  name: "year-member",
   description: "Active member for a year",
   custom_fields: { difficulty: :silver }
 )
