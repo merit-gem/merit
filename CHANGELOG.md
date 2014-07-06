@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.2 (unreleased)
+## 2.1.2
 
 - Improves observer API.
 
