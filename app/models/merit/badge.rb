@@ -36,7 +36,7 @@ module Merit
 
     class << self
       def find_by_name_and_level(name, level)
-        badges = Badge.by_name(name)
+        badges = Merit::Badge.by_name(name)
         badges = badges.by_level(level) unless level.nil?
         if (badge = badges.first).nil?
           str = "No badge '#{name}' found. Define it in initializers/merit.rb"

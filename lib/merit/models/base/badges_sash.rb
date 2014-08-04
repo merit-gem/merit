@@ -8,7 +8,7 @@ module Merit
       end
 
       def badge
-        Badge.find(badge_id)
+        Merit::Badge.find(badge_id)
       end
     end
   end

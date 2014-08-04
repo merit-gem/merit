@@ -25,7 +25,7 @@ module Merit
 
     # Get rule's related Badge.
     def badge
-      @badge ||= Badge.find_by_name_and_level(badge_name, level)
+      @badge ||= Merit::Badge.find_by_name_and_level(badge_name, level)
     end
   end
 end

@@ -35,7 +35,7 @@ module Merit
 
     def _merit_define_badge_related_entries_method
       meritable_class_name = name.demodulize
-      Badge._define_related_entries_method(meritable_class_name)
+      Merit::Badge._define_related_entries_method(meritable_class_name)
     end
 
     def show_attr_accessible?
