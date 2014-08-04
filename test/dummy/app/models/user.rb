@@ -26,7 +26,7 @@ class User
   end
 
   def show_badges
-    badges_uniq = Badge.find_by_id(badge_ids)
+    badges_uniq = Merit::Badge.find_by_id(badge_ids)
     badges_uniq.collect{|b| "#{b.name.capitalize}#{badge_status(b)}" }.join(', ')
   end
 
