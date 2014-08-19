@@ -21,7 +21,8 @@ module Merit
         action_value:  params[:value],
         had_errors:    had_errors?,
         target_model:  controller_path,
-        target_id:     target_id
+        target_id:     target_id,
+        target_data:   target_object.to_yaml
       ).id
     end
 

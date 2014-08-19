@@ -11,6 +11,7 @@ module Merit
     field :had_errors,              type: Boolean
     field :target_model
     field :target_id
+    field :target_data
     field :processed,               type: Boolean, default: false
     field :log
   end

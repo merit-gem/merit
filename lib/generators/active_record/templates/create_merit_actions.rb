@@ -7,6 +7,7 @@ class CreateMeritActions < ActiveRecord::Migration
       t.boolean :had_errors, default: false
       t.string  :target_model
       t.integer :target_id
+      t.text    :target_data
       t.boolean :processed, default: false
       t.timestamps
     end

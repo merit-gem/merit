@@ -219,6 +219,15 @@ class NavigationTest < ActionDispatch::IntegrationTest
     user = User.where(name: 'a').first
     assert_equal 51, user.points, 'Commenting should grant the integer in
       comment points if comment is an integer'
+
+    # Destroying a comment should remove points from the comment creator.
+    comment_to_destroy = user.comments.last
+    visit '/comments'
+    assert_difference lambda { user.reload.points }, -5 do
+      within("tr#c_#{comment_to_destroy.id}") do
+        click_link 'Destroy'
+      end
+    end
   end
 
   test 'user workflow should grant levels at some times' do
