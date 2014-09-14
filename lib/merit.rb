@@ -49,6 +49,11 @@ module Merit
     @config.add_observer(class_name)
   end
 
+  def self.upgrade_target_data_warning
+    Rails.logger.warn '[merit] Missing column: target_data. Run `rails ' \
+                      'generate merit:upgrade` and `rake db:migrate` to add it.'
+  end
+
   class Configuration
     attr_accessor :checks_on_each_request, :orm, :user_model_name, :observers,
                   :current_user_method

@@ -25,14 +25,11 @@ module Merit
     end
 
     def reanimate_target_from_action
-      warn_if_the_target_data_column_is_not_present
-      YAML.load(@action.target_data)
-    end
-
-    def warn_if_the_target_data_column_is_not_present
-      unless @action.respond_to? :target_data
-        Rails.logger.warn 'Missing column: target_data. ' +
-                  'Run rake merit:upgrade, then rake db:migrate to add it.'
+      if @action.respond_to? :target_data
+        YAML.load(@action.target_data)
+      else
+        Merit.upgrade_target_data_warning
+        nil
       end
     end
   end

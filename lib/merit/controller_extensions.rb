@@ -15,15 +15,27 @@ module Merit
     private
 
     def log_merit_action
-      Merit::Action.create(
+      Merit::Action.create(merit_action_hash)
+    end
+
+    def merit_action_hash
+      {
         user_id:       send(Merit.current_user_method).try(:id),
         action_method: action_name,
         action_value:  params[:value],
         had_errors:    had_errors?,
         target_model:  controller_path,
         target_id:     target_id,
-        target_data:   target_object.to_yaml
-      ).id
+      }.merge(target_data_hash)
+    end
+
+    def target_data_hash
+      if Merit::Action.new.respond_to? :target_data
+        { target_data: target_object.to_yaml }
+      else
+        Merit.upgrade_target_data_warning
+        {}
+      end
     end
 
     def rules_defined?
