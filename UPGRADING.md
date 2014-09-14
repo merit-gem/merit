@@ -2,9 +2,17 @@
 
 ## 2.1.0
 
-* Adds serialisation of destroyed target models so that points can be awarded
-  asynchronously when the item is missing from the DB. Needs new column, you can
-  run `rails generate merit:upgrade`, then `rake db:migrate` to add it.
+Adds serialisation of destroyed target models so that reputation can be awarded
+when the item is already deleted from the DB. For this to work you need a new
+column, to add it you can run:
+
+```
+rails generate merit:upgrade
+rake db:migrate
+```
+
+This is a backwards compatible addition, so if you don't add the column but
+upgrade, your application should continue to work well, without the new feature.
 
 ## 2.0.0
 

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.2.0
+
+- [#181] Rescue `ActiveRecord` only if constant is defined (doesn't trigger
+  errors in other ORMs).
+- [#184] Namespaces `Badge` calls inside of `Merit::`. Prevents errors if the
+  app using merit has a model named Badge
+- [#189] Fixes issue when objects needed to grant reputation are already deleted
+  from the database. Before, merit was either failing with exceptions or
+  ignoring reputation changes; now it works as expected.
+
 ## 2.1.2
 
 - Improves observer API.
