@@ -24,7 +24,7 @@ case ENV['ORM']
 when 'active_record'
   gem 'activerecord'
 when 'mongoid'
-  gem 'mongoid', '~> 3.1.0'
+  gem 'mongoid'
 end
 
 group :development, :test do
@@ -34,6 +34,7 @@ end
 
 platforms :rbx do
   gem 'rubysl', '~> 2.0'
+  gem 'psych'
   gem 'racc'
   gem 'minitest'
   gem 'rubinius-developer_tools'

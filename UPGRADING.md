@@ -1,5 +1,21 @@
 # Main Changes / Upgrading Notes
 
+## 2.1.0
+
+* Adds serialisation of destroyed target models so that points can be awarded 
+  asynchronously when the item is missing from the DB.
+  
+Run the following migration to upgrade from 2.0.0:
+
+```ruby
+class UpgradeMeritTo210 < ActiveRecord::Migration
+  def change
+    add_column :merit_actions, :target_data, :text
+  end
+end
+```
+  
+
 ## 2.0.0
 
 * Removes deprecated methods: `Merit::Badge.last_granted` and

@@ -68,8 +68,8 @@ module Merit
   setup
   add_observer('Merit::ReputationChangeObserver')
 
-  class BadgeNotFound < Exception; end
-  class RankAttributeNotDefined < Exception; end
+  class BadgeNotFound < StandardError; end
+  class RankAttributeNotDefined < StandardError; end
 
   class Engine < Rails::Engine
     config.app_generators.orm Merit.orm
