@@ -49,7 +49,8 @@ module Merit
     # http://blog.hasmanythrough.com/2012/1/20/modularized-association-methods-in-rails-3-2
     def _merit_sash_initializer
       define_method(:_sash) do
-        sash || update_attributes(sash: Sash.create)
+        # TODO: reload.sash is not regression tested
+        sash || reload.sash || update_attributes(sash: Sash.create)
         sash
       end
     end
