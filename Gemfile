@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-version = ENV['RAILS_VERSION'] || '4.1'
+version = ENV['RAILS_VERSION'] || '4.2'
 rails = case version
 when 'master'
   { github: 'rails/rails' }
@@ -12,7 +12,7 @@ when '4.0-protected-attributes'
 when /4\.0|4\.1/
   "~> #{version}.0"
 when /4\.2/
-  "~> #{version}.0.beta1"
+  "~> #{version}.0.rc2"
 when '3.2'
   gem 'strong_parameters'
   "~> #{version}.0"

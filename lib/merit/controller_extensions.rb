@@ -30,8 +30,8 @@ module Merit
     end
 
     def target_data_hash
-      if Merit::Action.new.respond_to? :target_data
-        { target_data: target_object.to_yaml }
+      if Merit::Action.new.respond_to?(:target_data)
+        { target_data: target_object.try(:dup).to_yaml }
       else
         Merit.upgrade_target_data_warning
         {}
