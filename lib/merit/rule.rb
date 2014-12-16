@@ -3,7 +3,7 @@ module Merit
   # and a temporary option.
   # Could split this class between badges and rankings functionality
   class Rule
-    attr_accessor :badge_name, :level, :to, :model_name, :level_name,
+    attr_accessor :badge_id, :badge_name, :level, :to, :model_name, :level_name,
                   :multiple, :temporary, :score, :block, :category
 
     # Does this rule's condition block apply?
@@ -25,7 +25,11 @@ module Merit
 
     # Get rule's related Badge.
     def badge
-      @badge ||= Merit::Badge.find_by_name_and_level(badge_name, level)
+      if badge_id
+        Merit::Badge.find(badge_id)
+      else
+        Merit::Badge.find_by_name_and_level(badge_name, level)
+      end
     end
   end
 end

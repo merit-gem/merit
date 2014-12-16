@@ -75,8 +75,8 @@ are no longer met).
 Badge rules / conditions are defined in `app/models/merit/badge_rules.rb`
 `initialize` block by calling `grant_on` with the following parameters:
 
-* `'controller#action'` a string similar to Rails routes
-* `:badge` corresponds to the `:name` of the badge
+* `'controller#action'` a string similar to Rails routes (required)
+* `:badge_id` or `:badge` these correspond to the `:id` or `:name` of the badge respectively
 * `:level` corresponds to the `:level` of the badge
 * `:to` the object's field to give the badge to. It needs a variable named
   `@model` in the associated controller action, like `@post` for
@@ -103,7 +103,7 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb`
 
 ```ruby
 # app/models/merit/badge_rules.rb
-grant_on 'comments#vote', badge: 'relevant-commenter', to: :user do |comment|
+grant_on 'comments#vote', badge_id: 5, to: :user do |comment|
   comment.votes.count == 5
 end
 

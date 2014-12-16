@@ -7,6 +7,7 @@ module Merit
       actions = Array.wrap(actions)
 
       rule = Rule.new
+      rule.badge_id   = options[:badge_id]
       rule.badge_name = options[:badge]
       rule.level      = options[:level]
       rule.to         = options[:to] || :action_user
