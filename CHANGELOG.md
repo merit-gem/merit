@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.0
+
+- [#206] Allow Rule to find Badge by `badge_id`
+- [#197] SVG badges in favor of PNG in the readme.
+- [#195] migrations refactor
+- Tests with Rails 4.2
+
 ## 2.2.0
 
 - [#181] Rescue `ActiveRecord` only if constant is defined (doesn't trigger
