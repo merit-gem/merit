@@ -12,7 +12,7 @@ when '4.0-protected-attributes'
 when /4\.0|4\.1/
   "~> #{version}.0"
 when /4\.2/
-  "~> #{version}.0.rc2"
+  "~> #{version}.0.rc3"
 when '3.2'
   gem 'strong_parameters'
   "~> #{version}.0"
