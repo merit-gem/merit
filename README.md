@@ -125,7 +125,7 @@ current_user.rm_badge(badge.id)
 
 ```ruby
 # Get related entries of a given badge
-Badge.find(1).users
+Merit::Badge.find(1).users
 ```
 
 ## Displaying Badges
