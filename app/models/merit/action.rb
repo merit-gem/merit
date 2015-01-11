@@ -20,7 +20,7 @@ module Merit
 
     # Check rules defined for a merit_action
     def check_all_rules
-      processed!
+      mark_as_processed!
       return if had_errors
 
       check_rules rules_matcher.select_from(AppBadgeRules), :badges
@@ -36,8 +36,7 @@ module Merit
       end
     end
 
-    # Mark merit_action as processed
-    def processed!
+    def mark_as_processed!
       self.processed = true
       save
     end
