@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.1
+
+- [#204] Sash creation bugfix on certain conditions
+- [733da49] Improve examples and docs for points `on` option
+
 ## 2.3.0
 
 - [#206] Allow Rule to find Badge by `badge_id`
