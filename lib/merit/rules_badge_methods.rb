@@ -13,7 +13,7 @@ module Merit
       rule.to         = options[:to] || :action_user
       rule.multiple   = options[:multiple] || false
       rule.temporary  = options[:temporary] || false
-      rule.model_name = options[:model_name] || actions[0].split('#')[0]
+      rule.model_name = options[:model_name] || actions.first.split('#').first
       rule.block      = block
 
       actions.each do |action|
