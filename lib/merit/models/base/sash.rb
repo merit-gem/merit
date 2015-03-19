@@ -16,7 +16,7 @@ module Merit
       end
 
       def rm_badge(badge_id)
-        badges_sashes.where(badge_id: badge_id).first.try(:destroy)
+        badges_sashes.where(badge_id: badge_id.to_i).first.try(:destroy)
       end
 
       # Retrieve the number of points from a category
