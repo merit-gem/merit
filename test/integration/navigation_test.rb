@@ -36,6 +36,10 @@ class NavigationTest < ActionDispatch::IntegrationTest
 
     user.rm_badge badge.id
     assert_equal [badge], user.reload.badges
+
+    assert_raise NoMethodError do
+      user.add_badge badge
+    end
   end
 
   test 'Remove inexistent badge should do nothing' do
