@@ -10,7 +10,7 @@ module Merit
       end
 
       def add_badge(badge_id)
-        bs = Merit::BadgesSash.new(badge_id: badge_id)
+        bs = Merit::BadgesSash.new(badge_id: badge_id.to_i)
         badges_sashes << bs
         bs
       end
