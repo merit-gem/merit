@@ -1,0 +1,5 @@
+en:
+  merit:
+    granted_badge: "granted %{badge_name} badge"
+    granted_points: "granted %{points} points"
+    removed_badge: "removed %{badge_name} badge"

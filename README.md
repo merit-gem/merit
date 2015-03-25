@@ -292,6 +292,17 @@ end
 config.add_observer 'ReputationChangeObserver'
 ```
 
+# I18n
+
+Merit uses default messages with I18n for notify alerts. To customize your app, you can set up your locale file:
+
+```yaml
+en:
+  merit:
+    granted_badge: "granted %{badge_name} badge"
+    granted_points: "granted %{points} points"
+    removed_badge: "removed %{badge_name} badge"
+```
 
 # Uninstalling Merit
 
