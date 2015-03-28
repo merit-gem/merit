@@ -27,7 +27,7 @@ module Merit
       sashes.each do |sash|
         point = sash.add_points points, category: category
         notify_observers(
-          description: "granted #{points} points",
+          description: I18n.t("merit.granted_points", points: points),
           merit_object: point,
           sash_id: point.sash_id
         )
@@ -41,7 +41,7 @@ module Merit
         next unless new_or_multiple?(sash)
         badge_sash = sash.add_badge badge.id
         notify_observers(
-          description: "granted #{badge.name} badge",
+          description: I18n.t("merit.granted_badge", badge_name: badge.name),
           merit_object: badge_sash,
           sash_id: badge_sash.sash_id
         )
@@ -52,7 +52,7 @@ module Merit
       sashes.each do |sash|
         sash.rm_badge badge.id
         notify_observers(
-          description: "removed #{badge.name} badge",
+          description: I18n.t("merit.removed_badge", badge_name: badge.name),
           sash_id: sash.id
         )
       end
