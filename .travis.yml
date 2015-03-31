@@ -1,21 +1,25 @@
 language: ruby
 sudo: false
 cache: bundler
+
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
-  # Erroring out: https://travis-ci.org/tute/merit/builds/40478845
-  # - jruby-19mode
-  # - rbx-2
+  - 2.0
+  - 2.1
+  - 2.2
+
 env:
   - RAILS_VERSION=3.2
-  - RAILS_VERSION=4.0
-  - RAILS_VERSION=4.0-protected-attributes
   - RAILS_VERSION=4.1
   - RAILS_VERSION=4.2
   - ORM=active_record
-allow_failures:
-  - ORM=mongoid
+
 services:
   - mongodb
+
+allow_failures:
+  - ORM=mongoid
+
+matrix:
+  exclude:
+    - env: RAILS_VERSION=3.2
+      rvm: 2.2
