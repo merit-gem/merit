@@ -12,6 +12,7 @@ env:
   - ORM=active_record
 allow_failures:
   - ORM=mongoid
-  - rvm: 2.2
+  - env: rails=3.2.0
+    rvm: 2.2
 services:
   - mongodb
