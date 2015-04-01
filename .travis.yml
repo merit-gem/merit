@@ -12,5 +12,6 @@ env:
   - ORM=active_record
 allow_failures:
   - ORM=mongoid
+  - rvm: 2.2
 services:
   - mongodb
