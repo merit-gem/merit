@@ -1,4 +1,12 @@
-# Changelog
+# News
+
+User-visible changes worth mentioning.
+
+## 2.3.2
+
+- [#218] Implement I18n for internationalization support
+- Tests with Ruby 2.2. Ignores EOL Rails 4.0.
+- Adds CONTRIBUTING document
 
 ## 2.3.1
 
