@@ -1,9 +1,10 @@
 Gem::Specification.new do |s|
   s.name        = "merit"
-  s.summary     = "General reputation Rails engine."
-  s.description = "Manage badges, points and rankings (reputation) of resources in a Rails application."
-  s.homepage    = "http://github.com/tute/merit"
+  s.summary     = "Reputation engine for Rails apps"
+  s.description = "Manage badges, points and rankings (reputation) in your Rails app."
+  s.homepage    = "https://github.com/merit-gem/merit"
   s.files       = `git ls-files`.split("\n").reject{|f| f =~ /^\./ }
+  s.test_files  = `git ls-files -- test/*`.split("\n")
   s.license     = 'MIT'
   s.version     = '2.3.2'
   s.authors     = ["Tute Costa"]
