@@ -10,13 +10,13 @@ module Merit
       end
 
       def add_badge(badge_id)
-        bs = Merit::BadgesSash.new(badge_id: badge_id)
+        bs = Merit::BadgesSash.new(badge_id: badge_id.to_i)
         badges_sashes << bs
         bs
       end
 
       def rm_badge(badge_id)
-        badges_sashes.where(badge_id: badge_id).first.try(:destroy)
+        badges_sashes.where(badge_id: badge_id.to_i).first.try(:destroy)
       end
 
       # Retrieve the number of points from a category
