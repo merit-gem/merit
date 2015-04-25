@@ -26,7 +26,9 @@ and Rankings.
     - [Defining Rules](#defining-rules-2)
         - [Examples](#examples-2)
     - [Displaying Rankings](#displaying-rankings)
+- [How merit finds the target object](#how-merit-finds-the-target-object)
 - [Getting Notifications](#getting-notifications)
+- [I18n](#i18n)
 - [Uninstalling Merit](#uninstalling-merit)
 
 
@@ -155,9 +157,9 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 * `score`
   * `Integer`
   * `Proc`, or any object that accepts `call` which takes one argument, where
-    the target_object is passed in and the return value is used as the score.
+    the target object is passed in and the return value is used as the score.
 * `:on` action as string or array of strings (like `controller#action`, similar to Rails routes)
-* `:to` method(s) to send to the target_object (who should be scored?)
+* `:to` method(s) to send to the target object (who should be scored?)
 * `:model_name` (optional) to specify the model name if it cannot be guessed
   from the controller. (e.g. `model_name: 'User'` for `RegistrationsController`,
   or `model_name: 'Comment'` for `Api::CommentsController`)
@@ -256,6 +258,37 @@ end
 ```erb
 <%= current_user.level %>
 ```
+
+
+# How merit finds the target object
+
+Merit fetches the rule’s target object (the parameter it receives) from its
+`:model_name` option, or from the controller’s instance variable.
+
+To read it from the controller merit searches for the instance variable named
+after the singularized controller name. For example, a rule like:
+
+```ruby
+grant_on 'comments#update', badge_id: 1 do |target_object|
+  # target_object would be better named comment in this sample
+end
+```
+
+Would make merit try to find the `@comment` instance variable in the
+`CommentsController#update` action. If the rule had the `:model_name` option
+specified:
+
+```ruby
+grant_on 'comments#update', badge_id: 1, model_name: "Article" do |target_object|
+  # target_object would be better named article in this sample
+end
+```
+
+Merit would fetch the `Article` object from the database, found by the `:id`
+param sent in that `update` action.
+
+If none of these methods find the target, Merit will log a `no target_obj`
+warning, with a comment to check the configuration for the rule.
 
 
 # Getting Notifications
