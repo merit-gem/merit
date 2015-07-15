@@ -137,9 +137,9 @@ badges:
 
 ```erb
 <ul>
-<% current_user.badges.each do |badge| %>
-  <li><%= badge.name %></li>
-<% end %>
+  <% current_user.badges.each do |badge| %>
+    <li><%= badge.name %></li>
+  <% end %>
 </ul>
 ```
 
