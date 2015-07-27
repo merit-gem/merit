@@ -52,7 +52,8 @@ module Merit
     end
 
     def target_object
-      target_obj = instance_variable_get(:"@#{controller_name.singularize}") || instance_variable_get(:"@#{@rule.model_name.demodulize.underscore}")
+      target_obj = instance_variable_get(:"@#{controller_name.singularize}") ||
+                   instance_variable_get(:"@#{@rule.model_name.demodulize.underscore}") if @rule.model_name
       if target_obj.nil?
         str = '[merit] No object found, you might need a ' \
           "'@#{controller_name.singularize}' variable in " \
