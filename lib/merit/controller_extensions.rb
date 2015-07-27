@@ -6,6 +6,7 @@ module Merit
     def self.included(base)
       base.after_filter do |controller|
         if rules_defined?
+          @rule = rule
           log_merit_action
           Merit::Action.check_unprocessed if Merit.checks_on_each_request
         end
@@ -38,6 +39,10 @@ module Merit
       end
     end
 
+    def rule
+      RulesMatcher.new(controller_path, action_name).select_rule
+    end
+
     def rules_defined?
       RulesMatcher.new(controller_path, action_name).any_matching?
     end
@@ -47,7 +52,8 @@ module Merit
     end
 
     def target_object
-      target_obj = instance_variable_get(:"@#{controller_name.singularize}")
+      target_obj = instance_variable_get(:"@#{controller_name.singularize}") ||
+                   instance_variable_get(:"@#{@rule.model_name.demodulize.underscore}") if @rule.model_name
       if target_obj.nil?
         str = '[merit] No object found, you might need a ' \
           "'@#{controller_name.singularize}' variable in " \

@@ -15,6 +15,10 @@ module Merit
       select_from(AppBadgeRules).any? || select_from(AppPointRules).any?
     end
 
+    def select_rule
+      select_from(AppBadgeRules).first || select_from(AppPointRules).first
+    end
+
     private
 
     def entire_path
