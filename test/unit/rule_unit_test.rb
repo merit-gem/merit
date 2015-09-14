@@ -18,7 +18,7 @@ describe Merit::Rule do
       @rule.applies?('string').must_be :==, false
     end
 
-    it 'block needs parameter for rule to pass' do
+    it 'block needs at least a parameter for rule to pass' do
       @rule.applies?.must_be :==, false
     end
   end
@@ -37,11 +37,11 @@ describe Merit::Rule do
 
     it 'finds related badge by name' do
       Merit::Badge.create(id: 98, name: 'test-badge-98')
-      @rule.badge_name = "test-badge-98"
+      @rule.badge_name = 'test-badge-98'
       @rule.badge.must_be :==, Merit::Badge.find(98)
     end
 
-    it 'finds related badge by name' do
+    it 'finds related badge by id' do
       Merit::Badge.create(id: 98, name: 'test-badge-98')
       @rule.badge_id = 98
       @rule.badge.must_be :==, Merit::Badge.find(98)

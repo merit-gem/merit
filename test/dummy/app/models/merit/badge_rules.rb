@@ -43,7 +43,7 @@ module Merit
       grant_on '.*users#index', badge: 'wildcard_badge', multiple: true
 
       # Example rule using current user
-      grant_on 'comments#vote', badge: 'only_certain_users' do |current_user:|
+      grant_on 'comments#vote', badge: 'only_certain_users' do |_, current_user:|
         current_user.name == 'Grant only me'
       end
 
@@ -64,7 +64,9 @@ module Merit
 
       # Changes his name by one wider than 4 chars (arbitrary ruby code and custom model_name)
       # This badge is temporary (user may lose it)
-      grant_on 'registrations#update', badge: 'autobiographer', temporary: true, model_name: 'User' do |user|
+      grant_on 'registrations#update', badge: 'autobiographer',
+                                       temporary: true,
+                                       model_name: 'User' do |user|
         user.name.length > 4
       end
     end

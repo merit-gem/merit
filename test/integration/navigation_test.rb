@@ -221,15 +221,12 @@ class NavigationTest < ActionDispatch::IntegrationTest
     assert_equal 40, user.points, 'Commenting should grant 20 points if name.length > 4'
 
     visit "/comments/#{Comment.last.id}/vote/4"
-    user = User.first
+
+    user = User.where(name: 'a').first
     assert_equal 47, user.points, 'Voting comments should grant 5 points for
       voted, and 1 point for voting twice (repeated rule)'
     assert_equal 5, user.points(category: 'vote'), 'Voting comments should
       grant 5 points for voted in vote category'
-
-    user.update_attribute :name, 'Grant only me'
-    visit "/comments/#{Comment.last.id}/vote/4"
-    assert_equal 152, user.points, 'Voting comments should grant 105 points to the special user'
 
     visit '/comments/new'
     fill_in 'Name', with: 'Hi'
@@ -238,8 +235,14 @@ class NavigationTest < ActionDispatch::IntegrationTest
     click_button('Create Comment')
 
     user = User.where(name: 'a').first
-    assert_equal 156, user.points, 'Commenting should grant the integer in
+    assert_equal 51, user.points, 'Commenting should grant the integer in
       comment points if comment is an integer'
+
+    user = User.where(name: 'a').first
+    user.update_attribute :name, 'Grant only me'
+    visit "/comments/#{Comment.last.id}/vote/4"
+    assert_equal 158, user.points, 'Voting comments should grant 105 points to the special user,
+      and 1 point for voting twice (repeated rule)'
 
     # Destroying a comment should remove points from the comment creator.
     comment_to_destroy = user.comments.last
