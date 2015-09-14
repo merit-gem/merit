@@ -171,8 +171,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
     user = User.where(name: 'abc').first
     assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
 
-
-    user = User.where(name: 'abc').first
     only_certain_users_badge = Merit::Badge.by_name('only_certain_users').first
     visit "/comments/#{Comment.last.id}/vote/4"
     assert !user.badges.include?(only_certain_users_badge), "User badges: #{user.badges.collect(&:name).inspect} shouldn't contain only_certain_users."
