@@ -1,7 +1,7 @@
 module Merit
   class TargetFinder < Struct.new(:rule, :action)
     def self.find(*args)
-      self.new(*args).find
+      new(*args).find
     end
 
     def find
@@ -35,11 +35,9 @@ module Merit
     def other_target
       base_target.send rule.to
     rescue NoMethodError
-      str = '[merit] NoMethodError on'
-      str << " `#{base_target.class.name}##{rule.to}`"
-      str << ' (called from Merit::TargetFinder#other_target)'
+      str = "[merit] NoMethodError on `#{base_target.class.name}##{rule.to}`" \
+            ' (called from Merit::TargetFinder#other_target)'
       Rails.logger.warn str
     end
-
   end
 end

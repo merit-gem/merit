@@ -1,9 +1,25 @@
 language: ruby
+sudo: false
+cache: bundler
 
 rvm:
-  - 1.9.3
-  - 2.0.0
+  - 2.0
+  - 2.1
+  - 2.2
 
 env:
   - RAILS_VERSION=3.2
-  - RAILS_VERSION=4.0
+  - RAILS_VERSION=4.1
+  - RAILS_VERSION=4.2
+  - ORM=active_record
+
+services:
+  - mongodb
+
+allow_failures:
+  - ORM=mongoid
+
+matrix:
+  exclude:
+    - env: RAILS_VERSION=3.2
+      rvm: 2.2

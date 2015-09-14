@@ -1,0 +1,13 @@
+development:
+  sessions:
+    default:
+      database: merit_dev
+      hosts:
+        - localhost:27017
+
+test:
+  sessions:
+    default:
+      database: merit_test
+      hosts:
+        - localhost:27017

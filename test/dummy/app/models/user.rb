@@ -1,14 +1,32 @@
-class User < ActiveRecord::Base
+case Merit.orm
+when :active_record
+  class User < ActiveRecord::Base
+  end
+when :mongoid
+  class User
+    include Mongoid::Document
+    include Mongoid::Timestamps
+
+    field :name, :type => String
+  end
+end
+
+class User
   has_merit
 
+  has_many :addresses
   has_many :comments
 
-  unless defined?(ActionController::StrongParameters)
+  if show_attr_accessible?
     attr_accessible :name
   end
 
+  def model_with_no_reputation
+    addresses.first || addresses.create
+  end
+
   def show_badges
-    badges_uniq = Badge.find_by_id(badge_ids)
+    badges_uniq = Merit::Badge.find_by_id(badge_ids)
     badges_uniq.collect{|b| "#{b.name.capitalize}#{badge_status(b)}" }.join(', ')
   end
 

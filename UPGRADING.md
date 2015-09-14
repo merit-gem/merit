@@ -1,4 +1,47 @@
-# Upgrading
+# Main Changes / Upgrading Notes
+
+## 2.1.0
+
+Adds serialisation of destroyed target models so that reputation can be awarded
+when the item is already deleted from the DB. For this to work you need a new
+column, to add it you can run:
+
+```
+rails generate merit:upgrade
+rake db:migrate
+```
+
+This is a backwards compatible addition, so if you don't add the column but
+upgrade, your application should continue to work well, without the new feature.
+
+## 2.0.0
+
+* Removes deprecated methods: `Merit::Badge.last_granted` and
+  `Merit::Score.top_scored`.
+* Removes `add_points` `log` parameter.
+* Adds points category option.
+
+## 1.9.0
+
+* Deprecates `Merit::Badge.last_granted` and `Merit::Score.top_scored`.
+  Code can be readded to client applications following instructions in:
+  https://github.com/tute/merit/wiki/How-to-show-a-points-leaderboard
+  https://github.com/tute/merit/wiki/How-to-show-last-granted-badges
+* Deprecates `add_points` `log` parameter.
+
+## 1.8.0
+
+* Completes implementation of observer patter for getting reputation grant
+  notifications to the client app. See: https://github.com/tute/merit#getting-
+  notifications.
+* Work on mongoid adapter (not yet ready), and other internals polishing.
+
+## 1.7.0
+
+* Adds support for dynamic scoring
+* `substract_points` is deprecated in favor of `subtract_points`. Careless
+  computers didn't mind my misspellings. ;-)
+* JRuby and Rubinius compatibility
 
 ## 1.6.0
 

@@ -15,12 +15,12 @@ require_dependency "merit/models/#{Merit.orm}/merit/action"
 module Merit
   class Action
     def self.check_unprocessed
-      where(processed: false).map &:check_all_rules
+      where(processed: false).map(&:check_all_rules)
     end
 
     # Check rules defined for a merit_action
     def check_all_rules
-      processed!
+      mark_as_processed!
       return if had_errors
 
       check_rules rules_matcher.select_from(AppBadgeRules), :badges
@@ -31,25 +31,18 @@ module Merit
 
     def check_rules(rules_array, badges_or_points)
       rules_array.each do |rule|
-        judge = Judge.new sashes_to_badge(rule), rule, action: self
+        judge = Judge.new rule, action: self
         judge.send :"apply_#{badges_or_points}"
       end
     end
 
-    # Subject to badge: source_user or target.user?
-    def sashes_to_badge(rule)
-      SashFinder.find(rule, self)
-    end
-
-    # Mark merit_action as processed
-    def processed!
+    def mark_as_processed!
       self.processed = true
-      self.save
+      save
     end
 
     def rules_matcher
       @rules_matcher ||= ::Merit::RulesMatcher.new(target_model, action_method)
     end
-
   end
 end

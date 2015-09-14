@@ -16,6 +16,9 @@ module Dummy
     # config.i18n.default_locale = :de
     # config.active_record.whitelist_attributes = true
 
+    # http://stackoverflow.com/questions/20361428/rails-i18n-validation-deprecation-warning
+    config.i18n.enforce_available_locales = true
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 

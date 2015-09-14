@@ -1,0 +1,13 @@
+# This is the configuration used to check the rubocop source code.
+
+MethodLength:
+  Max: 10
+
+ClassLength:
+  Max: 100
+
+CyclomaticComplexity:
+  Max: 12
+
+Documentation:
+  Enabled: false

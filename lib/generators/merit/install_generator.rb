@@ -4,7 +4,7 @@ module Merit
       source_root File.expand_path('../templates', __FILE__)
       hook_for :orm
 
-      desc "Copy config and rules files"
+      desc 'Copy config and rules files'
       def copy_migrations_and_model
         template 'merit.rb', 'config/initializers/merit.rb'
         template 'merit_badge_rules.rb', 'app/models/merit/badge_rules.rb'

@@ -27,8 +27,10 @@ Dummy::Application.configure do
   # like if you have constraints or database-specific column types
   # config.active_record.schema_format = :sql
 
+  config.active_support.test_order = :random
+
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  config.eager_load = false
+  config.eager_load = ENV['RAILS_VERSION'] == '4.0' || ENV['RAILS_VERSION'] == '4.0-protected-attributes'
 end

@@ -26,6 +26,13 @@ module Merit
         true
       end
 
+      # For regression test: if condition doesn't hold, it doesn't check
+      # sashes to badge. Useful for polymorphic relations where not every
+      # model has reputation. See https://github.com/tute/merit/issues/134.
+      grant_on 'users#create', badge: 'just-registered', to: :model_with_no_reputation do |user|
+        user.model_with_no_reputation.respond_to?(:_sash)
+      end
+
       # Example rule for multiple badge granting
       grant_on 'users#index', badge: 'gossip', multiple: true
 
@@ -35,14 +42,16 @@ module Merit
       # Example rule for testing badge granting in differently namespaced controllers.
       grant_on '.*users#index', badge: 'wildcard_badge', multiple: true
 
+      # Example rule using current user
       grant_on 'comments#vote', badge: 'only_certain_users' do |current_user:|
         current_user.name == 'Grant only me'
       end
 
-      # If it has 10 comments, grant commenter-10 badge
-      grant_on 'comments#create', badge: 'commenter', level: 10 do |comment|
+      # If it has 10 comments, grant commenter-10 badge, find badge by badge_id
+      grant_on 'comments#create', badge_id: 1, level: 10 do |comment|
         comment.user.comments.count >= 10
       end
+
       # Testing badge granting in more than one rule per action with different targets
       grant_on 'comments#create', badge: 'has_commenter_friend', to: :friend do |comment|
         comment.user.comments.count >= 10

@@ -6,50 +6,24 @@ module Merit
   # It's existence make join models like badges_users and scores_users
   # unnecessary. It should be transparent at the application.
   class Sash < ActiveRecord::Base
+    include Base::Sash
     has_many :badges_sashes, dependent: :destroy
     has_many :scores, dependent: :destroy, class_name: 'Merit::Score'
 
     after_create :create_scores
 
-    def badges
-      badge_ids.map { |id| Badge.find id }
-    end
-
-    def badge_ids
-      badges_sashes.map(&:badge_id)
-    end
-
-    def add_badge(badge_id)
-      bs = BadgesSash.new(badge_id: badge_id)
-      self.badges_sashes << bs
-      bs
-    end
-
-    def rm_badge(badge_id)
-      badges_sashes.find_by_badge_id(badge_id).try(:destroy)
-    end
-
-
-    def points(category = 'default')
-      scores.where(category: category).first.points
-    end
-
-    def add_points(num_points, log = 'Manually granted', category = 'default')
-      point = Merit::Score::Point.new
-      point.log = log
-      point.num_points = num_points
-      self.scores.where(category: category).first.score_points << point
-      point
-    end
-
-    def substract_points(num_points, log = 'Manually granted', category = 'default')
-      add_points -num_points, log, category
-    end
-
-    private
-
-    def create_scores
-      self.scores << Merit::Score.create
+    # Retrieve all points from a category or none if category doesn't exist
+    # By default retrieve all Points
+    # @param category [String] The category
+    # @return [ActiveRecord::Relation] containing the points
+    def score_points(options = {})
+      scope = Merit::Score::Point
+                .joins(:score)
+                .where('merit_scores.sash_id = ?', id)
+      if (category = options[:category])
+        scope = scope.where('merit_scores.category = ?', category)
+      end
+      scope
     end
   end
 end

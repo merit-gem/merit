@@ -1,24 +1,13 @@
 module Merit
   class BadgesSash < ActiveRecord::Base
-    belongs_to :sash
+    include Base::BadgesSash
+
     has_many :activity_logs,
-      class_name: Merit::ActivityLog,
-      as: :related_change
+             class_name: 'Merit::ActivityLog',
+             as: :related_change
 
-    unless defined?(ActionController::StrongParameters)
-      attr_accessible :badge_id
-    end
+    validates_presence_of :badge_id, :sash
 
-    def self.last_granted(options = {})
-      options[:since_date] ||= 1.month.ago
-      options[:limit]      ||= 10
-      where("created_at > '#{options[:since_date]}'").
-        limit(options[:limit]).
-        map(&:badge)
-    end
-
-    def badge
-      Badge.find(badge_id)
-    end
+    attr_accessible :badge_id if show_attr_accessible?
   end
 end

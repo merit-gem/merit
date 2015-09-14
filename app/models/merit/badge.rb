@@ -6,7 +6,7 @@ module Merit
     extend Ambry::Model
     extend Ambry::ActiveModel
 
-    field :id, :name, :level, :image, :description, :custom_fields
+    field :id, :name, :level, :description, :custom_fields
 
     validates_presence_of :id, :name
     validates_uniqueness_of :id
@@ -26,19 +26,29 @@ module Merit
       end
     end
 
+    def _mongoid_sash_in(sashes)
+      {:sash_id.in => sashes}
+    end
+
+    def _active_record_sash_in(sashes)
+      {sash_id: sashes}
+    end
+
     class << self
       def find_by_name_and_level(name, level)
-        badges = Badge.by_name(name)
+        badges = Merit::Badge.by_name(name)
         badges = badges.by_level(level) unless level.nil?
         if (badge = badges.first).nil?
           str = "No badge '#{name}' found. Define it in initializers/merit.rb"
-          raise ::Merit::BadgeNotFound, str
+          fail ::Merit::BadgeNotFound, str
         end
         badge
       end
 
-      # Last badges granted
+      # DEPRECATED: `last_granted` will be removed from merit, please refer to:
+      # https://github.com/tute/merit/wiki/How-to-show-last-granted-badges
       def last_granted(options = {})
+        warn '[merit] [DEPRECATION] `last_granted` will be removed from merit, please refer to: https://github.com/tute/merit/wiki/How-to-show-last-granted-badges'
         options[:since_date] ||= 1.month.ago
         options[:limit]      ||= 10
         BadgesSash.last_granted(options)
@@ -46,10 +56,11 @@ module Merit
 
       # Defines Badge#meritable_models method, to get related
       # entries with certain badge. For instance, Badge.find(3).users
+      # orm-specified
       def _define_related_entries_method(meritable_class_name)
         define_method(:"#{meritable_class_name.underscore.pluralize}") do
-          sashes = BadgesSash.where(badge_id: self.id).pluck(:sash_id)
-          meritable_class_name.constantize.where(sash_id: sashes)
+          sashes = BadgesSash.where(badge_id: id).pluck(:sash_id)
+          meritable_class_name.constantize.where(send "_#{Merit.orm}_sash_in", sashes)
         end
       end
     end

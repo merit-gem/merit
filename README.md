@@ -1,60 +1,94 @@
 # Merit
-Merit is a reputation Ruby gem that supports Badges, Points, and Rankings.
 
+Merit adds reputation behavior to Rails apps in the form of Badges, Points,
+and Rankings.
 
-![Merit gem](http://i567.photobucket.com/albums/ss118/DeuceBigglebags/th_nspot26_300.jpg)
+[![Build Status](https://travis-ci.org/merit-gem/merit.svg?branch=master)](http://travis-ci.org/merit-gem/merit)
+[![Coverage Status](https://img.shields.io/coveralls/tute/merit.svg)](https://coveralls.io/r/tute/merit?branch=master)
+[![Code Climate](https://codeclimate.com/github/tute/merit/badges/gpa.svg)](https://codeclimate.com/github/tute/merit)
 
-[![Build Status](https://travis-ci.org/tute/merit.png?branch=master)](http://travis-ci.org/tute/merit)
-[![Code Climate](https://codeclimate.com/github/tute/merit.png)](https://codeclimate.com/github/tute/merit)
+# Table of Contents
+
+- [Installation](#installation)
+- [Badges](#badges)
+    - [Creating Badges](#creating-badges)
+        - [Example](#example)
+    - [Defining Rules](#defining-rules)
+        - [Examples](#examples)
+    - [Other Actions](#other-actions)
+    - [Displaying Badges](#displaying-badges)
+- [Points](#points)
+    - [Defining Rules](#defining-rules-1)
+        - [Examples](#examples-1)
+    - [Other Actions](#other-actions-1)
+    - [Displaying Points](#displaying-points)
+- [Rankings](#rankings)
+    - [Defining Rules](#defining-rules-2)
+        - [Examples](#examples-2)
+    - [Displaying Rankings](#displaying-rankings)
+- [How merit finds the target object](#how-merit-finds-the-target-object)
+- [Getting Notifications](#getting-notifications)
+- [I18n](#i18n)
+- [Uninstalling Merit](#uninstalling-merit)
+
 
 # Installation
 
 1. Add `gem 'merit'` to your `Gemfile`
-2. Run `rails g merit:install`
-3. Run `rails g merit MODEL_NAME` (e.g. `user`)
+2. Run `rails g merit:install`. This creates several migrations.
+3. Run `rails g merit MODEL_NAME` (e.g. `user`). This creates a migration and adds `has_merit` to MODEL_NAME.
 4. Run `rake db:migrate`
-5. Define badges in `config/initializers/merit.rb`
+5. Define badges in `config/initializers/merit.rb`. You can also define ORM:
+   `:active_record` (default) or `:mongoid`.
 6. Configure reputation rules for your application in `app/models/merit/*`
 
----
 
 # Badges
+
 ## Creating Badges
+
 Create badges in `config/initializers/merit.rb`
 
 `Merit::Badge.create!` takes a hash describing the badge:
-* `:id` integer (reqired)
+* `:id` integer (required)
 * `:name` this is how you reference the badge (required)
 * `:level` (optional)
 * `:description` (optional)
 * `:custom_fields` hash of anything else you want associated with the badge (optional)
 
 ### Example
+
 ```ruby
-Merit::Badge.create! ({
+Merit::Badge.create!(
   id: 1,
-  name: "Yearling",
+  name: "year-member",
   description: "Active member for a year",
   custom_fields: { difficulty: :silver }
-})
+)
 ```
 
-## Defining Badge Rules
-Badges can be automatically given to any resource in your application based on rules and conditions you create.
-Badges can also have levels, and be permanent or temporary (A temporary badge is revoked when the conditions of the badge are no longer met).
+## Defining Rules
 
-Badge rules / conditions are defined in `app/models/merit/badge_rules.rb` `initialize` block by calling `grant_on` with the following parameters:
+Badges can be automatically given to any resource in your application based on
+rules and conditions you create. Badges can also have levels, and be permanent
+or temporary (A temporary badge is revoked when the conditions of the badge
+are no longer met).
 
-* `'controller#action'` a string similar to Rails routes
-* `:badge` corresponds to the `:name` of the badge
+Badge rules / conditions are defined in `app/models/merit/badge_rules.rb`
+`initialize` block by calling `grant_on` with the following parameters:
+
+* `'controller#action'` a string similar to Rails routes (required)
+* `:badge_id` or `:badge` these correspond to the `:id` or `:name` of the badge respectively
 * `:level` corresponds to the `:level` of the badge
-* `:to` the object's field to give the badge to
-  * If you are putting badges on the related user then this field is probably
-    `:user`.
-  * Needs a variable named `@model` in the associated controller action, like
-    `@post` for `posts_controller.rb` or `@comment` for `comments_controller.rb`.
-    Implementation note: Merit finds the object with following snippet:
-    `instance_variable_get(:"@#{controller_name.singularize}")`.
+* `:to` the object's field to give the badge to. It needs a variable named
+  `@model` in the associated controller action, like `@post` for
+  `posts_controller.rb` or `@comment` for `comments_controller.rb`.
+  * Can be a method name, which called over the target object should retrieve
+    the object to badge. If it's `:user` for example, merit will internally
+    call `@model.user` to find who to badge.
+  * Can be `:itself`, in which case it badges the target object itself
+    (`@model`).
+  * Is `:action_user` by default, which means `current_user`.
 * `:model_name` define the controller's name if it's different from
   the model's (e.g. `RegistrationsController` for the `User` model).
 * `:multiple` whether or not the badge may be granted multiple times. `false` by default.
@@ -72,12 +106,12 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb` `initi
 
 ```ruby
 # app/models/merit/badge_rules.rb
-grant_on 'comments#vote', badge: 'relevant-commenter', to: :user do |comment|
+grant_on 'comments#vote', badge_id: 5, to: :user do |comment|
   comment.votes.count == 5
 end
 
 grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: true do |user|
-  user.name.present? && user.email.present?
+  user.name? && user.email?
 end
 
 grant_on 'users#update', badge: 'updated_my_info' do |user, current_user:|
@@ -92,7 +126,7 @@ grant_on 'users#update', badge: 'became_an_adult' do |current_user:|
 end
 ```
 
-## Other Badge Actions
+## Other Actions
 
 ```ruby
 # Check granted badges
@@ -104,19 +138,27 @@ current_user.rm_badge(badge.id)
 ```
 
 ```ruby
-# List 10 badge grants in the last month
-Badge.last_granted
-
-# List 20 badge grants in the last week
-Badge.last_granted(since_date: 1.week.ago, limit: 20)
-
 # Get related entries of a given badge
-Badge.find(1).users
+Merit::Badge.find(1).users
 ```
 
----
+## Displaying Badges
 
-# Defining point rules
+Meritable models have a `badges` method which returns an array of associated
+badges:
+
+```erb
+<ul>
+  <% current_user.badges.each do |badge| %>
+    <li><%= badge.name %></li>
+  <% end %>
+</ul>
+```
+
+
+# Points
+
+## Defining Rules
 
 Points are given to "meritable" resources on actions-triggered, either to the
 action user or to the method(s) defined in the `:to` option. Define rules on
@@ -124,17 +166,25 @@ action user or to the method(s) defined in the `:to` option. Define rules on
 
 `score` accepts:
 
-* `:on` action as string or array of strings (similar to Rails routes)
-* `:to` method(s) to send to the target_object (who should be scored?)
+* `score`
+  * `Integer`
+  * `Proc`, or any object that accepts `call` which takes one argument, where
+    the target object is passed in and the return value is used as the score.
+* `:on` action as string or array of strings (like `controller#action`, similar to Rails routes)
+* `:to` method(s) to send to the target object (who should be scored?)
+* `:model_name` (optional) to specify the model name if it cannot be guessed
+  from the controller. (e.g. `model_name: 'User'` for `RegistrationsController`,
+  or `model_name: 'Comment'` for `Api::CommentsController`)
+* `:category` (optional) to categorize earned points. `default` is used by default.
 * `&block`
   * empty (always scores)
   * a block which evaluates to boolean (recieves target object as parameter)
 
-## Examples
+### Examples
 
 ```ruby
 # app/models/merit/point_rules.rb
-score 10, to: :post_creator, on: 'comments#create' do |comment|
+score 10, to: :post_creator, on: 'comments#create', category: 'comment_activity' do |comment|
   comment.title.present?
 end
 
@@ -144,41 +194,51 @@ score 20, on: [
 ]
 
 score 15, on: 'reviews#create', to: [:reviewer, :reviewed]
+
+proc = lambda { |photo| PhotoPointsCalculator.calculate_score_for(photo) }
+score proc, on: 'photos#create'
 ```
 
-```ruby
-# Check awarded points
-current_user.points # Returns an integer
+## Other Actions
 
+```ruby
 # Score manually
-current_user.add_points(20, 'Optional log message')
-current_user.substract_points(10)
+current_user.add_points(20, category: 'Optional category')
+current_user.subtract_points(10, category: 'Optional category')
 ```
 
 ```ruby
-# List top 10 scored users in the last month
-Merit::Score.top_scored
-
-# List top 25 scored lists in the last week
-Merit::Score.top_scored(
-  table_name: :lists,
-  since_date: 1.week.ago,
-  limit: 25
-)
+# Query awarded points since a given date
+score_points = current_user.score_points(category: 'Optional category')
+score_points.where("created_at > '#{1.month.ago}'").sum(:num_points)
 ```
 
----
+## Displaying Points
 
-# Defining rank rules
+Meritable models have a `points` method which returns an integer:
 
-5 stars is a common ranking use case. They are not given at specified actions
-like badges, you should define a cron job to test if ranks are to be granted.
+```erb
+<%= current_user.points(category: 'Optional category') %>
+```
+
+If `category` left empty, it will return the sum of points for every category.
+
+```erb
+<%= current_user.points %>
+```
+
+# Rankings
+
+A common ranking use case is 5 stars. They are not given at specified actions
+like badges, a cron job should be defined to test if ranks are to be granted.
+
+## Defining Rules
 
 Define rules on `app/models/merit/rank_rules.rb`:
 
 `set_rank` accepts:
 
-* `:level` ranking level (greater is better)
+* `:level` ranking level (greater is better, Lexicographical order)
 * `:to` model or scope to check if new rankings apply
 * `:level_name` attribute name (default is empty and results in
   '`level`' attribute, if set it's appended like
@@ -193,7 +253,7 @@ end
 ```
 
 
-## Examples
+### Examples
 
 ```ruby
 set_rank level: 2, to: Committer.active do |committer|
@@ -205,10 +265,94 @@ set_rank level: 3, to: Committer.active do |committer|
 end
 ```
 
+## Displaying Rankings
 
-# To-do list
+```erb
+<%= current_user.level %>
+```
 
-* Finish Observer implementation for `Judge`.
-* Move level from meritable model into Sash
-* `ActivityLog` should replace `add_points` `log` parameter
-* FIXMES and TODOS.
+
+# How merit finds the target object
+
+Merit fetches the rule’s target object (the parameter it receives) from its
+`:model_name` option, or from the controller’s instance variable.
+
+To read it from the controller merit searches for the instance variable named
+after the singularized controller name. For example, a rule like:
+
+```ruby
+grant_on 'comments#update', badge_id: 1 do |target_object|
+  # target_object would be better named comment in this sample
+end
+```
+
+Would make merit try to find the `@comment` instance variable in the
+`CommentsController#update` action. If the rule had the `:model_name` option
+specified:
+
+```ruby
+grant_on 'comments#update', badge_id: 1, model_name: "Article" do |target_object|
+  # target_object would be better named article in this sample
+end
+```
+
+Merit would fetch the `Article` object from the database, found by the `:id`
+param sent in that `update` action.
+
+If none of these methods find the target, Merit will log a `no target_obj`
+warning, with a comment to check the configuration for the rule.
+
+
+# Getting Notifications
+
+You can get observers notified any time merit changes reputation in your
+application.
+
+It needs to implement the `update` method, which receives as parameter the
+following hash:
+
+* `description`, describes what happened. For example: "granted 5 points",
+  "granted just-registered badge", "removed autobiographer badge".
+* `sash_id`, who saw it's reputation changed.
+* `granted_at`, date and time when the reputation change took effect.
+
+Example code (add your observer to `app/models` or `app/observers`):
+
+```ruby
+# reputation_change_observer.rb
+class ReputationChangeObserver
+  def update(changed_data)
+    description = changed_data[:description]
+
+    # If user is your meritable model, you can query for it doing:
+    user = User.where(sash_id: changed_data[:sash_id]).first
+
+    # When did it happened:
+    datetime = changed_data[:granted_at]
+  end
+end
+```
+```ruby
+# In `config/initializers/merit.rb`
+config.add_observer 'ReputationChangeObserver'
+```
+
+# I18n
+
+Merit uses default messages with I18n for notify alerts. To customize your app, you can set up your locale file:
+
+```yaml
+en:
+  merit:
+    granted_badge: "granted %{badge_name} badge"
+    granted_points: "granted %{points} points"
+    removed_badge: "removed %{badge_name} badge"
+```
+
+# Uninstalling Merit
+
+1. Run `rails d merit:install`
+2. Run `rails d merit MODEL_NAME` (e.g. `user`)
+3. Run `rails g merit:remove MODEL_NAME` (e.g. `user`)
+4. Run `rake db:migrate`
+5. Remove `merit` from your Gemfile

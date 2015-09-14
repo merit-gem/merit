@@ -1,18 +1,30 @@
 require 'test_helper'
 
-class NavigationTest < ActiveSupport::IntegrationCase
+class NavigationTest < ActionDispatch::IntegrationTest
+  def teardown
+    DummyObserver.unstub(:update)
+  end
+
   test 'user sign up should grant badge to itself' do
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+      hash[:description] == 'granted just-registered badge' &&
+        hash[:sash_id] == user('Jack').sash_id &&
+        hash[:granted_at].to_date == Time.now.utc.to_date
+    end
+
     visit '/users/new'
     fill_in 'Name', with: 'Jack'
     assert_difference('Merit::ActivityLog.count') do
       click_button('Create User')
     end
 
-    user = User.where(name: 'Jack').first
-    assert_equal [Merit::Badge.by_name('just-registered').first], user.badges
+    just_registered = Merit::Badge.by_name('just-registered').first
+    assert_equal [just_registered], user('Jack').badges
   end
 
   test 'User#add_badge should add one badge, #rm_badge should delete one' do
+    DummyObserver.any_instance.expects(:update).times 0
+
     user = User.create(name: 'test-user')
     assert_equal [], user.badges
 
@@ -24,9 +36,18 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     user.rm_badge badge.id
     assert_equal [badge], user.reload.badges
+
+    assert_raise NoMethodError do
+      user.add_badge badge
+    end
+
+    assert_raise NoMethodError do
+      user.rm_badge badge
+    end
   end
 
   test 'Remove inexistent badge should do nothing' do
+    DummyObserver.any_instance.expects(:update).times 0
     user = User.create(name: 'test-user')
     assert_equal [], user.badges
     user.rm_badge 1
@@ -34,7 +55,18 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'users#index should grant badge multiple times' do
-    user = User.create(name: 'test-user')
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+      hash[:description] == 'granted visited_admin badge' &&
+      hash[:sash_id] == user.sash_id
+    end
+    DummyObserver.any_instance.expects(:update).times(5).with do |hash|
+      hash[:description] == 'granted gossip badge' &&
+      hash[:sash_id] == user.sash_id
+    end
+    DummyObserver.any_instance.expects(:update).times(8).with do |hash|
+      hash[:description] == 'granted wildcard_badge badge' &&
+      hash[:sash_id] == user.sash_id
+    end
 
     # Multiple rule
     assert_difference 'badges_by_name(user, "gossip").count', 3 do
@@ -58,8 +90,9 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should grant some badges at some times' do
+    DummyObserver.any_instance.expects(:update).at_least_once
     # Commented 9 times, no badges yet
-    user = User.create(name: 'test-user')
+    user # creates user
     # Create needed friend user object
     friend = User.create(name: 'friend')
 
@@ -77,12 +110,21 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_equal 0, Merit::Score::Point.count
     user.add_points 15
     assert_equal 15, user.points
-    user.substract_points 15
+    user.subtract_points 15
     assert_equal 0, user.points
     assert_equal 2, Merit::Score::Point.count
 
-    # Make tenth comment, assert 10-commenter badge granted
+    # Tenth comment with errors doesn't change reputation
+    badges = user.reload.badges
+    points = user.points
     visit '/comments/new'
+    assert_no_difference('Merit::ActivityLog.count') do
+      click_button('Create Comment')
+    end
+    assert_equal badges, user.reload.badges
+    assert_equal points, user.points
+
+    # Tenth comment without errors, assert 10-commenter badge granted
     fill_in 'Name', with: 'Hi!'
     fill_in 'Comment', with: 'Hi bro!'
     fill_in 'User', with: user.id
@@ -101,14 +143,10 @@ class NavigationTest < ActiveSupport::IntegrationCase
     end
 
     relevant_badge = Merit::Badge.by_name('relevant-commenter').first
-    user_badges    = User.where(name: 'test-user').first.badges
-    assert user_badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
+    assert user.badges.include?(relevant_badge), "User badges: #{user.badges.collect(&:name).inspect} should contain relevant-commenter badge."
 
     # Edit user's name by long name
     # tests ruby code in grant_on is being executed, and gives badge
-    user = User.where(name: 'test-user').first
-    user_badges = user.badges
-
     visit "/users/#{user.id}/edit"
     fill_in 'Name', with: 'long_name!'
     click_button('Update User')
@@ -124,8 +162,11 @@ class NavigationTest < ActiveSupport::IntegrationCase
     assert_difference('Merit::ActivityLog.count', 2) do
       click_button('Update User')
     end
-    # Last one is point granting, previous one is badge removing
-    assert_equal 'removed', Merit::ActivityLog.all[-2].description
+
+    # Check created Merit::ActivityLogs
+    assert_equal 'granted commenter badge', Merit::ActivityLog.all[0].description
+    assert_equal 'granted 20 points', Merit::ActivityLog.all[-1].description
+    assert_equal 'removed autobiographer badge', Merit::ActivityLog.all[-2].description
 
     user = User.where(name: 'abc').first
     assert !user.badges.include?(autobiographer_badge), "User badges: #{user.badges.collect(&:name).inspect} should remove autobiographer badge."
@@ -143,6 +184,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'user workflow should add up points at some times' do
+    DummyObserver.any_instance.expects(:update).at_least_once
     User.delete_all
     user = User.create(name: 'test-user')
     assert_equal 0, user.points, 'User should start with 0 points'
@@ -182,15 +224,37 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     visit "/comments/#{Comment.last.id}/vote/4"
     user = User.first
-    assert_equal 46, user.points, 'Voting comments should grant 5 points for voted, and 1 point for voting'
+    assert_equal 47, user.points, 'Voting comments should grant 5 points for
+      voted, and 1 point for voting twice (repeated rule)'
+    assert_equal 5, user.points(category: 'vote'), 'Voting comments should
+      grant 5 points for voted in vote category'
 
-    user = User.first
     user.update_attribute :name, 'Grant only me'
     visit "/comments/#{Comment.last.id}/vote/4"
     assert_equal 152, user.points, 'Voting comments should grant 105 points to the special user'
+
+    visit '/comments/new'
+    fill_in 'Name', with: 'Hi'
+    fill_in 'Comment', with: '4'
+    fill_in 'User', with: user.id
+    click_button('Create Comment')
+
+    user = User.where(name: 'a').first
+    assert_equal 156, user.points, 'Commenting should grant the integer in
+      comment points if comment is an integer'
+
+    # Destroying a comment should remove points from the comment creator.
+    comment_to_destroy = user.comments.last
+    visit '/comments'
+    assert_difference lambda { user.reload.points }, -5 do
+      within("tr#c_#{comment_to_destroy.id}") do
+        click_link 'Destroy'
+      end
+    end
   end
 
   test 'user workflow should grant levels at some times' do
+    DummyObserver.any_instance.expects(:update).at_least_once
     user = User.create(name: 'test-user')
     assert user.badges.empty?
 
@@ -227,13 +291,30 @@ class NavigationTest < ActiveSupport::IntegrationCase
   end
 
   test 'assigning points to a group of records' do
-    commenter = User.create(name: 'commenter')
-    comment_1 = commenter.comments.create(name: 'comment_1', comment: 'a')
-    comment_2 = commenter.comments.create(name: 'comment_2', comment: 'b')
+    DummyObserver.any_instance.expects(:update).times(2).with do |hash|
+      hash[:description] == 'granted 1 points' &&
+      hash[:sash_id] == user('commenter').sash_id
+    end
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+      hash[:description] == 'granted 2 points' &&
+      hash[:sash_id] == user('commenter').comments.first.sash_id
+    end
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+      hash[:description] == 'granted 2 points' &&
+      hash[:sash_id] == user('commenter').comments.last.sash_id
+    end
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+      hash[:description] == 'granted 5 points' &&
+      hash[:sash_id] == user('commenter').sash_id
+    end
+
+    comment_1 = user('commenter').comments.create(name: 'a', comment: 'a')
+    comment_2 = user('commenter').comments.create(name: 'b', comment: 'b')
 
     visit comments_path
     # Thanks for voting point, to voted user and it's comments
-    assert_difference('Merit::ActivityLog.count', 4) do
+    # (repeated rule, called twice)
+    assert_difference('Merit::ActivityLog.count', 5) do
       within "tr#c_#{comment_2.id}" do
         click_link '1'
       end
@@ -241,6 +322,23 @@ class NavigationTest < ActiveSupport::IntegrationCase
 
     comment_1.reload.points.must_be :==, 2
     comment_2.reload.points.must_be :==, 2
+  end
+
+  test 'api/comments#show should grant 1 point to user' do
+    DummyObserver.any_instance.expects(:update).times(1).with do |hash|
+      hash[:description] == 'granted 1 points' &&
+      hash[:sash_id] == user.sash_id
+    end
+
+    assert_equal 0, user.points
+    comment = user.comments.create!(name: 'test-comment', comment: 'comment body')
+
+    visit "/api/comments/#{comment.id}"
+    assert_equal 1, user.points
+  end
+
+  def user(name = 'test-user')
+    User.where(name: name).first || User.create(name: name)
   end
 
   def badges_by_name(user, name)

@@ -3,7 +3,11 @@ ENV['RAILS_ENV'] = 'test'
 RUBYOPT="-w $RUBYOPT"
 
 if ENV["COVERAGE"]
+  require 'coveralls'
   require 'simplecov'
+
+  Coveralls.wear!('rails')
+
   SimpleCov.adapters.define 'rubygem' do
     # Add app to Merit group
     # https://github.com/colszowka/simplecov/pull/104
@@ -14,10 +18,11 @@ if ENV["COVERAGE"]
   SimpleCov.start 'rubygem'
 end
 
-
 require File.expand_path('../dummy/config/environment.rb', __FILE__)
 require 'rails/test_help'
 require 'minitest/rails'
+require 'mocha/mini_test'
+require "orm/#{Merit.orm}"
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -26,7 +31,11 @@ require 'capybara/rails'
 Capybara.default_driver   = :rack_test
 Capybara.default_selector = :css
 
-ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
-
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
+
+Merit.orm = :active_record if Merit.orm.nil?
+
+def active_record_orm?
+  Merit.orm == :active_record
+end

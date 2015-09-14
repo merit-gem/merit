@@ -23,7 +23,7 @@ module Merit
       end
 
       defined_rules[options[:to]] ||= {}
-      defined_rules[options[:to]].merge!({ options[:level] => rule })
+      defined_rules[options[:to]].merge!(options[:level] => rule)
     end
 
     # Not part of merit after_filter. To be called asynchronously:
@@ -48,9 +48,18 @@ module Merit
         next unless rule.applies?(object)
         object.update_attribute rule.level_name, level
       end
-    rescue ActiveRecord::StatementInvalid
-      str = "Add #{rule.level_name} column to #{scoped_model.class.name}"
+    rescue rank_exception
+      str = "Error while granting rankings. Probably you need to add
+        #{rule.level_name} column to #{scoped_model.class.name}."
       raise RankAttributeNotDefined, str
+    end
+
+    def rank_exception
+      if defined? ActiveRecord
+        ActiveRecord::StatementInvalid
+      else
+        Exception
+      end
     end
 
     def scope_to_promote(scope, level_name, level)

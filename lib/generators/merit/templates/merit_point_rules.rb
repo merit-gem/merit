@@ -13,8 +13,8 @@ module Merit
     include Merit::PointRulesMethods
 
     def initialize
-      # score 10, :on => 'users#update' do
-      #   user.name.present?
+      # score 10, :on => 'users#create' do |user|
+      #   user.bio.present?
       # end
       #
       # score 15, :on => 'reviews#create', :to => [:reviewer, :reviewed]
@@ -23,6 +23,8 @@ module Merit
       #   'comments#create',
       #   'photos#create'
       # ]
+      #
+      # score -10, :on => 'comments#destroy'
     end
   end
 end
