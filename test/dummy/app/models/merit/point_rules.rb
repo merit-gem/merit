@@ -27,7 +27,7 @@ module Merit
         end
       end
 
-      score 100, on: 'comments#vote' do |target_object, current_user|
+      score 100, on: 'comments#vote' do |current_user:|
         current_user.name == 'Grant only me'
       end
     end
