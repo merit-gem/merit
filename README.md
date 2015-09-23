@@ -114,12 +114,13 @@ grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: t
   user.name? && user.email?
 end
 
-grant_on 'users#update', badge: 'updated_my_info' do |user, current_user:|
-  user == current_user
+grant_on 'addresses#update', badge: 'address_updated' do |address, current_user:|
+  current_user == address.user
 end
 ```
 
-## Even only using the current user
+## You may use current_user only
+
 ```ruby
 grant_on 'users#update', badge: 'became_an_adult' do |_, current_user:|
   current_user.age > 21
