@@ -2,6 +2,14 @@
 
 User-visible changes worth mentioning.
 
+## 2.3.3
+
+- [#215] Bug fix in API where a `BadgeSash` would be created without failures
+  with a nil `badge_id`.
+- Add validations to `BadgesSash`
+- Rename generated migration files to explicitly name merit
+- README improvements
+
 ## 2.3.2
 
 - [#218] Implement I18n for internationalization support
