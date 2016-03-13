@@ -36,7 +36,7 @@ module Merit
         object.comment.to_i > 0
       end
 
-      score -5, to: :user, on: 'comments#destroy' do |comment|
+      score (-5), to: :user, on: 'comments#destroy' do |comment|
         comment.present?
       end
     end
