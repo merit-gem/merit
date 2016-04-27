@@ -89,8 +89,8 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb`
   * Can be `:itself`, in which case it badges the target object itself
     (`@model`).
   * Is `:action_user` by default, which means `current_user`.
-* `:model_name` define the controller's name if it's different from
-  the model's (e.g. `RegistrationsController` for the `User` model).
+* `:model_name` define the model's name if it's different from
+  the controller's (e.g. the `User` model for the `RegistrationsController`).
 * `:multiple` whether or not the badge may be granted multiple times. `false` by default.
 * `:temporary` whether or not the badge should be revoked if the condition no
   longer holds. `false` -badges are kept for ever- by default.
