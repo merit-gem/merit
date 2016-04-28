@@ -11,13 +11,6 @@ env:
   - RAILS_VERSION=3.2
   - RAILS_VERSION=4.1
   - RAILS_VERSION=4.2
-  - ORM=active_record
-
-services:
-  - mongodb
-
-allow_failures:
-  - ORM=mongoid
 
 matrix:
   exclude:
