@@ -2,6 +2,11 @@
 
 User-visible changes worth mentioning.
 
+## master
+
+- [#252] Bug fix: `uninitialized constant Merit::PointRules (NameError)` while
+    installing merit.
+
 ## 2.3.3
 
 - [#215] Bug fix in API where a `BadgeSash` would be created without failures
