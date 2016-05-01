@@ -90,7 +90,8 @@ module Merit
           include Merit::ControllerExtensions
         rescue NameError => e
           # Trap NameError if installing/generating files
-          raise e unless e.to_s =~ /uninitialized constant Merit::BadgeRules/
+          raise e unless
+            e.to_s =~ /uninitialized constant Merit::(BadgeRules|PointRules)/
         end
       end
     end
