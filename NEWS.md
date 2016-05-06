@@ -2,8 +2,9 @@
 
 User-visible changes worth mentioning.
 
-## master
+## 2.3.4
 
+- [#247] Fix Ruby warnings
 - [#252] Bug fix: `uninitialized constant Merit::PointRules (NameError)` while
     installing merit.
 
