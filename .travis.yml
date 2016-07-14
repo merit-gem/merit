@@ -3,16 +3,7 @@ sudo: false
 cache: bundler
 
 rvm:
-  - 2.0
-  - 2.1
-  - 2.2
+  - 2.3.0
 
 env:
-  - RAILS_VERSION=3.2
-  - RAILS_VERSION=4.1
-  - RAILS_VERSION=4.2
-
-matrix:
-  exclude:
-    - env: RAILS_VERSION=3.2
-      rvm: 2.2
+  - RAILS_VERSION=5.0
