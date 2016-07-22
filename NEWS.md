@@ -2,6 +2,10 @@
 
 User-visible changes worth mentioning.
 
+## 2.4.0
+
+- [#260] Works with Rails 5
+
 ## 2.3.4
 
 - [#247] Fix Ruby warnings
