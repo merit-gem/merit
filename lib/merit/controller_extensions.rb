@@ -4,10 +4,19 @@ module Merit
   # 'controller_path#action_name'
   module ControllerExtensions
     def self.included(base)
-      base.after_filter do |controller|
-        if rules_defined?
-          log_merit_action
-          Merit::Action.check_unprocessed if Merit.checks_on_each_request
+      if base.respond_to? :after_action
+        base.after_action do |controller|
+          if rules_defined?
+            log_merit_action
+            Merit::Action.check_unprocessed if Merit.checks_on_each_request
+          end
+        end
+      else
+        base.after_filter do |controller|
+          if rules_defined?
+            log_merit_action
+            Merit::Action.check_unprocessed if Merit.checks_on_each_request
+          end
         end
       end
     end
