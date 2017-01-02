@@ -83,16 +83,10 @@ module Merit
       extend_orm_with_has_merit
       require_models
       ActiveSupport.on_load(:action_controller) do
-        begin
-          # Load app rules on boot up
-          Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
-          Merit::AppPointRules = Merit::PointRules.new.defined_rules
-          include Merit::ControllerExtensions
-        rescue NameError => e
-          # Trap NameError if installing/generating files
-          raise e unless
-            e.to_s =~ /uninitialized constant Merit::(BadgeRules|PointRules)/
-        end
+        Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
+        Merit::AppPointRules = Merit::PointRules.new.defined_rules
+
+        include Merit::ControllerExtensions
       end
     end
 
