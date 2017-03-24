@@ -46,6 +46,19 @@ class NavigationTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test 'User#badge_count should return number of badges' do
+    user = User.create(name: 'test-user')
+    assert_equal [], user.badges
+
+    badge = Merit::Badge.first
+    user.add_badge badge.id
+    user.add_badge badge.id
+    assert_equal [badge, badge], user.badges
+    assert_equal [user], badge.users
+
+    assert_equal user.badge_count, 2
+  end
+
   test 'Remove inexistent badge should do nothing' do
     DummyObserver.any_instance.expects(:update).times 0
     user = User.create(name: 'test-user')
