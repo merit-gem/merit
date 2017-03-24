@@ -5,10 +5,6 @@ module Merit
         badge_ids.map { |id| Merit::Badge.find id }
       end
 
-      def badge_count
-        badges.size
-      end
-
       def badge_ids
         badges_sashes.map(&:badge_id)
       end
