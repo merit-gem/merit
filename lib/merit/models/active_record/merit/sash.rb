@@ -25,5 +25,9 @@ module Merit
       end
       scope
     end
+
+    def badge_count
+      badges_sashes.count
+    end
   end
 end
