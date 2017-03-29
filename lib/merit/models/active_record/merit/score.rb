@@ -7,7 +7,9 @@ module Merit
              class_name: 'Merit::Score::Point'
 
     def points
-      score_points.group(:score_id).sum(:num_points).values.first || 0
+      score_points.select('COALESCE(SUM(num_points), 0) AS num_points')
+                  .first
+                  .num_points
     end
 
     class Point < ActiveRecord::Base
