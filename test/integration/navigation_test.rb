@@ -46,8 +46,8 @@ class NavigationTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'User#badge_count should return number of badges' do
-    user = User.create(name: 'test-user')
+  test "User#badge_count should return number of badges" do
+    user = User.create(name: "test-user")
     assert_equal [], user.badges
 
     badge = Merit::Badge.first
