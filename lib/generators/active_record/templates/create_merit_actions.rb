@@ -9,7 +9,7 @@ class CreateMeritActions < ActiveRecord::Migration
       t.integer :target_id
       t.text    :target_data
       t.boolean :processed, default: false
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

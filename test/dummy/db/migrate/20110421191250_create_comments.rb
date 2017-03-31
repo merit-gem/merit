@@ -6,7 +6,7 @@ class CreateComments < ActiveRecord::Migration
       t.integer :user_id
       t.integer :votes, :default => 0
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 

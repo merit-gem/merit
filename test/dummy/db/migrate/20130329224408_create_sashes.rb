@@ -1,7 +1,7 @@
 class CreateSashes < ActiveRecord::Migration
   def self.up
     create_table :sashes do |t|
-      t.timestamps
+      t.timestamps null: false
     end
   end
 
