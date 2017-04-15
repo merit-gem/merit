@@ -1,6 +1,10 @@
 module Merit
   extend ActiveSupport::Concern
 
+  def grant_level
+    Merit::RankRules.new.check_rank_rules(self.id)
+  end
+
   module ClassMethods
     def has_merit(options = {})
       # MeritableModel#sash_id is more stable than Sash#meritable_model_id

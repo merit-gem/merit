@@ -28,10 +28,10 @@ module Merit
 
     # Not part of merit after_filter. To be called asynchronously:
     # Merit::RankRules.new.check_rank_rules
-    def check_rank_rules
+    def check_rank_rules(user_id = nil)
       defined_rules.each do |scoped_model, level_and_rules|
         level_and_rules.sort.each do |level, rule|
-          grant_when_applies(scoped_model, rule, level)
+          grant_when_applies((user_id) ? scoped_model.where(id: user_id) : scoped_model, rule, level)
         end
       end
     end
