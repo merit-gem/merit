@@ -32,6 +32,10 @@ module Merit
         end
       end
 
+      score 100, on: 'comments#vote' do |_, current_user:|
+        current_user.name == 'Grant only me'
+      end
+
       score lambda { |comment| comment.comment.to_i }, to: :user, on: 'comments#create' do |object|
         object.comment.to_i > 0
       end

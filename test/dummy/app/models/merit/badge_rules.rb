@@ -42,10 +42,16 @@ module Merit
       # Example rule for testing badge granting in differently namespaced controllers.
       grant_on '.*users#index', badge: 'wildcard_badge', multiple: true
 
+      # Example rule using current user
+      grant_on 'comments#vote', badge: 'only_certain_users' do |_, current_user:|
+        current_user.name == 'Grant only me'
+      end
+
       # If it has 10 comments, grant commenter-10 badge, find badge by badge_id
       grant_on 'comments#create', badge_id: 1, level: 10 do |comment|
         comment.user.comments.count >= 10
       end
+
       # Testing badge granting in more than one rule per action with different targets
       grant_on 'comments#create', badge: 'has_commenter_friend', to: :friend do |comment|
         comment.user.comments.count >= 10
@@ -58,7 +64,9 @@ module Merit
 
       # Changes his name by one wider than 4 chars (arbitrary ruby code and custom model_name)
       # This badge is temporary (user may lose it)
-      grant_on 'registrations#update', badge: 'autobiographer', temporary: true, model_name: 'User' do |user|
+      grant_on 'registrations#update', badge: 'autobiographer',
+                                       temporary: true,
+                                       model_name: 'User' do |user|
         user.name.length > 4
       end
     end

@@ -98,6 +98,7 @@ Badge rules / conditions are defined in `app/models/merit/badge_rules.rb`
   * empty / not included: always grant the badge
   * a block which evaluates to boolean. It recieves the target object as
     parameter (e.g. `@post` if you're working with a PostsController action).
+    It may also receive current_user as a named argument (current_user:).
   * a block with a hash composed of methods to run on the target object and
     expected method return values
 
@@ -111,6 +112,18 @@ end
 
 grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: true do |user|
   user.name? && user.email?
+end
+
+grant_on 'addresses#update', badge: 'address_updated' do |address, current_user:|
+  current_user == address.user
+end
+```
+
+## You may use current_user only
+
+```ruby
+grant_on 'users#update', badge: 'became_an_adult' do |_, current_user:|
+  current_user.age > 21
 end
 ```
 

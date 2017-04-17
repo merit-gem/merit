@@ -62,12 +62,16 @@ module Merit
       !sash.badge_ids.include?(badge.id) || @rule.multiple
     end
 
+    def rule_applies?
+      @rule.applies? rule_object, current_user
+    end
+
     def rule_object
       BaseTargetFinder.find(@rule, @action)
     end
 
-    def rule_applies?
-      @rule.applies? rule_object
+    def current_user
+      Merit.user_model.find_by_id @action.user_id
     end
 
     def points

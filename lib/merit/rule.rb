@@ -7,19 +7,14 @@ module Merit
                   :multiple, :temporary, :score, :block, :category
 
     # Does this rule's condition block apply?
-    def applies?(target_obj = nil)
+    def applies?(target_obj = nil, current_user = nil)
       return true if block.nil? # no block given: always true
-
-      case block.arity
-      when 1 # Expects target object
-        if target_obj.present?
-          block.call(target_obj)
-        else
-          Rails.logger.warn '[merit] no target_obj found on Rule#applies?'
-          false
-        end
-      when 0
-        block.call
+      if target_obj.nil? && current_user.nil?
+        Rails.logger.warn '[merit] no target_obj
+                          or current_user found on Rule#applies?'
+        false
+      else
+        call_block_with_args target_obj, current_user
       end
     end
 
@@ -29,6 +24,19 @@ module Merit
         Merit::Badge.find(badge_id)
       else
         Merit::Badge.find_by_name_and_level(badge_name, level)
+      end
+    end
+
+    private
+
+    def call_block_with_args(target_obj, current_user)
+      case block.arity
+      when 0
+        block.call
+      when 1
+        block.call(target_obj)
+      when 2
+        block.call(target_obj, current_user: current_user)
       end
     end
   end
