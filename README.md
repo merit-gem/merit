@@ -41,7 +41,8 @@ and Rankings.
 5. Define badges in `config/initializers/merit.rb`. You can also define ORM:
    `:active_record` (default) or `:mongoid`.
 6. Configure reputation rules for your application in `app/models/merit/*`
-
+7. Hook merit gem's functionality into your desired controller or in application controller by including it
+   `include Merit::ControllerExtensions`
 
 # Badges
 
