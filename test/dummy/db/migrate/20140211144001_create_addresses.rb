@@ -1,4 +1,4 @@
-class CreateAddresses < ActiveRecord::Migration
+class CreateAddresses < ActiveRecord::Migration[5.0]
   def up
     create_table :addresses do |t|
       t.references :user

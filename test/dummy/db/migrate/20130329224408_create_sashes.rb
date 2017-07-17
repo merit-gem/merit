@@ -1,4 +1,4 @@
-class CreateSashes < ActiveRecord::Migration
+class CreateSashes < ActiveRecord::Migration[5.0]
   def self.up
     create_table :sashes do |t|
       t.timestamps null: false

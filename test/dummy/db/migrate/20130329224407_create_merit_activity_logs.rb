@@ -1,4 +1,4 @@
-class CreateMeritActivityLogs < ActiveRecord::Migration
+class CreateMeritActivityLogs < ActiveRecord::Migration[5.0]
   def self.up
     create_table :merit_activity_logs do |t|
       t.integer  :action_id

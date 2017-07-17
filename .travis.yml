@@ -7,5 +7,5 @@ rvm:
   - 2.4.1
 
 env:
-  - RAILS_VERSION=4.2
-  - RAILS_VERSION=5.0
+  - RAILS_VERSION=5.0.3
+  - RAILS_VERSION=5.1
