@@ -1,4 +1,4 @@
-class CreateScoresAndPoints < ActiveRecord::Migration
+class CreateScoresAndPoints < ActiveRecord::Migration[5.0]
   def self.up
     create_table :merit_scores do |t|
       t.references :sash
