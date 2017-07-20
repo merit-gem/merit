@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n").reject{|f| f =~ /^\./ }
   s.test_files  = `git ls-files -- test/*`.split("\n")
   s.license     = 'MIT'
-  s.version     = '2.4.0'
+  s.version     = '3.0.0'
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
 
-  s.required_ruby_version = '>= 1.9.2'
+  s.required_ruby_version = '>= 2.2.2'
 
   s.add_dependency 'ambry', '~> 1.0.0'
   s.add_development_dependency 'rails', '>= 5.0.0'

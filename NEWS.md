@@ -2,6 +2,11 @@
 
 User-visible changes worth mentioning.
 
+## 3.0.0
+
+- [#276] Drops Rails <5 version support. Drops deprecated `action_filter` call.
+- Fix deprecation warnings
+
 ## 2.4.0
 
 - [#260] Works with Rails 5
