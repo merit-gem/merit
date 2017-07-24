@@ -85,8 +85,8 @@ module Merit
       ActiveSupport.on_load(:action_controller) do
         begin
           # Load app rules on boot up
-          Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
-          Merit::AppPointRules = Merit::PointRules.new.defined_rules
+          Merit::AppBadgeRules ||= Merit::BadgeRules.new.defined_rules
+          Merit::AppPointRules ||= Merit::PointRules.new.defined_rules
           include Merit::ControllerExtensions
         rescue NameError => e
           # Trap NameError if installing/generating files
