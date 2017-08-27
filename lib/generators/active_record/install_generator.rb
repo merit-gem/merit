@@ -28,6 +28,13 @@ module ActiveRecord
         migration_template 'create_scores_and_points.rb',
                            'db/migrate/create_scores_and_points.rb'
       end
+
+      def migration_version
+       if Rails.version.start_with? '5'
+         "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+       end
+      end
+
     end
   end
 end
