@@ -1,5 +1,6 @@
-class AddTargetDataToMeritActions < ActiveRecord::Migration
+class AddMeritFieldsTo<%= table_name.camelize %> < ActiveRecord::Migration<%= migration_version %>
   def change
-    add_column :merit_actions, :target_data, :text
+    add_column :<%= table_name %>, :sash_id, :integer
+    add_column :<%= table_name %>, :level,   :integer, :default => 0
   end
 end
