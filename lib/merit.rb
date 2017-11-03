@@ -82,7 +82,7 @@ module Merit
     initializer 'merit.controller' do |app|
       extend_orm_with_has_merit
       require_models
-      ActiveSupport.on_load(:action_controller) do
+      ActiveSupport.on_load(:action_controller, run_once: true) do
         begin
           # Load app rules on boot up
           Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
