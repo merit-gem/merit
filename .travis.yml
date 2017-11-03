@@ -8,4 +8,4 @@ rvm:
 
 env:
   - RAILS_VERSION=5.0.3
-  - RAILS_VERSION=5.1
+  - RAILS_VERSION=5.1.1
