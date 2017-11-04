@@ -19,6 +19,12 @@ module ActiveRecord
         end
       end
 
+      def migration_version
+       if Rails.version.start_with? '5'
+         "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+       end
+      end
+
       private
 
       def target_data_column_doesnt_exist?

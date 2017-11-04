@@ -21,6 +21,13 @@ module ActiveRecord
           "db/migrate/remove_merit_fields_from_#{table_name}.rb"
         )
       end
+
+      def migration_version
+       if Rails.version.start_with? '5'
+         "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+       end
+      end
+
     end
   end
 end
