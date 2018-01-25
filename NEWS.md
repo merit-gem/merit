@@ -2,6 +2,12 @@
 
 User-visible changes worth mentioning.
 
+## 3.0.1
+
+- [#282] Run action controller load hook only once
+- [#284] Add migration version to active record migrations
+- Add RELEASING.md document
+
 ## 3.0.0
 
 - [#276] Drops Rails <5 version support. Drops deprecated `action_filter` call.
