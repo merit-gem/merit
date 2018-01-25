@@ -16,6 +16,10 @@ module ActiveRecord
         migration_template 'add_merit_fields_to_model.rb',
                            "db/migrate/add_merit_fields_to_#{table_name}.rb"
       end
+
+      def migration_version
+        "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+      end
     end
   end
 end
