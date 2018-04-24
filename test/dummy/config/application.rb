@@ -15,6 +15,10 @@ module Dummy
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     # config.active_record.whitelist_attributes = true
+    if Rails.version >= "5.2"
+      Rails.application.config.active_record.sqlite3.
+        represent_boolean_as_integer = true
+    end
 
     # http://stackoverflow.com/questions/20361428/rails-i18n-validation-deprecation-warning
     config.i18n.enforce_available_locales = true
