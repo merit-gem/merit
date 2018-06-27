@@ -2,12 +2,7 @@ source 'https://rubygems.org'
 
 gemspec
 
-version = ENV['RAILS_VERSION']
-if version =~ /^5.2/
-  gem 'rails', github: "rails/rails", branch: "5-2-stable"
-else
-  gem 'rails', version
-end
+gem 'rails', github: "rails/rails", branch: "5-2-stable"
 
 case ENV['ORM']
 when 'active_record'
