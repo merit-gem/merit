@@ -1,6 +1,6 @@
 # Configure Rails Envinronment
 ENV['RAILS_ENV'] = 'test'
-RUBYOPT="-w $RUBYOPT"
+RUBYOPT = "-w $RUBYOPT".freeze
 
 if ENV["COVERAGE"]
   require 'coveralls'
@@ -18,10 +18,15 @@ if ENV["COVERAGE"]
   SimpleCov.start 'rubygem'
 end
 
-require File.expand_path('../dummy/config/environment.rb', __FILE__)
-require 'rails/test_help'
-require 'minitest/rails'
-require 'mocha/minitest'
+if ARGV.include?("-api-only")
+  require File.expand_path("dummy/config/environment_api_only.rb", __dir__)
+else
+  require File.expand_path("dummy/config/environment.rb", __dir__)
+end
+
+require "rails/test_help"
+require "minitest/rails"
+require "mocha/minitest"
 require "orm/#{Merit.orm}"
 
 Rails.backtrace_cleaner.remove_silencers!

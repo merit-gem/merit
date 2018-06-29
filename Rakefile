@@ -8,13 +8,21 @@ end
 require 'rake/testtask'
 
 desc 'Default: run tests for all ORMs.'
-task default: :test
+task default: [:test, :api_test]
 
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
   t.libs << 'test'
   t.pattern = 'test/**/*_test.rb'
   t.verbose = true
+end
+
+Rake::TestTask.new(:api_test) do |t|
+  t.libs << 'lib'
+  t.libs << 'test'
+  t.test_files = FileList['test/**/*_test.rb'].exclude(/navigation_test.rb/)
+  t.verbose = true
+  t.options = '-- -api-only'
 end
 
 begin
