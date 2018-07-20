@@ -96,8 +96,6 @@ module Merit
       end
     end
 
-  private
-
     def require_models
       require 'merit/models/base/sash'
       require 'merit/models/base/badges_sash'
@@ -117,7 +115,11 @@ module Merit
     end
 
     def action_controller_hook
-      Rails.application.config.api_only ? :action_controller_api : :action_controller_base
+      if Rails.application.config.api_only
+        :action_controller_api
+      else
+        :action_controller_base
+      end
     end
   end
 end
