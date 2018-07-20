@@ -82,7 +82,7 @@ module Merit
     initializer 'merit.controller' do |app|
       extend_orm_with_has_merit
       require_models
-      ActiveSupport.on_load(:action_controller, run_once: true) do
+      ActiveSupport.on_load(action_controller_hook) do
         begin
           # Load app rules on boot up
           Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
@@ -111,6 +111,14 @@ module Merit
       end
       if Object.const_defined?('Mongoid')
         Mongoid::Document.send :include, Merit
+      end
+    end
+
+    def action_controller_hook
+      if Rails.application.config.api_only
+        :action_controller_api
+      else
+        :action_controller_base
       end
     end
   end
