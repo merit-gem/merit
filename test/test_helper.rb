@@ -1,8 +1,8 @@
 # Configure Rails Envinronment
 ENV['RAILS_ENV'] = 'test'
-RUBYOPT = "-w $RUBYOPT"
+RUBYOPT = "-w $RUBYOPT".freeze
 
-API_ONLY = ARGV.include?('-api-only=true')
+API_ONLY = ARGV.include?("-api-only=true").freeze
 
 if ENV["COVERAGE"]
   require 'coveralls'
@@ -21,9 +21,9 @@ if ENV["COVERAGE"]
 end
 
 if API_ONLY
-  require File.expand_path("dummy/config/environment_api_only.rb",  __dir__)
+  require File.expand_path("dummy/config/environment_api_only.rb", __dir__)
 else
-  require File.expand_path("dummy/config/environment.rb",  __dir__)
+  require File.expand_path("dummy/config/environment.rb", __dir__)
 end
 
 require "rails/test_help"
