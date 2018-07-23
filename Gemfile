@@ -18,15 +18,7 @@ end
 
 group :development, :test do
   gem 'activerecord-jdbcsqlite3-adapter', :platforms => [:jruby]
-  gem 'sqlite3', '~> 1.3.8', :platforms => [:ruby, :mswin, :mingw]
-end
-
-platforms :rbx do
-  gem 'rubysl', '~> 2.0'
-  gem 'psych'
-  gem 'racc'
-  gem 'minitest', '~> 5.10', '!= 5.10.2'
-  gem 'rubinius-developer_tools'
+  gem 'sqlite3'
 end
 
 gem 'coveralls', require: false

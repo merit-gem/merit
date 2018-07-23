@@ -10,10 +10,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
 
-  s.required_ruby_version = '>= 2.2.2'
+  s.required_ruby_version = '>= 2.3.0'
 
   s.add_dependency 'ambry', '~> 1.0.0'
-  s.add_development_dependency 'rails', '>= 5.0.0'
+  s.add_development_dependency 'rails', '>= 5.1.6'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'rubocop'

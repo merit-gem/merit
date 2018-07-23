@@ -21,7 +21,7 @@ end
 require File.expand_path('../dummy/config/environment.rb', __FILE__)
 require 'rails/test_help'
 require 'minitest/rails'
-require 'mocha/mini_test'
+require 'mocha/minitest'
 require "orm/#{Merit.orm}"
 
 Rails.backtrace_cleaner.remove_silencers!
