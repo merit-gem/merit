@@ -2,6 +2,12 @@
 
 User-visible changes worth mentioning.
 
+## 3.0.2
+
+- [#287] Make Sash an optional dependency, fixing issues in Rails 5.1.
+- [#297] Initialize merit once both for API or non-API apps
+- Updates dependencies
+
 ## 3.0.1
 
 - [#282] Run action controller load hook only once
