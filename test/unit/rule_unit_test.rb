@@ -35,10 +35,17 @@ describe Merit::Rule do
       -> { @rule.badge }.must_raise Merit::BadgeNotFound
     end
 
-    it 'finds related badge by name' do
+    it 'finds related badge by name, when the name is a string' do
       Merit::Badge.create(id: 98, name: 'test-badge-98')
       @rule.badge_name = "test-badge-98"
       @rule.badge.must_be :==, Merit::Badge.find(98)
+    end
+
+    it 'finds related badge by name, when the name is a symbol' do
+      Merit::Badge.create(id: 100, name: :testbadge)
+      @rule.badge_name = 'testbadge'
+      @rule.badge.must_be :==, Merit::Badge.find(100)
+      @rule.badge
     end
 
     it 'finds related badge by name' do

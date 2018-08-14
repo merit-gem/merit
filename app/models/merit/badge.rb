@@ -18,7 +18,7 @@ module Merit
       end
 
       def by_name(name)
-        find { |b| b.name == name.to_s }
+        find { |b| b.name.to_s == name.to_s }
       end
 
       def by_level(level)
