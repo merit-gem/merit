@@ -11,4 +11,3 @@ rvm:
 env:
   - RAILS_VERSION=5.1.6
   - RAILS_VERSION=5.2.0
-  - RAILS_VERSION=6.0.0.beta1
