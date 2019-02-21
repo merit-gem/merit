@@ -7,6 +7,7 @@ if version =~ /^5.2/
   gem 'rails', github: "rails/rails", branch: "5-2-stable"
 else
   gem 'rails', version
+  gem 'sqlite3', '~> 1.3.13'
 end
 
 case ENV['ORM']
