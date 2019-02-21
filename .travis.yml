@@ -5,7 +5,8 @@ cache: bundler
 rvm:
   - 2.3.7
   - 2.4.4
-  - 2.5.1
+  - 2.5.3
+  - 2.6.1
 
 env:
   - RAILS_VERSION=5.1.6

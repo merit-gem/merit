@@ -18,7 +18,7 @@ end
 
 group :development, :test do
   gem 'activerecord-jdbcsqlite3-adapter', :platforms => [:jruby]
-  gem 'sqlite3'
+  gem 'sqlite3', '~> 1.3.13'
 end
 
 gem 'coveralls', require: false

@@ -50,7 +50,7 @@ module Merit
     def _merit_sash_initializer
       define_method(:_sash) do
         # TODO: reload.sash is not regression tested
-        sash || reload.sash || update_attributes(sash: Sash.create)
+        sash || reload.sash || update(sash: Sash.create)
         sash
       end
     end
