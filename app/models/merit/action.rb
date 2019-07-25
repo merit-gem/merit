@@ -15,7 +15,9 @@ require_dependency "merit/models/#{Merit.orm}/merit/action"
 module Merit
   class Action
     def self.check_unprocessed
-      where(processed: false).map(&:check_all_rules)
+      where(processed: false).find_each do |merit_action|
+        mert_action.check_all_rules
+      end
     end
 
     # Check rules defined for a merit_action
