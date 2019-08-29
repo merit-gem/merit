@@ -8,7 +8,11 @@ end
 require 'rake/testtask'
 
 desc 'Default: run tests for all ORMs.'
-task default: [:test, :api_test]
+task default: [:setup, :test, :api_test]
+
+task :setup do
+  system "cd test/dummy && rake db:migrate && rake db:test:prepare"
+end
 
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'

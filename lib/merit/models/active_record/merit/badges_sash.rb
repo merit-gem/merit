@@ -7,7 +7,5 @@ module Merit
              as: :related_change
 
     validates_presence_of :badge_id, :sash
-
-    attr_accessible :badge_id if show_attr_accessible?
   end
 end

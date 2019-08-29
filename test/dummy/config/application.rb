@@ -11,7 +11,7 @@ require "merit"
 
 module Dummy
   class Application < Rails::Application
-    if Rails.version >= "5.2"
+    if Rails.version.match? "5.2.+"
       config.active_record.sqlite3.represent_boolean_as_integer = true
     end
 

@@ -25,10 +25,6 @@ class Comment
 
   belongs_to :user
 
-  if show_attr_accessible?
-    attr_accessible :name, :comment, :user_id, :votes
-  end
-
   validates :name, :comment, :user_id, :presence => true
 
   delegate :comments, :to => :user, :prefix => true

@@ -6,8 +6,6 @@ module Merit
 
     field :badge_id,      type: Integer
 
-    attr_accessible :badge_id if show_attr_accessible?
-
     belongs_to :sash, class_name: 'Merit::Sash'
     has_many :activity_logs, class_name: 'Merit::ActivityLog', as: :related_change
 

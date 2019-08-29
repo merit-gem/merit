@@ -14,17 +14,15 @@ class MeritUnitTest < ActiveSupport::TestCase
     assert Merit::Badge.method_defined?(:players), 'Badge#players should be defined'
   end
 
-  if active_record_orm?
-    test 'unknown ranking raises exception' do
-      class WeirdRankRules
-        include Merit::RankRulesMethods
-        def initialize
-          set_rank level: 1, to: Player, level_name: :clown
-        end
+  test 'unknown ranking raises exception' do
+    class WeirdRankRules
+      include Merit::RankRulesMethods
+      def initialize
+        set_rank level: 1, to: Player, level_name: :clown
       end
-      assert_raises Merit::RankAttributeNotDefined do
-        WeirdRankRules.new.check_rank_rules
-      end
+    end
+    assert_raises Merit::RankAttributeNotDefined do
+      WeirdRankRules.new.check_rank_rules
     end
   end
 

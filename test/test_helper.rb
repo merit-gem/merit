@@ -27,7 +27,6 @@ end
 require "rails/test_help"
 require "minitest/rails"
 require "mocha/minitest"
-require "orm/#{Merit.orm}"
 
 Rails.backtrace_cleaner.remove_silencers!
 
@@ -40,7 +39,3 @@ Capybara.default_selector = :css
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 Merit.orm = :active_record if Merit.orm.nil?
-
-def active_record_orm?
-  Merit.orm == :active_record
-end

@@ -17,10 +17,6 @@ class User
   has_many :addresses
   has_many :comments
 
-  if show_attr_accessible?
-    attr_accessible :name
-  end
-
   def model_with_no_reputation
     addresses.first || addresses.create
   end
