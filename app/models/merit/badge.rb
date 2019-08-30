@@ -45,15 +45,6 @@ module Merit
         badge
       end
 
-      # DEPRECATED: `last_granted` will be removed from merit, please refer to:
-      # https://github.com/tute/merit/wiki/How-to-show-last-granted-badges
-      def last_granted(options = {})
-        warn '[merit] [DEPRECATION] `last_granted` will be removed from merit, please refer to: https://github.com/tute/merit/wiki/How-to-show-last-granted-badges'
-        options[:since_date] ||= 1.month.ago
-        options[:limit]      ||= 10
-        BadgesSash.last_granted(options)
-      end
-
       # Defines Badge#meritable_models method, to get related
       # entries with certain badge. For instance, Badge.find(3).users
       # orm-specified

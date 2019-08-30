@@ -13,6 +13,7 @@ if ENV["COVERAGE"]
     # https://github.com/colszowka/simplecov/pull/104
     add_group 'Merit', 'lib'
     add_group 'DummyApp', 'test/dummy'
+    add_filter 'lib/generators'
     add_filter 'test/dummy/config/initializers'
   end
   SimpleCov.start 'rubygem'
