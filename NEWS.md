@@ -2,6 +2,13 @@
 
 User-visible changes worth mentioning.
 
+## 3.0.3
+
+- Test against Ruby 2.6 and Rails 6
+- Use `find_each` in favor of `map` in `Merit::Action.check_unprocessed`
+- Allow finding badges defined with symbol names
+- Remove `Badge#last_granted` method (deprecated in merit <2.0)
+
 ## 3.0.2
 
 - [#287] Make Sash an optional dependency, fixing issues in Rails 5.1.
