@@ -7,7 +7,7 @@ class CreateScoresAndPoints < ActiveRecord::Migration<%= migration_version %>
 
     create_table :merit_score_points do |t|
       t.references :score
-      t.integer :num_points, default: 0
+      t.bigint :num_points, default: 0
       t.string :log
       t.datetime :created_at
     end
