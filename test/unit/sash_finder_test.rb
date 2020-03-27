@@ -20,8 +20,8 @@ describe Merit::SashFinder do
 
     Merit::SashFinder.stubs(:targets).returns(users)
     sashes = Merit::SashFinder.find(rule, action)
-    sashes.count.must_be :==, 2
-    sashes.must_include sash_1
-    sashes.must_include sash_2
+    _(sashes.count).must_be :==, 2
+    _(sashes).must_include sash_1
+    _(sashes).must_include sash_2
   end
 end

@@ -14,7 +14,7 @@ describe Merit::BaseTargetFinder do
 
         finder = Merit::BaseTargetFinder.new(rule, action)
         collection = finder.find
-        collection.must_be :==, comment
+        _(collection).must_be :==, comment
       end
     end
 
@@ -28,7 +28,7 @@ describe Merit::BaseTargetFinder do
         Player.stubs(:find_by_id).with(3).returns(user)
 
         finder = Merit::BaseTargetFinder.new(rule, action)
-        finder.find.must_be :==, user
+        _(finder.find).must_be :==, user
       end
     end
 
@@ -41,7 +41,7 @@ describe Merit::BaseTargetFinder do
 
         finder = Merit::BaseTargetFinder.new(rule, action)
         Rails.logger.expects(:warn)
-        finder.find.must_be_nil
+        _(finder.find).must_be_nil
       end
     end
 
@@ -57,7 +57,7 @@ describe Merit::BaseTargetFinder do
                                    target_data: comment.to_yaml)
 
         finder = Merit::BaseTargetFinder.new(rule, action)
-        finder.find.name.must_be :==, 'the comment name'
+        _(finder.find.name).must_be :==, 'the comment name'
       end
     end
 

@@ -17,8 +17,8 @@ describe Merit::TargetFinder do
 
         finder = Merit::TargetFinder.new(rule, action)
         collection = finder.find
-        collection.size.must_be :==, 1
-        collection.must_include comment
+        _(collection.size).must_be :==, 1
+        _(collection).must_include comment
       end
     end
 
@@ -40,8 +40,8 @@ describe Merit::TargetFinder do
 
         finder = Merit::TargetFinder.new(rule, action)
         collection = finder.find
-        collection.size.must_be :==, 1
-        collection.must_include user
+        _(collection.size).must_be :==, 1
+        _(collection).must_include user
       end
 
       describe 'when user does not exist' do
@@ -52,7 +52,7 @@ describe Merit::TargetFinder do
 
           Rails.logger.expects(:warn).with('[merit] no Player found with id 22')
           finder = Merit::TargetFinder.new(rule, action)
-          finder.find.must_be_empty
+          _(finder.find).must_be_empty
         end
       end
     end
@@ -71,8 +71,8 @@ describe Merit::TargetFinder do
 
         finder = Merit::TargetFinder.new(rule, action)
         collection = finder.find
-        collection.size.must_be :==, 1
-        collection.must_include user
+        _(collection.size).must_be :==, 1
+        _(collection).must_include user
       end
 
       describe 'rule#to does not exist as a method on the original target' do
@@ -90,7 +90,7 @@ describe Merit::TargetFinder do
 
           Rails.logger.expects(:warn).with(str)
           finder = Merit::TargetFinder.new(rule, action)
-          finder.find.must_be_empty
+          _(finder.find).must_be_empty
         end
       end
     end

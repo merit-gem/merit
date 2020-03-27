@@ -12,8 +12,7 @@ when 'mongoid'
 end
 
 group :development, :test do
-  gem 'activerecord-jdbcsqlite3-adapter', :platforms => [:jruby]
   gem 'sqlite3', '~> 1.4'
 end
 
-gem 'coveralls', require: false
+gem 'coveralls', '~> 0.8.23', require: false

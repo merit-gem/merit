@@ -305,8 +305,8 @@ class NavigationTest < ActionDispatch::IntegrationTest
       end
     end
 
-    comment_1.reload.points.must_be :==, 2
-    comment_2.reload.points.must_be :==, 2
+    _(comment_1.reload.points).must_be :==, 2
+    _(comment_2.reload.points).must_be :==, 2
   end
 
   test 'api/comments#show should grant 1 point to user' do

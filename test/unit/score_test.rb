@@ -8,6 +8,6 @@ describe Merit::Score do
     point = Merit::Score::Point.new
     point.score = score
 
-    point.sash_id.must_be :==, score.sash_id
+    _(point.sash_id).must_be :==, score.sash_id
   end
 end
