@@ -22,10 +22,10 @@ describe Merit::BaseTargetFinder do
       it 'should fall back to the action#target_model' do
         rule = Merit::Rule.new
         rule.to = :itself
-        action = Merit::Action.new(target_model: 'players', target_id: 3)
-        user = Player.new(id: 3)
+        action = Merit::Action.new(target_model: 'users', target_id: 3)
+        user = User.new(id: 3)
 
-        Player.stubs(:find_by_id).with(3).returns(user)
+        User.stubs(:find_by_id).with(3).returns(user)
 
         finder = Merit::BaseTargetFinder.new(rule, action)
         _(finder.find).must_be :==, user

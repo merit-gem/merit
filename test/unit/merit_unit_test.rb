@@ -1,24 +1,22 @@
 require 'test_helper'
 
-# TODO: Split different objects tests in it's own files
 class MeritUnitTest < ActiveSupport::TestCase
-  require "orm_models/#{Merit.orm}"
-
   test 'extends only meritable models' do
-    assert Player.method_defined?(:points), 'has_merit adds methods'
-    assert !Fruit.method_defined?(:points), 'other models aren\'t extended'
+    assert User.method_defined?(:points), 'has_merit adds methods'
+    assert !Address.method_defined?(:points), 'other models aren\'t extended'
   end
 
   test 'Badges get "related_models" methods' do
-    assert Merit::Badge.method_defined?(:soldiers), 'Badge#soldiers should be defined'
-    assert Merit::Badge.method_defined?(:players), 'Badge#players should be defined'
+    Comment.new; User.new # load meritable classes
+    assert Merit::Badge.method_defined?(:comments), 'Badge#comments should be defined'
+    assert Merit::Badge.method_defined?(:users), 'Badge#users should be defined'
   end
 
   test 'unknown ranking raises exception' do
     class WeirdRankRules
       include Merit::RankRulesMethods
       def initialize
-        set_rank level: 1, to: Player, level_name: :clown
+        set_rank level: 1, to: User, level_name: :clown
       end
     end
     assert_raises Merit::RankAttributeNotDefined do

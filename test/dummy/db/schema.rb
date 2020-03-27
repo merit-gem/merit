@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2014_09_06_225844) do
+ActiveRecord::Schema.define(version: 2014_08_19_133931) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id"
@@ -71,11 +71,6 @@ ActiveRecord::Schema.define(version: 2014_09_06_225844) do
     t.integer "sash_id"
     t.string "category", default: "default"
     t.index ["sash_id"], name: "index_merit_scores_on_sash_id"
-  end
-
-  create_table "players", force: :cascade do |t|
-    t.integer "sash_id"
-    t.integer "level", default: 0
   end
 
   create_table "sashes", force: :cascade do |t|
