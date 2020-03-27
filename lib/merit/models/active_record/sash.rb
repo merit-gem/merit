@@ -1,4 +1,4 @@
-module Merit
+module Merit::Models::ActiveRecord
   # Sash is a container for reputation data for meritable models. It's an
   # indirection between meritable models and badges and scores (one to one
   # relationship).
@@ -6,7 +6,8 @@ module Merit
   # It's existence make join models like badges_users and scores_users
   # unnecessary. It should be transparent at the application.
   class Sash < ActiveRecord::Base
-    include Base::Sash
+    include Merit::Models::SashConcern
+
     has_many :badges_sashes, dependent: :destroy
     has_many :scores, dependent: :destroy, class_name: 'Merit::Score'
 
@@ -27,3 +28,5 @@ module Merit
     end
   end
 end
+
+class Merit::Sash < Merit::Models::ActiveRecord::Sash; end

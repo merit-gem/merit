@@ -1,8 +1,8 @@
 require 'rails/generators/active_record'
 
-module ActiveRecord
-  module Generators
-    class RemoveGenerator < ActiveRecord::Generators::Base
+module Merit
+  module Generators::ActiveRecord
+    class RemoveGenerator < ::ActiveRecord::Generators::Base
       include Rails::Generators::Migration
 
       source_root File.expand_path('../templates', __FILE__)
@@ -13,11 +13,11 @@ module ActiveRecord
       end
 
       def copy_migrations_and_model
-        migration_template 'remove_merit_tables.rb',
+        migration_template 'remove_merit_tables.erb',
                            'db/migrate/remove_merit_tables.rb'
 
         migration_template(
-          'remove_merit_fields_from_model.rb',
+          'remove_merit_fields_from_model.erb',
           "db/migrate/remove_merit_fields_from_#{table_name}.rb"
         )
       end

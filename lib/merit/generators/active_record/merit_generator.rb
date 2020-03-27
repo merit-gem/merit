@@ -1,8 +1,8 @@
 require 'rails/generators/active_record'
 
-module ActiveRecord
-  module Generators
-    class MeritGenerator < ActiveRecord::Generators::Base
+module Merit
+  module Generators::ActiveRecord
+    class MeritGenerator < ::ActiveRecord::Generators::Base
       include Rails::Generators::Migration
 
       source_root File.expand_path('../templates', __FILE__)

@@ -1,5 +1,3 @@
-require_dependency "merit/models/#{Merit.orm}/merit/action"
-
 # Merit::Action general schema
 #   ______________________________________________________________
 #   source  | action       | target
@@ -12,10 +10,14 @@ require_dependency "merit/models/#{Merit.orm}/merit/action"
 #   ______________________________________________________________
 #
 # Rules relate to merit_actions by action name ('controller#action' string)
-module Merit
-  class Action
-    def self.check_unprocessed
-      where(processed: false).find_each(&:check_all_rules)
+module Merit::Models
+  module ActionConcern
+    extend ActiveSupport::Concern
+
+    class_methods do
+      def check_unprocessed
+        where(processed: false).find_each(&:check_all_rules)
+      end
     end
 
     # Check rules defined for a merit_action
@@ -23,16 +25,16 @@ module Merit
       mark_as_processed!
       return if had_errors
 
-      check_rules rules_matcher.select_from(AppBadgeRules), :badges
-      check_rules rules_matcher.select_from(AppPointRules), :points
+      check_rules rules_matcher.select_from(Merit::AppBadgeRules), :badges
+      check_rules rules_matcher.select_from(Merit::AppPointRules), :points
     end
 
     private
 
     def check_rules(rules_array, badges_or_points)
       rules_array.each do |rule|
-        judge = Judge.new rule, action: self
-        judge.send :"apply_#{badges_or_points}"
+        judge = Merit::Judge.new(rule, action: self)
+        judge.public_send(:"apply_#{badges_or_points}")
       end
     end
 

@@ -1,6 +1,8 @@
+require "rails/generators"
+
 module Merit
   module Generators
-    class RemoveGenerator < Rails::Generators::NamedBase
+    class RemoveGenerator < ::Rails::Generators::NamedBase
       source_root File.expand_path('../templates', __FILE__)
       hook_for :orm
 

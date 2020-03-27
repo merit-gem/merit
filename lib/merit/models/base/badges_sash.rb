@@ -1,5 +1,5 @@
 module Merit
-  module Base
+  module Models::Base
     module BadgesSash
       extend ActiveSupport::Concern
 

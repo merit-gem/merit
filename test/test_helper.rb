@@ -38,5 +38,3 @@ Capybara.default_selector = :css
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
-
-Merit.orm = :active_record if Merit.orm.nil?

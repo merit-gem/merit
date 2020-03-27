@@ -1,4 +1,4 @@
-module Merit
+module Merit::Models::ActiveRecord
   class Score < ActiveRecord::Base
     self.table_name = :merit_scores
     belongs_to :sash
@@ -20,3 +20,6 @@ module Merit
     end
   end
 end
+
+class Merit::Score < Merit::Models::ActiveRecord::Score; end
+class Merit::Score::Point < Merit::Models::ActiveRecord::Score::Point; end

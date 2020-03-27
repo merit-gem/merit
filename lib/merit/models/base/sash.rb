@@ -1,5 +1,5 @@
 module Merit
-  module Base
+  module Models::Base
     module Sash
       def badges
         badge_ids.map { |id| Merit::Badge.find id }
