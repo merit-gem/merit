@@ -1,17 +1,4 @@
-case Merit.orm
-when :active_record
-  class User < ActiveRecord::Base
-  end
-when :mongoid
-  class User
-    include Mongoid::Document
-    include Mongoid::Timestamps
-
-    field :name, :type => String
-  end
-end
-
-class User
+class User < ActiveRecord::Base
   has_merit
 
   has_many :addresses

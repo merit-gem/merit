@@ -106,12 +106,7 @@ module Merit
     end
 
     def extend_orm_with_has_merit
-      if Object.const_defined?('ActiveRecord')
-        ActiveRecord::Base.send :include, Merit
-      end
-      if Object.const_defined?('Mongoid')
-        Mongoid::Document.send :include, Merit
-      end
+      ActiveRecord::Base.include(Merit)
     end
 
     def action_controller_hook

@@ -44,30 +44,15 @@ module Merit
     private
 
     def grant_when_applies(scoped_model, rule, level)
-      scope_to_promote(scoped_model, rule.level_name, level).each do |object|
+      scoped_model.where("#{rule.level_name} < #{level}").each do |object|
         next unless rule.applies?(object)
+
         object.update_attribute rule.level_name, level
       end
-    rescue rank_exception
+    rescue ActiveRecord::StatementInvalid
       str = "Error while granting rankings. Probably you need to add
         #{rule.level_name} column to #{scoped_model.class.name}."
       raise RankAttributeNotDefined, str
-    end
-
-    def rank_exception
-      if defined? ActiveRecord
-        ActiveRecord::StatementInvalid
-      else
-        Exception
-      end
-    end
-
-    def scope_to_promote(scope, level_name, level)
-      if Merit.orm == :mongoid
-        scope.where(:"#{level_name}".lt => level)
-      else
-        scope.where("#{level_name} < #{level}")
-      end
     end
   end
 end

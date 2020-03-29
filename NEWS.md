@@ -2,6 +2,11 @@
 
 User-visible changes worth mentioning.
 
+## 4.0.0 (unreleased)
+
+- Stop testing on Rails 5.1
+- Drop support for mongoid
+
 ## 3.0.3
 
 - Test against Ruby 2.6 and Rails 6

@@ -1,14 +1,3 @@
-case Merit.orm
-when :active_record
-  class Address < ActiveRecord::Base
-  end
-when :mongoid
-  class Address
-    include Mongoid::Document
-    include Mongoid::Timestamps
-  end
-end
-
-class Address
+class Address < ActiveRecord::Base
   belongs_to :user
 end

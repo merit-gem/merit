@@ -26,14 +26,6 @@ module Merit
       end
     end
 
-    def _mongoid_sash_in(sashes)
-      {:sash_id.in => sashes}
-    end
-
-    def _active_record_sash_in(sashes)
-      {sash_id: sashes}
-    end
-
     class << self
       def find_by_name_and_level(name, level)
         badges = Merit::Badge.by_name(name)
@@ -51,7 +43,7 @@ module Merit
       def _define_related_entries_method(meritable_class_name)
         define_method(:"#{meritable_class_name.underscore.pluralize}") do
           sashes = BadgesSash.where(badge_id: id).pluck(:sash_id)
-          meritable_class_name.constantize.where(send "_#{Merit.orm}_sash_in", sashes)
+          meritable_class_name.constantize.where(sash_id: sashes)
         end
       end
     end
