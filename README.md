@@ -111,6 +111,14 @@ end
 grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: true do |user|
   user.name? && user.email?
 end
+
+# If your controller is under a namespace other than root (example: Api::ModelController) then for merit to find your object automatically, you must specify the model class and not forget that your action is of the form namespace/models#action 
+# Here the Post model belong_to :user which has_many :posts so that the relation post.user exists (to: :user) and we can then access the metric of interest (.user.posts.count)
+
+grant_on 'api/posts#create', badge: 'first-post', model_name: 'Post', to: :user do |post|
+    post.user.posts.count >= 1
+end
+
 ```
 
 ## Other Actions
