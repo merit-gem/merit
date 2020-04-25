@@ -27,16 +27,8 @@ module Merit
         had_errors:    had_errors?,
         target_model:  controller_path,
         target_id:     target_id,
-      }.merge(target_data_hash)
-    end
-
-    def target_data_hash
-      if Merit::Action.new.respond_to?(:target_data)
-        { target_data: target_object.to_yaml }
-      else
-        Merit.upgrade_target_data_warning
-        {}
-      end
+        target_data:   target_object.to_yaml,
+      }
     end
 
     def rules_defined?

@@ -25,12 +25,7 @@ module Merit
     end
 
     def reanimate_target_from_action
-      if @action.respond_to? :target_data
-        YAML.load(@action.target_data)
-      else
-        Merit.upgrade_target_data_warning
-        nil
-      end
+      YAML.load(@action.target_data)
     end
   end
 end

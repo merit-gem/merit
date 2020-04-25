@@ -6,6 +6,7 @@ User-visible changes worth mentioning.
 
 - Stop testing on Rails 5.1
 - Drop support for mongoid
+- Drop v2 upgrade generators
 
 ## 3.0.3
 
