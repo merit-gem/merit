@@ -113,6 +113,19 @@ grant_on ['users#create', 'users#update'], badge: 'autobiographer', temporary: t
 end
 ```
 
+If your controller is under a namespace other than root (example:
+`Api::ModelController`) then for merit to find your object automatically you
+must specify the model class and not forget that your action is of the form
+`namespace/models#action`.
+
+See an example of a `Post` model that belongs to user:
+
+```ruby
+grant_on 'api/posts#create', badge: 'first-post', model_name: 'Post', to: :user do |post|
+  post.user.posts.count >= 1
+end
+```
+
 ## Other Actions
 
 ```ruby
