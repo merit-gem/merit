@@ -2,11 +2,12 @@
 
 User-visible changes worth mentioning.
 
-## 4.0.0 (unreleased)
+## 4.0.0
 
 - Stop testing on Rails 5.1
 - Drop support for mongoid
 - Drop v2 upgrade generators
+- Enable Zeitwerk gem mode (and renames internal merit constants)
 
 ## 3.0.3
 

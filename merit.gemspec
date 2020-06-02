@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n").reject{|f| f =~ /^\./ }
   s.test_files  = `git ls-files -- test/*`.split("\n")
   s.license     = 'MIT'
-  s.version     = '3.0.3'
+  s.version     = '4.0.0'
   s.authors     = ["Tute Costa"]
   s.email       = 'tutecosta@gmail.com'
 
