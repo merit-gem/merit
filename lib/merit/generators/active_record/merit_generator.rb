@@ -13,7 +13,7 @@ module Merit
       end
 
       def copy_migrations_and_model
-        migration_template 'add_merit_fields_to_model.rb',
+        migration_template 'add_merit_fields_to_model.erb',
                            "db/migrate/add_merit_fields_to_#{table_name}.rb"
       end
 
