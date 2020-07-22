@@ -4,7 +4,6 @@ module Merit
   module Generators
     class MeritGenerator < ::Rails::Generators::NamedBase
       source_root File.expand_path('../templates', __FILE__)
-      hook_for :orm
 
       def inject_merit_content
         if model_exists?
