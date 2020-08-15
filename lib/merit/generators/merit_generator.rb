@@ -11,6 +11,10 @@ module Merit
         end
       end
 
+      def run_active_record_generators
+        invoke 'merit:active_record:merit'
+      end
+
       private
 
       def model_exists?

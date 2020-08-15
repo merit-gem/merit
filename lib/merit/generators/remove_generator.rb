@@ -5,6 +5,10 @@ module Merit
     class RemoveGenerator < ::Rails::Generators::NamedBase
       source_root File.expand_path('../templates', __FILE__)
 
+      def run_active_record_generators
+        invoke 'merit:active_record:remove'
+      end
+
       private
 
       def model_exists?

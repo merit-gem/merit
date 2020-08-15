@@ -12,6 +12,10 @@ module Merit
         template 'merit_point_rules.erb', 'app/models/merit/point_rules.rb'
         template 'merit_rank_rules.erb', 'app/models/merit/rank_rules.rb'
       end
+
+      def run_active_record_generators
+        invoke 'merit:active_record:install'
+      end
     end
   end
 end
