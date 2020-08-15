@@ -305,8 +305,8 @@ warning, with a comment to check the configuration for the rule.
 
 # Getting Notifications
 
-You can get observers notified any time merit changes reputation in your
-application.
+You can get observers notified any time merit automatically changes reputation
+in your application.
 
 It needs to implement the `update` method, which receives as parameter the
 following hash:
@@ -336,6 +336,9 @@ end
 # In `config/initializers/merit.rb`
 config.add_observer 'ReputationChangeObserver'
 ```
+
+**NOTE:** Observers won’t get notified if you grant reputation with
+direct calls to `add_badge` or `add_point`.
 
 # I18n
 
