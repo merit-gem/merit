@@ -2,6 +2,10 @@
 
 User-visible changes worth mentioning.
 
+## 4.0.1
+
+- [#351] Fix bug on generating migrations
+
 ## 4.0.0
 
 - Stop testing on Rails 5.1
