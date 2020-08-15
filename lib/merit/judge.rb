@@ -50,11 +50,12 @@ module Merit
 
     def remove_badges
       sashes.each do |sash|
-        sash.rm_badge badge.id
-        notify_observers(
-          description: I18n.t("merit.removed_badge", badge_name: badge.name),
-          sash_id: sash.id
-        )
+        if sash.rm_badge badge.id
+          notify_observers(
+            description: I18n.t("merit.removed_badge", badge_name: badge.name),
+            sash_id: sash.id
+          )
+        end
       end
     end
 

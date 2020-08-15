@@ -180,7 +180,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
 
     visit "/users/#{user.id}/edit"
     fill_in 'Name', with: 'a'
-    assert_difference('Merit::ActivityLog.count', 2) do
+    assert_difference('Merit::ActivityLog.count', 1) do
       click_button('Update User')
     end
 

@@ -6,6 +6,22 @@ class SashTest < ActiveSupport::TestCase
     @sash = Merit::Sash.create
   end
 
+  describe "#rm_badge" do
+    describe "when has badge" do
+      it "returns truthy" do
+        @sash.badges_sashes.create!(badge_id: 1)
+
+        assert_equal !!@sash.rm_badge(1), true
+      end
+    end
+
+    describe "when does NOT have badge" do
+      it "returns falsey" do
+        assert_equal !!@sash.rm_badge(0), false
+      end
+    end
+  end
+
   describe "#add_points" do
     describe "when category specified" do
       it "should create a new Point with specified category" do

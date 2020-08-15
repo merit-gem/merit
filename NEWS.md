@@ -2,6 +2,11 @@
 
 User-visible changes worth mentioning.
 
+## Upcoming (unreleased)
+
+- [#288] Don’t send “removed badge” notifications when user doesn’t have the
+  badge
+
 ## 4.0.1
 
 - [#351] Fix bug on generating migrations
