@@ -6,7 +6,14 @@ rvm:
   - 2.5
   - 2.6
   - 2.7
+  - 3.0
 
 env:
   - RAILS_VERSION=5.2
   - RAILS_VERSION=6.0
+  - RAILS_VERSION=6.1
+
+matrix:
+  exclude:
+    - env: RAILS_VERSION=5.2
+      rvm: 3.0
