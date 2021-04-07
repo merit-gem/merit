@@ -61,17 +61,19 @@ module Merit
     config.app_generators.orm Merit.orm
 
     initializer 'merit.controller' do |app|
-      extend_orm_with_has_merit
-      ActiveSupport.on_load(action_controller_hook) do
-        begin
-          # Load app rules on boot up
-          Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
-          Merit::AppPointRules = Merit::PointRules.new.defined_rules
-          include Merit::ControllerExtensions
-        rescue NameError => e
-          # Trap NameError if installing/generating files
-          raise e unless
-            e.to_s =~ /uninitialized constant Merit::(BadgeRules|PointRules)/
+      config.to_prepare do
+        extend_orm_with_has_merit
+        ActiveSupport.on_load(action_controller_hook) do
+          begin
+            # Load app rules on boot up
+            Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
+            Merit::AppPointRules = Merit::PointRules.new.defined_rules
+            include Merit::ControllerExtensions
+          rescue NameError => e
+            # Trap NameError if installing/generating files
+            raise e unless
+              e.to_s =~ /uninitialized constant Merit::(BadgeRules|PointRules)/
+          end
         end
       end
     end
