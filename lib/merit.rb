@@ -62,8 +62,8 @@ module Merit
 
     initializer 'merit.controller' do |app|
       config.to_prepare do
-        extend_orm_with_has_merit
-        ActiveSupport.on_load(action_controller_hook) do
+        ActiveSupport.on_load(:active_record) { include Merit }
+        ActiveSupport.on_load(app.config.api_only ? :action_controller_api : :action_controller_base) do
           begin
             # Load app rules on boot up
             Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
@@ -75,18 +75,6 @@ module Merit
               e.to_s =~ /uninitialized constant Merit::(BadgeRules|PointRules)/
           end
         end
-      end
-    end
-
-    def extend_orm_with_has_merit
-      ActiveRecord::Base.include(Merit)
-    end
-
-    def action_controller_hook
-      if Rails.application.config.api_only
-        :action_controller_api
-      else
-        :action_controller_base
       end
     end
   end
