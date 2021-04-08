@@ -58,12 +58,16 @@ Create badges in `config/initializers/merit.rb`
 ### Example
 
 ```ruby
-Merit::Badge.create!(
-  id: 1,
-  name: "year-member",
-  description: "Active member for a year",
-  custom_fields: { difficulty: :silver }
-)
+# config/initializers/merit.rb
+
+Rails.application.reloader.to_prepare do
+  Merit::Badge.create!(
+    id: 1,
+    name: "year-member",
+    description: "Active member for a year",
+    custom_fields: { difficulty: :silver }
+  )
+end
 ```
 
 ## Defining Rules
