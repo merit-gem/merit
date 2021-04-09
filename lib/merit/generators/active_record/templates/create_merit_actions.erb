@@ -12,4 +12,6 @@ class CreateMeritActions < ActiveRecord::Migration<%= migration_version %>
       t.timestamps null: false
     end
   end
+
+  add_index :merit_actions, :processed
 end
