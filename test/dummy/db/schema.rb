@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2014_08_19_133931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "target_data"
+    t.index ["processed"], name: "index_merit_actions_on_processed"
   end
 
   create_table "merit_activity_logs", force: :cascade do |t|
