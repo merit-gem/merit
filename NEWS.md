@@ -2,10 +2,13 @@
 
 User-visible changes worth mentioning.
 
-## Upcoming (unreleased)
+## 4.0.2
 
-- [#288] Don’t send “removed badge” notifications when user doesn’t have the
-  badge
+- [#355, #356] Add index on merit_actions.processed column
+- [#354] Fix Rails autoloader deprecation warnings
+  Requires wrapping `Merit::Badge.create` with `Rails.application.reloader.to_prepare`
+- Test with Ruby 3 and Rails 6.1 (excludes Rails 5.2 with Ruby 3, that errors out)
+- [#288] Don’t send “removed badge” notifications when user doesn’t have the badge
 
 ## 4.0.1
 
