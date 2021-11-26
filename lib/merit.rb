@@ -62,7 +62,7 @@ module Merit
 
     initializer 'merit.controller' do |app|
       config.to_prepare do
-        ActiveSupport.on_load(:active_record) { include Merit }
+        ActiveSupport.on_load(:active_record, run_once: true) { include Merit }
         ActiveSupport.on_load(app.config.api_only ? :action_controller_api : :action_controller_base) do
           begin
             # Load app rules on boot up
