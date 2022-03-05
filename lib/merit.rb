@@ -35,6 +35,16 @@ module Merit
     @config.add_observer(class_name)
   end
 
+  # If the app is reloaded, avoid printing `warning: previous definition of AppBadgeRules was here`
+  def self.remove_badge_rules
+    remove_const(:AppBadgeRules) if self.const_defined?('AppBadgeRules')
+  end
+
+  # If the app is reloaded, avoid printing `warning: previous definition of AppPointRules was here`
+  def self.remove_point_rules
+    remove_const(:AppPointRules) if self.const_defined?('AppPointRules')
+  end
+
   class Configuration
     attr_accessor :checks_on_each_request, :orm, :user_model_name, :observers,
                   :current_user_method
@@ -65,6 +75,9 @@ module Merit
         ActiveSupport.on_load(:active_record) { include Merit }
         ActiveSupport.on_load(app.config.api_only ? :action_controller_api : :action_controller_base) do
           begin
+            # Remove previous definitions of constant if they are defined when app reloads
+            Merit.remove_badge_rules
+            Merit.remove_point_rules
             # Load app rules on boot up
             Merit::AppBadgeRules = Merit::BadgeRules.new.defined_rules
             Merit::AppPointRules = Merit::PointRules.new.defined_rules
