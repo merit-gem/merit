@@ -2,6 +2,12 @@
 
 User-visible changes worth mentioning.
 
+## 4.0.3
+
+- Add webrick as a development dependency
+- [#363] Fix: `warning: already initialized constant Merit::*` messages
+- [#357] Fix `merit_actions` migration template
+
 ## 4.0.2
 
 - [#355, #356] Add index on merit_actions.processed column
