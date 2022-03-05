@@ -21,4 +21,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop'
   s.add_development_dependency 'minitest-rails'
   s.add_development_dependency 'mocha'
+  s.add_development_dependency 'webrick'
 end
