@@ -3,9 +3,9 @@ source 'https://rubygems.org'
 gemspec
 
 # Ruby 3.4?
-# gem 'base64'
-# gem 'mutex_m'
-# gem 'observer'
+gem 'base64'
+gem 'mutex_m'
+gem 'observer'
 
 gem "rails"
 

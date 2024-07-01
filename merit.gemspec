@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.3.0'
 
   s.add_runtime_dependency 'ambry', '~> 1.0.0'
+  s.add_runtime_dependency 'observer'
   s.add_runtime_dependency 'zeitwerk'
 
   s.add_development_dependency 'appraisal'
