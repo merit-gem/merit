@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'ambry', '~> 1.0.0'
   s.add_runtime_dependency 'zeitwerk'
+  s.add_runtime_dependency 'observer'
 
   s.add_development_dependency 'rails', '>= 5.1.6'
   s.add_development_dependency 'capybara'
