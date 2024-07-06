@@ -2,7 +2,12 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'rails', "~> #{ENV.fetch('RAILS_VERSION', 6.0)}"
+# Ruby 3.4?
+# gem 'base64'
+# gem 'mutex_m'
+# gem 'observer'
+
+gem "rails"
 
 group :development, :test do
   gem 'sqlite3', '~> 1.4'

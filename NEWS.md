@@ -2,6 +2,13 @@
 
 User-visible changes worth mentioning.
 
+## 5.0.0 (unreleased)
+
+- Drop end-of-life'd versions of rails: 5.2 and 6.0, and ruby 3.0
+- Test with current versions of Rails: 6.1, 7.0, 7.1
+- Convert project to GitHub Actions
+- Mark 3 tests as pending to the open bug on deleted models
+
 ## 4.0.3
 
 - Add webrick as a development dependency
