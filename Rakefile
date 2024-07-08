@@ -1,4 +1,3 @@
-# encoding: UTF-8
 begin
   require 'bundler/setup'
 rescue LoadError
@@ -7,8 +6,10 @@ end
 
 require 'rake/testtask'
 
-desc 'Default: run tests for all ORMs.'
-task default: [:setup, :test, :api_test]
+desc 'Default: run tests for all rails\' versions.'
+if !ENV["APPRAISAL_INITIALIZED"]
+  task default: [:setup, :appraisal]
+end
 
 task :setup do
   system "cd test/dummy && rake db:migrate && rake db:test:prepare"

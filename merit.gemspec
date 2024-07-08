@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'zeitwerk'
   s.add_runtime_dependency 'observer'
 
-  s.add_development_dependency 'rails', '>= 5.1.6'
+  s.add_development_dependency 'appraisal'
   s.add_development_dependency 'capybara'
   s.add_development_dependency 'simplecov'
   s.add_development_dependency 'rubocop'

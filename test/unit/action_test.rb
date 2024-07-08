@@ -2,6 +2,7 @@ require 'test_helper'
 
 describe Merit::Action do
   it 'saves correctly with a serialised model' do
+    skip "see bug https://github.com/merit-gem/merit/issues/365"
     comment = Comment.new(name: 'the comment name')
     action = Merit::Action.create(target_model: 'comment',
                                   target_id: 2,

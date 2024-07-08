@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2014_08_19_133931) do
-
+ActiveRecord::Schema[7.1].define(version: 2014_08_19_133931) do
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id"
     t.index ["user_id"], name: "index_addresses_on_user_id"
@@ -21,7 +20,7 @@ ActiveRecord::Schema.define(version: 2014_08_19_133931) do
     t.integer "badge_id"
     t.integer "sash_id"
     t.boolean "notified_user", default: false
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["badge_id", "sash_id"], name: "index_badges_sashes_on_badge_id_and_sash_id"
     t.index ["badge_id"], name: "index_badges_sashes_on_badge_id"
     t.index ["sash_id"], name: "index_badges_sashes_on_sash_id"
@@ -32,8 +31,8 @@ ActiveRecord::Schema.define(version: 2014_08_19_133931) do
     t.text "comment"
     t.integer "user_id"
     t.integer "votes", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "sash_id"
     t.integer "level", default: 0
   end
@@ -46,8 +45,8 @@ ActiveRecord::Schema.define(version: 2014_08_19_133931) do
     t.string "target_model"
     t.integer "target_id"
     t.boolean "processed", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "target_data"
     t.index ["processed"], name: "index_merit_actions_on_processed"
   end
@@ -57,14 +56,14 @@ ActiveRecord::Schema.define(version: 2014_08_19_133931) do
     t.string "related_change_type"
     t.integer "related_change_id"
     t.string "description"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
   end
 
   create_table "merit_score_points", force: :cascade do |t|
     t.integer "score_id"
     t.integer "num_points", default: 0
     t.string "log"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["score_id"], name: "index_merit_score_points_on_score_id"
   end
 
@@ -75,14 +74,14 @@ ActiveRecord::Schema.define(version: 2014_08_19_133931) do
   end
 
   create_table "sashes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "sash_id"
     t.integer "level", default: 0
   end
