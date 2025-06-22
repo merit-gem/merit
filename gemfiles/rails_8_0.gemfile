@@ -2,11 +2,10 @@
 
 source "https://rubygems.org"
 
-gem "rails", "~> 6.1"
-gem "coveralls", "~> 0.8.23", require: false
+gem "rails", "~> 8.0"
 
 group :development, :test do
-  gem "sqlite3", "~> 1.4"
+  gem "sqlite3", "> 2.1"
 end
 
 gemspec path: "../"

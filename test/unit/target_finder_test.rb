@@ -85,10 +85,10 @@ describe Merit::TargetFinder do
           comment = Comment.new
           Comment.stubs(:find_by_id).with(40).returns(comment)
 
-          str = '[merit] NoMethodError on `Comment#non_existent`'
-          str << ' (called from Merit::TargetFinder#other_target)'
-
-          Rails.logger.expects(:warn).with(str)
+          Rails.logger.expects(:warn).with(
+            '[merit] NoMethodError on `Comment#non_existent`' \
+            ' (called from Merit::TargetFinder#other_target)'
+          )
           finder = Merit::TargetFinder.new(rule, action)
           _(finder.find).must_be_empty
         end
