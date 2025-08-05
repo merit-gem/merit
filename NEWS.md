@@ -2,12 +2,14 @@
 
 User-visible changes worth mentioning.
 
-## 5.0.0 (unreleased)
+## 5.0.0
 
-- Drop end-of-life'd versions of rails: 5.2 and 6.0, and ruby 3.0
-- Test with current versions of Rails: 6.1, 7.0, 7.1
-- Convert project to GitHub Actions
+- Drop end-of-life'd rails versions: 5.2, 6.x, <7.2
+- Drop end-of-life’d ruby versions 3.0, 3.1
+- Test with current versions of Rails: 7.2, 8.0, and ruby >=3.2
+- Fix warning: add observer as runtime dependency
 - Mark 3 tests as pending to the open bug on deleted models
+- Convert project to GitHub Actions
 
 ## 4.0.3
 
