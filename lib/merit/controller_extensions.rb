@@ -27,7 +27,7 @@ module Merit
         had_errors:    had_errors?,
         target_model:  controller_path,
         target_id:     target_id,
-        target_data:   target_object.to_yaml,
+        target_data:   JSON.generate(target_object.as_json)
       }
     end
 
@@ -42,7 +42,7 @@ module Merit
     def target_object
       variable_name = :"@#{controller_name.singularize}"
       if instance_variable_defined?(variable_name)
-        if target_obj = instance_variable_get(variable_name)
+        if (target_obj = instance_variable_get(variable_name))
           target_obj
         else
           warn_no_object_found

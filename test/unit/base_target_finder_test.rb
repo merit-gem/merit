@@ -47,7 +47,20 @@ describe Merit::BaseTargetFinder do
 
     describe 'target was destroyed' do
       it 'gets the object from the JSON data in the merit_actions table' do
-        skip "see bug https://github.com/merit-gem/merit/issues/365"
+        comment = Comment.new(name: 'the comment name')
+
+        rule = Merit::Rule.new
+        rule.to = :itself
+        rule.model_name = 'comment'
+        action = Merit::Action.new(target_model: 'comment',
+                                   target_id: 2,
+                                   target_data: JSON.generate(comment.as_json))
+
+        finder = Merit::BaseTargetFinder.new(rule, action)
+        _(finder.find.name).must_be :==, 'the comment name'
+      end
+
+      it 'gets the object from the legacy YAML data in the merit_actions table' do
         comment = Comment.new(name: 'the comment name')
 
         rule = Merit::Rule.new

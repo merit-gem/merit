@@ -25,7 +25,19 @@ module Merit
     end
 
     def reanimate_target_from_action
-      YAML.load(@action.target_data)
+      parse_target_data(@action.target_data)
+    end
+
+    private
+
+    def parse_target_data(target_data)
+      model_class.new JSON.parse(target_data)
+    rescue JSON::ParserError
+      YAML.safe_load(
+        target_data,
+        permitted_classes: Merit.yaml_safe_load_permitted_classes,
+        aliases: false
+      )
     end
   end
 end

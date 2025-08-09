@@ -26,6 +26,18 @@ module Merit
       "current_#{@config.user_model_name.downcase}".to_sym
   end
 
+  def self.yaml_safe_load_permitted_classes
+    [
+      ActiveModel::Attribute.const_get(:FromDatabase),
+      ActiveModel::Attribute.const_get(:FromUser),
+      ActiveModel::Type::String,
+      ActiveSupport::HashWithIndifferentAccess,
+      Array,
+      Comment,
+      Hash
+    ] + @config.yaml_safe_load_permitted_classes
+  end
+
   def self.observers
     @config.observers
   end
@@ -47,13 +59,14 @@ module Merit
 
   class Configuration
     attr_accessor :checks_on_each_request, :orm, :user_model_name, :observers,
-                  :current_user_method
+                  :current_user_method, :yaml_safe_load_permitted_classes
 
     def initialize
       @checks_on_each_request = true
       @orm = :active_record
       @user_model_name = 'User'
       @observers = []
+      @yaml_safe_load_permitted_classes = []
     end
 
     def add_observer(class_name)
