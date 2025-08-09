@@ -2,7 +2,7 @@
 Merit.setup do |config|
   # Add application observers to get notifications any time merit changes reputation.
   config.add_observer 'DummyObserver'
-
+  config.yaml_safe_load_permitted_classes = %w(Comment)
   config.orm = ENV['ORM'].try(:to_sym)
 end
 

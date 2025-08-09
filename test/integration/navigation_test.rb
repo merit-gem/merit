@@ -231,7 +231,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
     # Destroying a comment should remove points from the comment creator.
     comment_to_destroy = user.comments.last
     visit '/comments'
-    skip "see bug https://github.com/merit-gem/merit/issues/365"
     assert_difference lambda { user.reload.points }, -5 do
       within("tr#c_#{comment_to_destroy.id}") do
         click_link 'Destroy'
