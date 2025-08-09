@@ -33,7 +33,6 @@ module Merit
       ActiveModel::Type::String,
       ActiveSupport::HashWithIndifferentAccess,
       Array,
-      Comment,
       Hash
     ] + @config.yaml_safe_load_permitted_classes
   end
