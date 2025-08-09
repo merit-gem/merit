@@ -31,9 +31,7 @@ module Merit
       ActiveModel::Attribute.const_get(:FromDatabase),
       ActiveModel::Attribute.const_get(:FromUser),
       ActiveModel::Type::String,
-      ActiveSupport::HashWithIndifferentAccess,
-      Array,
-      Hash
+      ActiveSupport::HashWithIndifferentAccess
     ] + @config.yaml_safe_load_permitted_classes
   end
 
