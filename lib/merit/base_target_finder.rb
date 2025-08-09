@@ -35,8 +35,7 @@ module Merit
     rescue JSON::ParserError
       YAML.safe_load(
         target_data,
-        permitted_classes: Merit.yaml_safe_load_permitted_classes,
-        aliases: false
+        permitted_classes: Merit.yaml_safe_load_permitted_classes
       )
     end
   end
